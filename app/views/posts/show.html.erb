@@ -1,0 +1,18 @@
+<h1><%= @post.title %></h1>
+<p><%= @post.body %></p>
+<p>Posted by <%= @post.user.username %></p>
+<%= link_to 'Edit', edit_post_path(@post) if @current_user == @post.user %> |
+<%= link_to 'Back', posts_path %>
+
+<h2>Comments</h2>
+<%= render @post.comments %>
+<% if @current_user %>
+  <%= form_with(model: [@post, Comment.new]) do |form| %>
+    <p>
+      <%= form.text_area :body %>
+    </p>
+    <p>
+      <%= form.submit 'Add Comment' %>
+    </p>
+  <% end %>
+<% end %>
