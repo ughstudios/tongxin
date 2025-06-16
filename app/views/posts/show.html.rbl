@@ -1,4 +1,7 @@
 <h1 class="text-2xl font-bold mb-4"><%= @post.title %></h1>
+<% if @post.image_url.present? %>
+  <div class="mb-4"><img src="<%= @post.image_url %>" alt="" class="max-w-full h-auto rounded"></div>
+<% end %>
 <p class="mb-2"><%= @post.body %></p>
 <p class="text-sm text-gray-500 mb-4">Posted by <%= @post.user.username %></p>
 <div class="mb-4">

@@ -6,6 +6,9 @@
         <%= link_to post.title, post, class: 'text-blue-600 hover:underline' %>
         <small class="text-gray-500 ml-2">by <%= post.user.username %></small>
         <small class="text-gray-600 ml-2"><%= pluralize(post.likes_count, 'Like') %></small>
+        <% if post.image_url.present? %>
+          <div class="mt-1"><img src="<%= post.image_url %>" alt="" class="h-24 w-24 object-cover rounded"></div>
+        <% end %>
       </span>
       <span>
         <% if current_user %>
