@@ -1,0 +1,14 @@
+<h1 class="text-2xl font-bold mb-4">Posts</h1>
+<ul class="divide-y divide-gray-200">
+  <% @posts.each do |post| %>
+    <li class="flex justify-between items-center py-2">
+      <span>
+        <%= link_to post.title, post, class: 'text-blue-600 hover:underline' %>
+        <small class="text-gray-500 ml-2">by <%= post.user.username %></small>
+      </span>
+      <% if current_user == post.user %>
+        <%= link_to 'Edit', edit_post_path(post), class: 'text-sm text-blue-600 hover:underline' %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

@@ -15,6 +15,7 @@ gem 'stimulus-rails'
 gem 'bcrypt', '~> 3.1'
 
 # Frontend and templating
-gem 'slim-rails'
+# Switch to rblade templating
+gem 'rblade-rails'
 # Use Tailwind for a modern design
 gem 'tailwindcss-rails'

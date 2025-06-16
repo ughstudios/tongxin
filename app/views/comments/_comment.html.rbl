@@ -1,0 +1,7 @@
+<p class="mb-1">
+  <strong><%= "#{comment.user.username}:" %></strong>
+  <%= comment.body %>
+  <% if current_user == comment.user %>
+    <%= link_to 'Delete', [comment.post, comment], method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-red-600 hover:underline ml-2 text-sm' %>
+  <% end %>
+</p>

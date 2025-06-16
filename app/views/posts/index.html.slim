@@ -1,9 +1,0 @@
-h1.text-2xl.font-bold.mb-4 Posts
-ul.divide-y.divide-gray-200
-  - @posts.each do |post|
-    li.flex.justify-between.items-center.py-2
-      span
-        = link_to post.title, post, class: 'text-blue-600 hover:underline'
-        small.text-gray-500.ml-2 by #{post.user.username}
-      - if current_user == post.user
-        = link_to 'Edit', edit_post_path(post), class: 'text-sm text-blue-600 hover:underline'
