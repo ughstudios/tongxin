@@ -1,9 +1,30 @@
 class PostsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: [:index, :show, :trending, :search]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
     @posts = Post.order(created_at: :desc).all
+  end
+
+  def feed
+    @posts = Post.joins(user: :followers).where(follows: { follower_id: current_user.id })
+                 .or(Post.where(user: current_user)).order(created_at: :desc)
+    render :index
+  end
+
+  def trending
+    @posts = Post.order(likes_count: :desc).limit(20)
+    render :index
+  end
+
+  def search
+    query = params[:q].to_s.strip
+    @posts = if query.empty?
+               Post.none
+             else
+               Post.where('title ILIKE :q OR body ILIKE :q', q: "%#{query}%")
+             end
+    render :index
   end
 
   def show
@@ -45,6 +66,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, :image_url)
   end
 end

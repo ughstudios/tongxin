@@ -1,14 +1,10 @@
 <h1 class="text-2xl font-bold mb-4">Posts</h1>
-<ul class="divide-y divide-gray-200">
-  <% @posts.each do |post| %>
-    <li class="flex justify-between items-center py-2">
-      <span>
-        <%= link_to post.title, post, class: 'text-blue-600 hover:underline' %>
-        <small class="text-gray-500 ml-2">by <%= post.user.username %></small>
-      </span>
-      <% if current_user == post.user %>
-        <%= link_to 'Edit', edit_post_path(post), class: 'text-sm text-blue-600 hover:underline' %>
-      <% end %>
-    </li>
+<div class="mb-4">
+  <%= form_with url: search_posts_path, method: :get, local: true, class: 'flex space-x-2' do |f| %>
+    <%= f.text_field :q, value: params[:q], placeholder: 'Search posts', class: 'border rounded w-full p-2' %>
+    <%= f.submit 'Search', class: 'bg-blue-600 text-white px-3 py-1 rounded' %>
   <% end %>
+</div>
+<ul class="divide-y divide-gray-200">
+  <%= render @posts %>
 </ul>

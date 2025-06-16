@@ -1,0 +1,30 @@
+<li class="flex space-x-4 py-4">
+  <% if post.user.avatar_url.present? %>
+    <img src="<%= post.user.avatar_url %>" alt="" class="h-12 w-12 rounded-full object-cover">
+  <% else %>
+    <div class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+      <%= post.user.username.first.upcase %>
+    </div>
+  <% end %>
+  <div class="flex-1">
+    <h2 class="font-semibold">
+      <%= link_to post.title, post, class: 'hover:underline' %>
+    </h2>
+    <p class="text-sm text-gray-500 mb-1">by <%= post.user.username %> • <%= pluralize(post.likes_count, 'Like') %></p>
+    <% if post.image_url.present? %>
+      <img src="<%= post.image_url %>" alt="" class="mt-2 max-h-48 object-cover rounded">
+    <% end %>
+  </div>
+  <div class="flex flex-col items-end">
+    <% if current_user %>
+      <% if post.likes.exists?(user: current_user) %>
+        <%= button_to 'Unlike', post_like_path(post, post.likes.find_by(user: current_user)), method: :delete, class: 'text-sm text-blue-600 hover:underline mb-1' %>
+      <% else %>
+        <%= button_to 'Like', post_likes_path(post), class: 'text-sm text-blue-600 hover:underline mb-1' %>
+      <% end %>
+    <% end %>
+    <% if current_user == post.user %>
+      <%= link_to 'Edit', edit_post_path(post), class: 'text-sm text-blue-600 hover:underline' %>
+    <% end %>
+  </div>
+</li>
