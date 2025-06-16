@@ -18,9 +18,28 @@ This repository is a Rails 8.0 project.
 
    ```bash
    scripts/test_homepage.sh
+
+2. After making changes, run the setup script to install dependencies:
+
+   ```bash
+   scripts/setup.sh
    ```
 
-   If any command fails due to missing dependencies or other issues,
-   mention it in the Testing section.
+3. Prepare the database:
+
+   ```bash
+   bin/rails db:migrate
+   bin/rails db:setup
+   ```
+
+4. Start the server and verify the homepage responds:
+
+   ```bash
+   bin/rails s -d
+   curl -I http://localhost:3000
+   pkill -f puma
+
+Final
+1. If any command fails due to missing dependencies or other issues, mention it in the Testing section.
 2. Commit with clear messages.
 3. Cite modified lines in PR summaries.
