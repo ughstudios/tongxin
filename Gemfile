@@ -5,7 +5,7 @@ source "https://rubygems.org"
 ruby ">= 3.2.2"
 
 gem 'rails', '~> 8.0.0'
-gem 'pg'
+gem 'pg', group: :production
 gem 'sqlite3', group: %i[development test]
 gem 'puma'
 gem 'sass-rails', '>= 6'
