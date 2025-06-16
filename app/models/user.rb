@@ -14,6 +14,15 @@ class User < ApplicationRecord
 
   serialize :preferences, JSON
 
+  def preferences=(value)
+    parsed = if value.is_a?(String)
+               JSON.parse(value) rescue {}
+             else
+               value || {}
+             end
+    super(parsed)
+  end
+
   validates :username, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
   validates :avatar_url, format: URI::DEFAULT_PARSER.make_regexp(%w[http https]), allow_blank: true
