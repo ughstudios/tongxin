@@ -6,7 +6,7 @@ set -e
 if ! ldconfig -p | grep -q libllama; then
   echo "Building libllama from source"
   git clone --depth 1 https://github.com/ggerganov/llama.cpp.git /tmp/llama.cpp
-  cmake -S /tmp/llama.cpp -B /tmp/llama.cpp/build -DLLAMA_STATIC=OFF
+  cmake -S /tmp/llama.cpp -B /tmp/llama.cpp/build -DLLAMA_STATIC=OFF -DLLAMA_CURL=OFF
   cmake --build /tmp/llama.cpp/build --target llama
   sudo cp /tmp/llama.cpp/build/bin/libllama.so /usr/local/lib/
   sudo cp /tmp/llama.cpp/include/llama*.h /usr/local/include/
