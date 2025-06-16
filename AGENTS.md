@@ -11,8 +11,16 @@ This repository is a Rails 8.0 project.
 
 ## Contributing
 
-1. After making changes, run `bundle exec rake -T | head` to verify Rake tasks
-   load. If the command fails due to missing Ruby versions, mention it in the
-   Testing section.
+1. After making changes, run the test script to install dependencies,
+   migrate, seed the database, and verify the homepage in the Rails test
+   environment. The script starts the server in the background so you can
+   continue working while it checks the app:
+
+   ```bash
+   scripts/test_homepage.sh
+   ```
+
+   If any command fails due to missing dependencies or other issues,
+   mention it in the Testing section.
 2. Commit with clear messages.
 3. Cite modified lines in PR summaries.
