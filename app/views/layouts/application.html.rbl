@@ -14,7 +14,14 @@
         <%= link_to 'TongXin', root_path, class: 'text-xl font-bold' %>
         <ul class="flex space-x-4">
           <% if user_signed_in? %>
-            <li class="text-gray-600">Signed in as <%= current_user.username %></li>
+            <li class="flex items-center space-x-2 text-gray-600">
+              <% if current_user.avatar_url.present? %>
+                <img src="<%= current_user.avatar_url %>" alt="" class="h-6 w-6 rounded-full object-cover">
+              <% end %>
+              <span>Signed in as <%= current_user.username %></span>
+            </li>
+            <li><%= link_to 'Feed', feed_posts_path, class: 'text-blue-600 hover:underline' %></li>
+            <li><%= link_to 'Trending', trending_posts_path, class: 'text-blue-600 hover:underline' %></li>
             <li><%= link_to 'New Post', new_post_path, class: 'text-blue-600 hover:underline' %></li>
             <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'text-blue-600 hover:underline' %></li>
           <% else %>

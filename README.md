@@ -10,6 +10,9 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
 - Like system for posts
 - Follow other users
 - Optional images on posts
+- Optional avatars for users
+- Personalized feed from followed users
+- Trending posts ranked by likes
 - Basic sessions for login/logout
 - Modern UI styled with Tailwind CSS
 - Views rendered with rblade templates
@@ -31,6 +34,7 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
    scripts/start_server.sh
    ```
 5. Visit `http://localhost:3000` to see the app.
+   Use the navigation links for **Feed** and **Trending** to explore posts.
 
 ## Compliance
 

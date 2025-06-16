@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   root 'posts#index'
   devise_for :users
   resources :posts do
+    collection do
+      get :feed
+      get :trending
+    end
     resources :comments, only: [:create, :destroy]
     resources :likes, only: [:create, :destroy]
   end

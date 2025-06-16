@@ -1,6 +1,17 @@
-<h1 class="text-2xl font-bold mb-4"><%= @user.username %></h1>
+<div class="flex items-center space-x-4 mb-4">
+  <% if @user.avatar_url.present? %>
+    <img src="<%= @user.avatar_url %>" alt="" class="h-16 w-16 rounded-full object-cover">
+  <% else %>
+    <div class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-xl">
+      <%= @user.username.first.upcase %>
+    </div>
+  <% end %>
+  <h1 class="text-2xl font-bold"><%= @user.username %></h1>
+</div>
 <p class="mb-2">Email: <%= @user.email %></p>
-<p class="mb-2 text-sm text-gray-600"><%= pluralize(@user.followers_count, 'Follower') %></p>
+<p class="mb-2 text-sm text-gray-600">
+  <%= pluralize(@user.followers_count, 'Follower') %> • <%= pluralize(@user.following.count, 'Following') %>
+</p>
 <% if user_signed_in? && current_user != @user %>
   <% if @user.followers.exists?(current_user.id) %>
     <%= button_to 'Unfollow', user_follow_path(@user, @user.passive_follows.find_by(follower: current_user)), method: :delete, class: 'text-blue-600 hover:underline mb-2' %>
@@ -13,3 +24,8 @@
   <%= link_to 'Delete', registration_path(:user), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-red-600 hover:underline mr-2' %>
   <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'text-blue-600 hover:underline' %>
 <% end %>
+
+<h2 class="text-xl font-semibold mt-6 mb-2">Posts</h2>
+<ul class="divide-y divide-gray-200">
+  <%= render @user.posts.order(created_at: :desc) %>
+</ul>
