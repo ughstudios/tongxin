@@ -7,6 +7,10 @@
         <%= f.text_field :username, autofocus: true, class: 'border rounded w-full p-2' %>
       </div>
       <div class="space-y-1">
+        <%= f.label :preferences, 'Interests', class: 'block text-sm font-medium' %>
+        <%= f.text_area :preferences, rows: 3, class: 'border rounded w-full p-2' %>
+      </div>
+      <div class="space-y-1">
         <%= f.label :email, class: 'block text-sm font-medium' %>
         <%= f.email_field :email, class: 'border rounded w-full p-2' %>
       </div>
