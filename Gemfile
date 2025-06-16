@@ -16,6 +16,6 @@ gem 'bcrypt', '~> 3.1'
 
 # Frontend and templating
 # Switch to rblade templating
-gem 'rblade-rails'
+gem 'rblade'
 # Use Tailwind for a modern design
 gem 'tailwindcss-rails'
