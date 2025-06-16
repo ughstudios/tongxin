@@ -12,7 +12,11 @@ class User < ApplicationRecord
   has_many :following, through: :active_follows, source: :followed
   has_many :followers, through: :passive_follows, source: :follower
 
-  serialize :preferences, JSON
+  def preferences
+    raw = super()
+    return {} if raw.blank?
+    JSON.parse(raw) rescue {}
+  end
 
   def preferences=(value)
     parsed = if value.is_a?(String)
@@ -20,7 +24,7 @@ class User < ApplicationRecord
              else
                value || {}
              end
-    super(parsed)
+    super(parsed.to_json)
   end
 
   validates :username, presence: true, uniqueness: true
