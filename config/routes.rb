@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     collection do
       get :feed
       get :trending
+      get :search
     end
     resources :comments, only: [:create, :destroy]
     resources :likes, only: [:create, :destroy]

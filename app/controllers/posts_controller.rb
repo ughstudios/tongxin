@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show, :trending]
+  skip_before_action :authenticate_user!, only: [:index, :show, :trending, :search]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -14,6 +14,16 @@ class PostsController < ApplicationController
 
   def trending
     @posts = Post.order(likes_count: :desc).limit(20)
+    render :index
+  end
+
+  def search
+    query = params[:q].to_s.strip
+    @posts = if query.empty?
+               Post.none
+             else
+               Post.where('title ILIKE :q OR body ILIKE :q', q: "%#{query}%")
+             end
     render :index
   end
 
