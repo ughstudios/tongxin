@@ -5,10 +5,20 @@
       <span>
         <%= link_to post.title, post, class: 'text-blue-600 hover:underline' %>
         <small class="text-gray-500 ml-2">by <%= post.user.username %></small>
+        <small class="text-gray-600 ml-2"><%= pluralize(post.likes_count, 'Like') %></small>
       </span>
-      <% if current_user == post.user %>
-        <%= link_to 'Edit', edit_post_path(post), class: 'text-sm text-blue-600 hover:underline' %>
-      <% end %>
+      <span>
+        <% if current_user %>
+          <% if post.likes.exists?(user: current_user) %>
+            <%= button_to 'Unlike', post_like_path(post, post.likes.find_by(user: current_user)), method: :delete, class: 'text-sm text-blue-600 hover:underline mr-2' %>
+          <% else %>
+            <%= button_to 'Like', post_likes_path(post), class: 'text-sm text-blue-600 hover:underline mr-2' %>
+          <% end %>
+        <% end %>
+        <% if current_user == post.user %>
+          <%= link_to 'Edit', edit_post_path(post), class: 'text-sm text-blue-600 hover:underline' %>
+        <% end %>
+      </span>
     </li>
   <% end %>
 </ul>

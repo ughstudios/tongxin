@@ -1,6 +1,16 @@
 <h1 class="text-2xl font-bold mb-4"><%= @post.title %></h1>
 <p class="mb-2"><%= @post.body %></p>
 <p class="text-sm text-gray-500 mb-4">Posted by <%= @post.user.username %></p>
+<div class="mb-4">
+  <p class="text-sm text-gray-600 mb-1"><%= pluralize(@post.likes_count, 'Like') %></p>
+  <% if current_user %>
+    <% if @post.likes.exists?(user: current_user) %>
+      <%= button_to 'Unlike', post_like_path(@post, @post.likes.find_by(user: current_user)), method: :delete, class: 'text-blue-600 hover:underline mr-2' %>
+    <% else %>
+      <%= button_to 'Like', post_likes_path(@post), class: 'text-blue-600 hover:underline mr-2' %>
+    <% end %>
+  <% end %>
+</div>
 <% if current_user == @post.user %>
   <%= link_to 'Edit', edit_post_path(@post), class: 'text-blue-600 hover:underline mr-2', data: { turbo: false } %>
 <% end %>
