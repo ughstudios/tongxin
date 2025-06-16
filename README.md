@@ -22,9 +22,8 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
 1. Install Ruby 3.2.2 or newer and Bundler.
 2. Install Rails 8 (e.g., `gem install rails -v 8.0.0`).
 3. Run the setup script to install dependencies and prepare the database.
-   The script now also builds the `llama.cpp` library if needed and performs a
-   quick Rails server check. It still skips production gems (via
-   `bundle config set without 'production'`) so libraries like `pg` aren't
+   The script performs a quick Rails server check and skips production gems
+   (via `bundle config set without 'production'`) so libraries like `pg` aren't
    required during development:
 
    ```bash
@@ -44,9 +43,16 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
 6. Visit `http://localhost:3000` to see the app.
 7. Enter your interests as JSON in the *Interests* field when creating or
    editing your account (e.g. `{ "keywords": ["rails", "ruby"] }`).
-8. To enable AI recommendations, install a local Llama model using the
-   `llama_cpp` gem and set `LLM_MODEL_PATH` to your model file. If the model
-   can't load, the app falls back to simple keyword matching.
+8. To enable AI recommendations, install [Ollama](https://ollama.com/) and pull
+   the `gemma3:4b` model:
+
+   ```bash
+   ollama pull gemma3:4b
+   ```
+
+   The app connects to `http://localhost:11434` by default. Set `OLLAMA_URL` if
+   your server runs elsewhere. If the model can't load, the app falls back to
+   simple keyword matching.
 
 ## Compliance
 

@@ -22,4 +22,4 @@ gem 'devise'
 gem 'rblade'
 # Use Tailwind for a modern design
 gem 'tailwindcss-rails'
-gem 'llama_cpp'
+gem 'ollama-ruby'
