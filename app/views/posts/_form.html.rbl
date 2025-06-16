@@ -20,5 +20,9 @@
     <%= form.label :image_url, 'Image URL', class: 'block text-sm font-medium' %>
     <%= form.text_field :image_url, class: 'border rounded w-full p-2' %>
   </div>
+  <div class="space-y-1">
+    <%= form.label :tag_list, 'Tags (comma separated)', class: 'block text-sm font-medium' %>
+    <%= form.text_field :tag_list, value: @post.tag_list, class: 'border rounded w-full p-2' %>
+  </div>
   <%= form.submit 'Save', class: 'bg-blue-600 text-white px-3 py-1 rounded' %>
 <% end %>
