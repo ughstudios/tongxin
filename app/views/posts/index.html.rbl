@@ -1,4 +1,16 @@
-<h1 class="text-3xl font-bold mb-6 text-center">Recent Posts</h1>
+<h1 class="text-3xl font-bold mb-6 text-center">Posts</h1>
+<div class="mb-4 flex justify-between items-center">
+  <%= form_with url: posts_path, method: :get, class: 'flex space-x-2' do |f| %>
+    <%= f.text_field :q, params[:q], placeholder: 'Search posts', class: 'border rounded p-2' %>
+    <%= f.submit 'Search', class: 'bg-blue-600 text-white px-3 rounded' %>
+  <% end %>
+  <div class="space-x-4">
+    <%= link_to 'Trending', trending_path, class: 'text-blue-600 hover:underline' %>
+    <% if user_signed_in? %>
+      <%= link_to 'Your Feed', feed_path, class: 'text-blue-600 hover:underline' %>
+    <% end %>
+  </div>
+</div>
 <% if @posts.any? %>
   <div class="grid gap-4 md:grid-cols-2">
     <% @posts.each do |post| %>
@@ -7,12 +19,25 @@
           <%= link_to post.title, post, class: 'hover:underline' %>
         </h2>
         <p class="text-gray-500 text-sm mb-2">by <%= post.user.username %></p>
+        <% if post.image_url.present? %>
+          <img src="<%= post.image_url %>" alt="image" class="mb-2 max-w-full rounded">
+        <% end %>
         <p class="text-gray-700 mb-4"><%= truncate(post.body, length: 100) %></p>
-        <div class="flex justify-end space-x-2">
-          <% if current_user == post.user %>
-            <%= link_to 'Edit', edit_post_path(post), class: 'text-sm text-blue-600 hover:underline' %>
-          <% end %>
-          <%= link_to 'View', post, class: 'text-sm text-blue-600 hover:underline' %>
+        <div class="flex justify-between items-center">
+          <span class="text-sm"><%= pluralize(post.likes.count, 'like') %></span>
+          <div class="space-x-2">
+            <% if user_signed_in? %>
+              <% if post.likes.exists?(user: current_user) %>
+                <%= button_to 'Unlike', post_like_path(post), method: :delete, class: 'text-red-600 hover:underline text-sm' %>
+              <% else %>
+                <%= button_to 'Like', post_like_path(post), class: 'text-blue-600 hover:underline text-sm' %>
+              <% end %>
+            <% end %>
+            <% if current_user == post.user %>
+              <%= link_to 'Edit', edit_post_path(post), class: 'text-sm text-blue-600 hover:underline' %>
+            <% end %>
+            <%= link_to 'View', post, class: 'text-sm text-blue-600 hover:underline' %>
+          </div>
         </div>
       </div>
     <% end %>
