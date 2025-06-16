@@ -30,7 +30,15 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
    ```
 5. Visit `http://localhost:3000` to see the app.
 6. To use recommendations, install a local LLM such as `llama_cpp` and set
-   `LLM_MODEL_PATH` to the location of your model file.
+   `LLM_MODEL_PATH` to the location of your model file. If the LLM is
+   unavailable, a simple keyword matcher will be used instead.
+
+User interest data is stored as JSON in the `preferences` field. You can edit
+this data on the sign-up or account edit pages, for example:
+
+```json
+{"keywords": ["rails", "ruby"]}
+```
 
 ## Compliance
 
