@@ -13,3 +13,9 @@ gem 'importmap-rails'
 gem 'turbo-rails'
 gem 'stimulus-rails'
 gem 'bcrypt', '~> 3.1'
+
+# Frontend and templating
+# Switch to rblade templating
+gem 'rblade-rails'
+# Use Tailwind for a modern design
+gem 'tailwindcss-rails'

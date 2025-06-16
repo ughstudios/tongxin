@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root 'posts#index'
-  resources :posts
-  resources :users
-  resources :sessions, only: [:new, :create, :destroy]
+  devise_for :users
+  resources :posts do
+    resources :comments, only: [:create, :destroy]
+  end
+  resources :users, only: [:show]
 end

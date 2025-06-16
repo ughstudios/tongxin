@@ -1,7 +1,0 @@
-<h1><%= @user.username %></h1>
-<p>Email: <%= @user.email %></p>
-<% if @current_user == @user %>
-  <%= link_to 'Edit', edit_user_path(@user) %> |
-  <%= link_to 'Delete', @user, method: :delete, data: { confirm: 'Are you sure?' } %> |
-  <%= link_to 'Logout', session_path(:current), method: :delete %>
-<% end %>
