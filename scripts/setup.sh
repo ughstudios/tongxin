@@ -2,7 +2,7 @@
 set -e
 # Install Ruby dependencies and set up the database
 echo "Installing gems"
-bundle install
+bundle install --without production
 
 echo "Setting up the database"
 bin/rails db:setup
