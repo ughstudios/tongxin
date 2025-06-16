@@ -3,7 +3,15 @@ Rails.application.routes.draw do
   devise_for :users
   resources :posts do
     resources :comments, only: [:create, :destroy]
+    resource :like, only: [:create, :destroy]
   end
-  resources :users, only: [:show]
+  get 'feed', to: 'posts#feed'
+  get 'trending', to: 'posts#trending'
+  resources :users, only: [:show] do
+    member do
+      post :follow
+      delete :unfollow
+    end
+  end
   resources :recommendations, only: [:index]
 end
