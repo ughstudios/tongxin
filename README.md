@@ -13,18 +13,17 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
 
 1. Install Ruby 3.2.2 or newer and Bundler.
 2. Install Rails 8 (e.g., `gem install rails -v 8.0.0`).
-3. Run `bundle install` to install dependencies.
-4. Create and migrate the database:
+3. Run the setup script to install dependencies and prepare the database:
 
    ```bash
-   bin/rails db:create db:migrate db:seed
+   scripts/setup.sh
    ```
-5. Start the server:
+4. Start the server:
 
    ```bash
-   bin/rails server
+   scripts/start_server.sh
    ```
-6. Visit `http://localhost:3000` to see the app.
+5. Visit `http://localhost:3000` to see the app.
 
 ## Compliance
 
