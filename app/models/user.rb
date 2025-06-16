@@ -2,6 +2,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  attr_writer :login
+
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
@@ -30,6 +32,19 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
   validates :avatar_url, format: URI::DEFAULT_PARSER.make_regexp(%w[http https]), allow_blank: true
+
+  def login
+    @login || username || email
+  end
+
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    if (login = conditions.delete(:login))
+      where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", { value: login.downcase }]).first
+    else
+      where(conditions.to_h).first
+    end
+  end
 
   def follow(user)
     active_follows.find_or_create_by(followed: user) unless self == user

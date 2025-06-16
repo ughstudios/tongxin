@@ -8,5 +8,6 @@ class ApplicationController < ActionController::Base
     extra = [:username, :preferences]
     devise_parameter_sanitizer.permit(:sign_up, keys: extra)
     devise_parameter_sanitizer.permit(:account_update, keys: extra)
+    devise_parameter_sanitizer.permit(:sign_in, keys: [:login])
   end
 end
