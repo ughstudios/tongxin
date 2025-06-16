@@ -10,6 +10,14 @@
     <%= f.text_area :preferences, rows: 3, class: 'border rounded w-full p-2' %>
   </div>
   <div class="space-y-1">
+    <%= f.label :avatar_url, class: 'block text-sm font-medium' %>
+    <%= f.text_field :avatar_url, class: 'border rounded w-full p-2' %>
+  </div>
+  <div class="space-y-1">
+    <%= f.label :bio, class: 'block text-sm font-medium' %>
+    <%= f.text_area :bio, rows: 3, class: 'border rounded w-full p-2' %>
+  </div>
+  <div class="space-y-1">
     <%= f.label :email, class: 'block text-sm font-medium' %>
     <%= f.email_field :email, class: 'border rounded w-full p-2' %>
   </div>
