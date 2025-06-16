@@ -1,7 +1,8 @@
 class LlmPostRecommender
-  def initialize(user, llm: LocalLlmClient.new)
+  def initialize(user, llm: nil)
     @user = user
-    @llm = llm
+    @llm = llm || safe_llm
+    @keyword = KeywordPostRecommender.new(user)
   end
 
   def interested?(post)
@@ -13,10 +14,20 @@ class LlmPostRecommender
       #{post.body}
       Respond with "Yes" or "No".
     TEXT
+    return @keyword.interested?(post) unless @llm
     response = @llm.complete(prompt, tokens: 8)
     response.downcase.include?('yes')
   rescue StandardError => e
     Rails.logger.error("LLM recommendation failed: #{e.message}")
-    false
+    @keyword.interested?(post)
+  end
+
+  private
+
+  def safe_llm
+    LocalLlmClient.new
+  rescue StandardError => e
+    Rails.logger.error("LLM load failed: #{e.message}")
+    nil
   end
 end

@@ -9,6 +9,7 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
 - Commenting on posts
 - Basic sessions for login/logout
 - Personalized recommendations powered by a local LLM
+- User preferences stored as JSON for tailored feeds
 - Modern UI styled with Tailwind CSS
 - Views rendered with rblade templates
 
@@ -29,8 +30,11 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
    scripts/start_server.sh
    ```
 5. Visit `http://localhost:3000` to see the app.
-6. To use recommendations, install a local LLM such as `llama_cpp` and set
-   `LLM_MODEL_PATH` to the location of your model file.
+6. To enable recommendations, install a local LLM such as `llama_cpp` and set
+   `LLM_MODEL_PATH` to the location of your model file. When the LLM isn't
+   available, the app falls back to simple keyword matching based on the JSON
+   preferences you provide during sign\-up or account editing.
+7. Visit `/recommendations` to see posts tailored to your interests.
 
 ## Compliance
 
