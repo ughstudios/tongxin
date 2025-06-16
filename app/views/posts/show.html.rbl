@@ -12,14 +12,7 @@
     <%= link_to 'Back', posts_path, class: 'text-blue-600 hover:underline' %>
   </div>
   <div class="mb-2">
-    <span class="mr-2"><%= pluralize(@post.likes.count, 'like') %></span>
-    <% if user_signed_in? %>
-      <% if @post.likes.exists?(user: current_user) %>
-        <%= button_to 'Unlike', post_like_path(@post), method: :delete, class: 'text-red-600 hover:underline' %>
-      <% else %>
-        <%= button_to 'Like', post_like_path(@post), class: 'text-blue-600 hover:underline' %>
-      <% end %>
-    <% end %>
+    <%= render partial: 'posts/like_button', locals: { post: @post } %>
   </div>
 </div>
 
