@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   end
   get 'feed', to: 'posts#feed'
   get 'trending', to: 'posts#trending'
+  get 'tags/:name', to: 'posts#tagged', as: :tag
   resources :users, only: [:show] do
     member do
       post :follow

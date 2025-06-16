@@ -24,6 +24,7 @@ end
 admin = User.find_by(username: 'admin')
 admin_post = Post.find_or_create_by!(title: 'Welcome to TongXin', user: admin) do |p|
   p.body = 'This is the first post of the site.'
+  p.tag_list = 'welcome, admin'
 end
 
 # Create two posts for each sample user
@@ -32,6 +33,7 @@ users.each do |user|
     Post.find_or_create_by!(title: "Post #{i + 1} by #{user.username}", user: user) do |p|
       p.body = "Example post #{i + 1} by #{user.username}."
       p.image_url = 'https://placehold.co/600x400'
+      p.tag_list = "sample, #{user.username}"
     end
   end
 end

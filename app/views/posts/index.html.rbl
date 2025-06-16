@@ -1,13 +1,19 @@
 <h1 class="text-3xl font-bold mb-6 text-center">Posts</h1>
-<div class="mb-4 flex justify-between items-center">
-  <%= form_with url: posts_path, method: :get, class: 'flex space-x-2' do |f| %>
-    <%= f.text_field :q, value: params[:q], placeholder: 'Search posts', class: 'border rounded p-2' %>
-    <%= f.submit 'Search', class: 'bg-blue-600 text-white px-3 rounded' %>
-  <% end %>
-  <div class="space-x-4">
-    <%= link_to 'Trending', trending_path, class: 'text-blue-600 hover:underline' %>
+  <div class="mb-4 flex justify-between items-center">
+    <%= form_with url: posts_path, method: :get, class: 'flex space-x-2' do |f| %>
+      <%= f.text_field :q, value: params[:q], placeholder: 'Search posts', class: 'border rounded p-2' %>
+      <%= f.submit 'Search', class: 'bg-blue-600 text-white px-3 rounded' %>
+    <% end %>
+    <div class="space-x-4">
+      <%= link_to 'Trending', trending_path, class: 'text-blue-600 hover:underline' %>
+      <% if @top_tags.present? %>
+        <span class="text-gray-600">Top tags:</span>
+        <% @top_tags.each do |tag| %>
+          <%= link_to "##{tag.name}", tag_path(tag.name), class: 'text-blue-600 hover:underline mr-2' %>
+        <% end %>
+      <% end %>
+    </div>
   </div>
-</div>
 
 <% if user_signed_in? %>
   <% if @feed_posts.present? %>

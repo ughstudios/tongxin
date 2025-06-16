@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show, :trending]
+  skip_before_action :authenticate_user!, only: [:index, :show, :trending, :tagged]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -16,6 +16,13 @@ class PostsController < ApplicationController
       recommender = LlmPostRecommender.new(current_user)
       @recommended_posts = recent_posts.select { |post| recommender.interested?(post) }
     end
+    @top_tags = Tag.trending.limit(10)
+  end
+
+  def tagged
+    @tag = Tag.find_by!(name: params[:name])
+    @posts = @tag.posts.order(created_at: :desc)
+    render :index
   end
 
   def feed
@@ -37,6 +44,7 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
+    @post.tag_list = params[:post][:tag_list]
     if @post.save
       redirect_to @post, notice: 'Post was successfully created.'
     else
@@ -48,6 +56,7 @@ class PostsController < ApplicationController
   end
 
   def update
+    @post.tag_list = params[:post][:tag_list]
     if @post.update(post_params)
       redirect_to @post, notice: 'Post was successfully updated.'
     else
