@@ -14,6 +14,9 @@ gem 'turbo-rails'
 gem 'stimulus-rails'
 gem 'bcrypt', '~> 3.1'
 
+# User authentication
+gem 'devise'
+
 # Frontend and templating
 # Switch to rblade templating
 gem 'rblade'
