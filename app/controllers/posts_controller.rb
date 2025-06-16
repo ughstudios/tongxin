@@ -9,6 +9,13 @@ class PostsController < ApplicationController
                Post.all
              end
     @posts = @posts.order(created_at: :desc)
+
+    if user_signed_in?
+      @feed_posts = Post.where(user_id: current_user.following_ids).order(created_at: :desc)
+      recent_posts = Post.order(created_at: :desc).limit(20)
+      recommender = LlmPostRecommender.new(current_user)
+      @recommended_posts = recent_posts.select { |post| recommender.interested?(post) }
+    end
   end
 
   def feed
