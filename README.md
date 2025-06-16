@@ -34,6 +34,3 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
 This project strives to follow applicable regulations and moderation requirements. Content posted by users should comply with local laws and community standards.
 
 
-## Automation
-
-Pull requests targeting `main` are automatically approved and merged using GitHub Actions. The workflow in `.github/workflows/auto-approve.yml` approves the request and squashes the commits once auto-merge is enabled.
