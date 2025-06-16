@@ -13,3 +13,7 @@ gem 'importmap-rails'
 gem 'turbo-rails'
 gem 'stimulus-rails'
 gem 'bcrypt', '~> 3.1'
+
+# Frontend and templating
+gem 'bootstrap', '~> 5.3'
+gem 'slim-rails'

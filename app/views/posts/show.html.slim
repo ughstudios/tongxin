@@ -1,0 +1,14 @@
+h1.mb-3= @post.title
+p.mb-2= @post.body
+p.text-muted Posted by #{@post.user.username}
+= link_to 'Edit', edit_post_path(@post), class: 'btn btn-sm btn-secondary', data: { turbo: false } if current_user == @post.user
+= link_to 'Back', posts_path, class: 'btn btn-sm btn-link'
+
+h2 Comments
+.div.mb-3
+  = render @post.comments
+- if current_user
+  = form_with(model: [@post, Comment.new], class: 'mb-3') do |form|
+    .mb-2
+      = form.text_area :body, class: 'form-control', rows: 3
+    = form.submit 'Add Comment', class: 'btn btn-primary'

@@ -1,0 +1,13 @@
+= form_with(model: @post, class: 'mb-3') do |form|
+  - if @post.errors.any?
+    .alert.alert-danger
+      ul.mb-0
+        - @post.errors.full_messages.each do |msg|
+          li = msg
+  .mb-3
+    = form.label :title, class: 'form-label'
+    = form.text_field :title, class: 'form-control'
+  .mb-3
+    = form.label :body, class: 'form-label'
+    = form.text_area :body, class: 'form-control', rows: 5
+  = form.submit class: 'btn btn-primary'

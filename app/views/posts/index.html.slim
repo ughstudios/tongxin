@@ -1,0 +1,9 @@
+h1.mb-3 Posts
+ul.list-group
+  - @posts.each do |post|
+    li.list-group-item.d-flex.justify-content-between.align-items-center
+      span
+        = link_to post.title, post
+        small.text-muted by #{post.user.username}
+      - if current_user == post.user
+        = link_to 'Edit', edit_post_path(post), class: 'btn btn-sm btn-secondary'
