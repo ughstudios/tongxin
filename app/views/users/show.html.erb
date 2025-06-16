@@ -1,7 +1,0 @@
-<h1 class="mb-3"><%= @user.username %></h1>
-<p class="mb-2">Email: <%= @user.email %></p>
-<% if current_user == @user %>
-  <%= link_to 'Edit', edit_user_registration_path, class: 'btn btn-sm btn-secondary' %>
-  <%= link_to 'Delete', registration_path(:user), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
-  <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-sm btn-link' %>
-<% end %>

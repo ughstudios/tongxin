@@ -8,6 +8,7 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
 - Post creation, editing, and deletion
 - Commenting on posts
 - Basic sessions for login/logout
+- Modern UI styled with Tailwind CSS
 
 ## Setup
 

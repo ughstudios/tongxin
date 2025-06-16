@@ -1,13 +1,13 @@
-= form_with(model: @post, class: 'mb-3') do |form|
+= form_with(model: @post, class: 'space-y-4') do |form|
   - if @post.errors.any?
-    .alert.alert-danger
-      ul.mb-0
+    .bg-red-100.border.border-red-300.text-red-800.p-2.rounded
+      ul.list-disc.pl-5
         - @post.errors.full_messages.each do |msg|
           li = msg
-  .mb-3
-    = form.label :title, class: 'form-label'
-    = form.text_field :title, class: 'form-control'
-  .mb-3
-    = form.label :body, class: 'form-label'
-    = form.text_area :body, class: 'form-control', rows: 5
-  = form.submit class: 'btn btn-primary'
+  .space-y-1
+    = form.label :title, class: 'block text-sm font-medium'
+    = form.text_field :title, class: 'border rounded w-full p-2'
+  .space-y-1
+    = form.label :body, class: 'block text-sm font-medium'
+    = form.text_area :body, class: 'border rounded w-full p-2', rows: 5
+  = form.submit 'Save', class: 'bg-blue-600 text-white px-3 py-1 rounded'
