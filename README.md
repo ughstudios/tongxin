@@ -40,8 +40,16 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
    scripts/start_server.sh
    ```
 6. Visit `http://localhost:3000` to see the app.
-7. To use recommendations, install a local LLM such as `llama_cpp` and set
-   `LLM_MODEL_PATH` to the location of your model file.
+7. The recommendation engine is optional. To enable it, install the `llm`
+   gem group:
+
+   ```bash
+   bundle config set --local without 'production'
+   bundle install --with llm
+   ```
+
+   Then install a local LLM such as `llama_cpp` and set `LLM_MODEL_PATH` to the
+   location of your model file.
 
 ## Compliance
 
