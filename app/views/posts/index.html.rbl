@@ -19,7 +19,7 @@
 <% if user_signed_in? %>
   <% if @feed_posts.present? %>
     <h2 class="text-2xl font-bold mt-8 mb-4">Your Feed</h2>
-    <div class="grid gap-4 md:grid-cols-2">
+    <div class="space-y-4">
       <% @feed_posts.each do |post| %>
         <%= render 'post_card', post: post %>
       <% end %>
@@ -28,7 +28,7 @@
 
   <% if @recommended_posts.present? %>
     <h2 class="text-2xl font-bold mt-8 mb-4">Recommended Posts</h2>
-    <div class="grid gap-4 md:grid-cols-2">
+    <div class="space-y-4">
       <% @recommended_posts.each do |post| %>
         <%= render 'post_card', post: post %>
       <% end %>
@@ -38,7 +38,7 @@
 
 <h2 class="text-2xl font-bold mt-8 mb-4">All Posts</h2>
 <% if @posts.any? %>
-  <div class="grid gap-4 md:grid-cols-2">
+  <div class="space-y-4">
     <% @posts.each do |post| %>
       <%= render 'post_card', post: post %>
     <% end %>
