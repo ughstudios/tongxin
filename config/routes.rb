@@ -1,16 +1,26 @@
 Rails.application.routes.draw do
   root 'spa#index'
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+
+  # All HTML post pages are served by the SPA
+  get 'posts(/*path)', to: 'spa#index', constraints: ->(req) { req.format.html? }
+
   resources :posts, defaults: { format: :json } do
     resources :comments, only: [:create, :destroy]
     resource :like, only: [:create, :destroy]
   end
-  get 'feed', to: 'posts#feed'
-  get 'trending', to: 'posts#trending'
-  get 'videos', to: 'posts#videos'
-  get 'notifications', to: 'notifications#index'
-  get 'tags/:name', to: 'posts#tagged', as: :tag
-  resources :users, only: [:show] do
+  get 'feed', to: 'spa#index', constraints: ->(req) { req.format.html? }
+  get 'feed', to: 'posts#feed', defaults: { format: :json }
+  get 'trending', to: 'spa#index', constraints: ->(req) { req.format.html? }
+  get 'trending', to: 'posts#trending', defaults: { format: :json }
+  get 'videos', to: 'spa#index', constraints: ->(req) { req.format.html? }
+  get 'videos', to: 'posts#videos', defaults: { format: :json }
+  get 'notifications', to: 'spa#index', constraints: ->(req) { req.format.html? }
+  get 'notifications', to: 'notifications#index', defaults: { format: :json }
+  get 'tags/:name', to: 'spa#index', constraints: ->(req) { req.format.html? }
+  get 'tags/:name', to: 'posts#tagged', as: :tag, defaults: { format: :json }
+  get 'users/:id', to: 'spa#index', constraints: ->(req) { req.format.html? }
+  resources :users, only: [:show], defaults: { format: :json } do
     member do
       post :follow
       delete :unfollow
@@ -26,4 +36,7 @@ Rails.application.routes.draw do
   resources :live_streams, only: [:index, :show, :create]
   resources :brands, only: [:index]
   resources :partnerships, only: [:create]
+
+  # Catch-all for React Router paths so direct visits work
+  get '*path', to: 'spa#index', constraints: ->(req) { !req.xhr? && req.format.html? }
 end
