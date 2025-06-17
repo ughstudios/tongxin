@@ -21,8 +21,6 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-wechat-oauth2'
 
 # Frontend and templating
-# Switch to rblade templating
-gem 'rblade'
 # Use Tailwind for a modern design
 gem 'tailwindcss-rails'
 gem 'ollama-ruby'

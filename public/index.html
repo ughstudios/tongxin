@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>TongXin</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/application.css">
+    <script src="/assets/application.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 min-h-screen font-sans">
+    <div id="spa" class="space-y-4"></div>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.production.min.js" crossorigin></script>
+    <script>
+      const e = React.createElement;
+      const { BrowserRouter, Routes, Route, Link, useParams } = ReactRouterDOM;
+
+      function PostList() {
+        const [posts, setPosts] = React.useState([]);
+        React.useEffect(() => {
+          fetch('/posts.json')
+            .then(resp => resp.json())
+            .then(data => setPosts(data));
+        }, []);
+        return e(React.Fragment, null,
+          posts.map(post =>
+            e('div', { className: 'border p-4 rounded bg-white', key: post.id },
+              e(Link, { to: `/posts/${post.id}` },
+                e('h2', { className: 'text-xl font-semibold' }, post.title)
+              ),
+              e('p', { className: 'mt-2 text-gray-700' }, post.body)
+            )
+          )
+        );
+      }
+
+      function TrendingList() {
+        const [posts, setPosts] = React.useState([]);
+        React.useEffect(() => {
+          fetch('/trending.json')
+            .then(resp => resp.json())
+            .then(data => setPosts(data));
+        }, []);
+        return e(React.Fragment, null,
+          posts.map(post =>
+            e('div', { className: 'border p-4 rounded bg-white', key: post.id },
+              e(Link, { to: `/posts/${post.id}` },
+                e('h2', { className: 'text-xl font-semibold' }, post.title)
+              ),
+              e('p', { className: 'mt-2 text-gray-700' }, post.body)
+            )
+          )
+        );
+      }
+
+      function VideoList() {
+        const [videos, setVideos] = React.useState([]);
+        React.useEffect(() => {
+          fetch('/videos.json')
+            .then(resp => resp.json())
+            .then(data => setVideos(data));
+        }, []);
+        return e(React.Fragment, null,
+          videos.map(video =>
+            e('div', { className: 'border p-4 rounded bg-white', key: video.id },
+              e('h2', { className: 'text-xl font-semibold' }, video.title)
+            )
+          )
+        );
+      }
+
+      function NotificationList() {
+        const [notes, setNotes] = React.useState([]);
+        React.useEffect(() => {
+          fetch('/notifications.json')
+            .then(resp => resp.json())
+            .then(data => setNotes(data));
+        }, []);
+        return e(React.Fragment, null,
+          notes.map(note =>
+            e('div', { className: 'border p-4 rounded bg-white', key: note.id },
+              e('p', null, note.message)
+            )
+          )
+        );
+      }
+
+      function PostDetail() {
+        const { id } = useParams();
+        const [post, setPost] = React.useState(null);
+        React.useEffect(() => {
+          fetch(`/posts/${id}.json`)
+            .then(resp => resp.json())
+            .then(data => setPost(data));
+        }, [id]);
+        if (!post) return e('p', null, 'Loading...');
+        return e('div', { className: 'border p-4 rounded bg-white' },
+          e('h2', { className: 'text-xl font-semibold' }, post.title),
+          e('p', { className: 'mt-2 text-gray-700' }, post.body),
+          e(Link, { to: '/' }, 'Back')
+        );
+      }
+
+      function App() {
+        return e(BrowserRouter, null,
+          e('div', null,
+            e('h1', { className: 'text-3xl font-bold mb-6 text-center' }, 'TongXin SPA'),
+            e('nav', { className: 'mb-4 space-x-4 text-center' },
+              e(Link, { to: '/' }, 'Home'),
+              e(Link, { to: '/trending' }, 'Trending'),
+              e(Link, { to: '/videos' }, 'Videos'),
+              e(Link, { to: '/notifications' }, 'Notifications')
+            ),
+            e(Routes, null,
+              e(Route, { path: '/', element: e(PostList) }),
+              e(Route, { path: '/trending', element: e(TrendingList) }),
+              e(Route, { path: '/videos', element: e(VideoList) }),
+              e(Route, { path: '/notifications', element: e(NotificationList) }),
+              e(Route, { path: '/posts/:id', element: e(PostDetail) })
+            )
+          )
+        );
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        ReactDOM.createRoot(document.getElementById('spa')).render(e(App));
+      });
+    </script>
+  </body>
+</html>
