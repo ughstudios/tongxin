@@ -15,6 +15,14 @@ class User < ApplicationRecord
   has_many :following, through: :active_follows, source: :followed
   has_many :followers, through: :passive_follows, source: :follower
 
+  has_one :cart, dependent: :destroy
+  has_many :orders, dependent: :destroy
+  has_many :messages, foreign_key: :sender_id, dependent: :destroy
+  has_many :live_streams, dependent: :destroy
+  has_many :partnerships, dependent: :destroy
+  has_many :group_memberships, dependent: :destroy
+  has_many :groups, through: :group_memberships
+
   def preferences
     raw = super()
     return {} if raw.blank?

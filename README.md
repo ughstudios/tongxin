@@ -19,6 +19,12 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
 - Modern UI styled with Tailwind CSS
 - Backend now operates API-only, views are handled client-side
 - React single page app handles all UI via React Router, while Rails only serves JSON
+- Views rendered with rblade templates
+- Integrated e-commerce with product links, shopping cart, and direct purchasing
+- Advanced content creation tools with image/video editing and AR filters
+- Live streaming interface with optional shopping links
+- In-app direct messaging and group features
+- Brand and advertising tools with verified influencer accounts and partnerships
 
 ## Setup
 
@@ -66,6 +72,12 @@ the same as the web version. Use the provided script to build the desktop app:
 
 ```bash
 scripts/package_desktop.sh
+```
+
+Launch the compiled version with:
+
+```bash
+scripts/start_desktop.sh
 ```
 
 ## Compliance

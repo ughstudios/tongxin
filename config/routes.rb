@@ -16,4 +16,14 @@ Rails.application.routes.draw do
       delete :unfollow
     end
   end
+
+  resources :products
+  resource :cart, only: [:show]
+  resources :cart_items, only: [:create, :destroy]
+  resources :orders, only: [:index, :show, :create]
+  resources :messages, only: [:index, :create]
+  resources :groups
+  resources :live_streams, only: [:index, :show, :create]
+  resources :brands, only: [:index]
+  resources :partnerships, only: [:create]
 end
