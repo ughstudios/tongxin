@@ -1,17 +1,30 @@
 <h1 class="text-3xl font-bold mb-6 text-center">SPA Posts</h1>
-<div id="spa-posts" class="space-y-4"></div>
+<div id="spa" class="space-y-4"></div>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 <script>
+  const e = React.createElement;
+
+  function PostList() {
+    const [posts, setPosts] = React.useState([]);
+
+    React.useEffect(() => {
+      fetch('/posts.json')
+        .then(resp => resp.json())
+        .then(data => setPosts(data));
+    }, []);
+
+    return e(React.Fragment, null,
+      posts.map(post =>
+        e('div', { className: 'border p-4 rounded bg-white', key: post.id },
+          e('h2', { className: 'text-xl font-semibold' }, post.title),
+          e('p', { className: 'mt-2 text-gray-700' }, post.body)
+        )
+      )
+    );
+  }
+
   document.addEventListener('turbo:load', () => {
-    fetch('/posts.json')
-      .then(resp => resp.json())
-      .then(posts => {
-        const container = document.getElementById('spa-posts');
-        container.innerHTML = posts.map(post => `
-          <div class="border p-4 rounded bg-white">
-            <h2 class="text-xl font-semibold">${post.title}</h2>
-            <p class="mt-2 text-gray-700">${post.body}</p>
-          </div>
-        `).join('');
-      });
+    ReactDOM.createRoot(document.getElementById('spa')).render(e(PostList));
   });
 </script>

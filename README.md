@@ -18,6 +18,7 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
 - Homepage shows your feed and AI recommendations together
 - Modern UI styled with Tailwind CSS
 - Views rendered with rblade templates
+- Root path loads a small React SPA that fetches posts via JSON
 
 ## Setup
 
