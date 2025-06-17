@@ -67,6 +67,12 @@ the same as the web version. Use the provided script to build the desktop app:
 scripts/package_desktop.sh
 ```
 
+Launch the compiled version with:
+
+```bash
+scripts/start_desktop.sh
+```
+
 ## Compliance
 
 This project strives to follow applicable regulations and moderation requirements. Content posted by users should comply with local laws and community standards.
