@@ -26,3 +26,9 @@ gem 'rblade'
 # Use Tailwind for a modern design
 gem 'tailwindcss-rails'
 gem 'ollama-ruby'
+
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'webdrivers'
+end
