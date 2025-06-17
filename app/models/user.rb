@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: %i[google_oauth2 wechat]
 
   attr_writer :login
 
@@ -56,5 +57,13 @@ class User < ApplicationRecord
 
   def following?(user)
     following.include?(user)
+  end
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_initialize do |u|
+      u.email = auth.info.email
+      u.username = auth.info.name.presence || auth.info.nickname
+      u.password = Devise.friendly_token[0, 20]
+    end
   end
 end

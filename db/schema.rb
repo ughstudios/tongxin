@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_16_221415) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_17_182828) do
   create_table "comments", force: :cascade do |t|
     t.text "body", null: false
     t.integer "user_id", null: false
@@ -48,6 +48,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_16_221415) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image_url"
+    t.string "video_url"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -81,6 +82,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_16_221415) do
     t.text "preferences"
     t.string "avatar_url"
     t.text "bio"
+    t.string "provider"
+    t.string "uid"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

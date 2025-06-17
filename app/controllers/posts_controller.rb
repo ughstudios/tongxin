@@ -35,6 +35,10 @@ class PostsController < ApplicationController
     render :index
   end
 
+  def videos
+    @posts = Post.where.not(video_url: [nil, '']).order(created_at: :desc)
+  end
+
   def show
   end
 
@@ -76,6 +80,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :body, :image_url)
+    params.require(:post).permit(:title, :body, :image_url, :video_url)
   end
 end
