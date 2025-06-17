@@ -6,6 +6,7 @@
     <% end %>
     <div class="space-x-4">
       <%= link_to 'Trending', trending_path, class: 'text-blue-600 hover:underline' %>
+      <%= link_to 'Videos', videos_path, class: 'text-blue-600 hover:underline ml-4' %>
       <% if @top_tags.present? %>
         <span class="text-gray-600">Top tags:</span>
         <% @top_tags.each do |tag| %>

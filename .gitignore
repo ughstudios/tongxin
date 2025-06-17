@@ -26,6 +26,7 @@
 
 # Ignore node modules and Yarn files
 /node_modules
+desktop/node_modules/
 /yarn-error.log
 
 # Ignore Byebug command history
