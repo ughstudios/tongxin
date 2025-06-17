@@ -61,7 +61,11 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
 The core Rails app can be packaged as a desktop app using [Electron](https://electronjs.org).
 An iOS version can be achieved with a WebView wrapper. Start by serving the
 Rails app and loading it in the Electron or Swift wrapper. Authentication works
-the same as the web version.
+the same as the web version. Use the provided script to build the desktop app:
+
+```bash
+scripts/package_desktop.sh
+```
 
 ## Compliance
 
