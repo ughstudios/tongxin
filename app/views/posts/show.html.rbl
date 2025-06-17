@@ -11,6 +11,9 @@
   <% if @post.image_url.present? %>
     <img src="<%= @post.image_url %>" alt="post image" class="mb-4 max-w-full rounded">
   <% end %>
+  <% if @post.video_url.present? %>
+    <video src="<%= @post.video_url %>" controls class="mb-4 max-w-full rounded"></video>
+  <% end %>
   <p class="text-sm text-gray-500 mb-4">Posted by <%= @post.user.username %></p>
   <div class="mb-4">
     <% if current_user == @post.user %>
