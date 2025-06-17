@@ -27,15 +27,15 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :products
-  resource :cart, only: [:show]
-  resources :cart_items, only: [:create, :destroy]
-  resources :orders, only: [:index, :show, :create]
-  resources :messages, only: [:index, :create]
-  resources :groups
-  resources :live_streams, only: [:index, :show, :create]
-  resources :brands, only: [:index]
-  resources :partnerships, only: [:create]
+  resources :products, defaults: { format: :json }
+  resource :cart, only: [:show], defaults: { format: :json }
+  resources :cart_items, only: [:create, :destroy], defaults: { format: :json }
+  resources :orders, only: [:index, :show, :create], defaults: { format: :json }
+  resources :messages, only: [:index, :create], defaults: { format: :json }
+  resources :groups, defaults: { format: :json }
+  resources :live_streams, only: [:index, :show, :create], defaults: { format: :json }
+  resources :brands, only: [:index], defaults: { format: :json }
+  resources :partnerships, only: [:create], defaults: { format: :json }
 
   # Catch-all for React Router paths so direct visits work
   get '*path', to: 'spa#index', constraints: ->(req) { !req.xhr? && req.format.html? }

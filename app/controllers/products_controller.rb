@@ -3,22 +3,20 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.all
+    render json: @products
   end
 
   def show
     @product = Product.find(params[:id])
-  end
-
-  def new
-    @product = Product.new
+    render json: @product
   end
 
   def create
     @product = Product.new(product_params)
     if @product.save
-      redirect_to @product
+      render json: @product, status: :created
     else
-      render :new
+      render json: { errors: @product.errors }, status: :unprocessable_entity
     end
   end
 

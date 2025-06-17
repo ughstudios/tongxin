@@ -4,16 +4,17 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:follow, :unfollow]
 
   def show
+    render json: @user
   end
 
   def follow
     current_user.follow(@user)
-    redirect_to @user
+    head :created
   end
 
   def unfollow
     current_user.unfollow(@user)
-    redirect_to @user
+    head :no_content
   end
 
   private

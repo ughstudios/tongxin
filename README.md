@@ -22,6 +22,7 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
 - Rails routes include a catch-all so direct links load the SPA correctly
 - SPA uses React Router BrowserRouter for clean URLs
 - Single rblade template loads the React SPA for all pages
+- Server-side Rails templates have been removed
 - Integrated e-commerce with product links, shopping cart, and direct purchasing
 - Advanced content creation tools with image/video editing and AR filters
 - Live streaming interface with optional shopping links

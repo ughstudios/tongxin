@@ -1,9 +1,0 @@
-<h1 class="text-3xl font-bold mb-6 text-center">Videos</h1>
-<div id="video-feed" class="space-y-8">
-  <% @posts.each do |post| %>
-    <div class="video-item w-full h-screen flex items-center justify-center">
-      <video src="<%= post.video_url %>" controls class="max-h-full max-w-full"></video>
-    </div>
-  <% end %>
-</div>
-<%= javascript_include_tag 'video_swipe' %>
