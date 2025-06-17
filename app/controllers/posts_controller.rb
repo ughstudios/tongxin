@@ -32,7 +32,7 @@ class PostsController < ApplicationController
 
   def trending
     @posts = Post.trending.limit(10)
-    render :index
+    render :trending
   end
 
   def videos

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'feed', to: 'posts#feed'
   get 'trending', to: 'posts#trending'
   get 'videos', to: 'posts#videos'
+  get 'notifications', to: 'notifications#index'
   get 'tags/:name', to: 'posts#tagged', as: :tag
   resources :users, only: [:show] do
     member do
