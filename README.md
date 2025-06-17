@@ -11,6 +11,7 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
 - Liking posts
 - Following other users with a personalized feed
 - Optional images for posts and avatars for users
+- Optional videos with a swipe-up interface
 - Trending page showing most liked posts
 - Search form for posts
 - Personalized recommendations powered by a local LLM
@@ -51,9 +52,16 @@ TongXin (\u201cOne Heart\u201d) is a minimal social media application built with
    ollama pull gemma3:4b
    ```
 
-   The app connects to `http://localhost:11434` by default. Set `OLLAMA_URL` if
-   your server runs elsewhere. If the model can't load, the app falls back to
-   simple keyword matching.
+  The app connects to `http://localhost:11434` by default. Set `OLLAMA_URL` if
+  your server runs elsewhere. If the model can't load, the app falls back to
+  simple keyword matching.
+
+## Desktop and Mobile Apps
+
+The core Rails app can be packaged as a desktop app using [Electron](https://electronjs.org).
+An iOS version can be achieved with a WebView wrapper. Start by serving the
+Rails app and loading it in the Electron or Swift wrapper. Authentication works
+the same as the web version.
 
 ## Compliance
 

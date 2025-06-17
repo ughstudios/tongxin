@@ -16,6 +16,9 @@ gem 'bcrypt', '~> 3.1'
 
 # User authentication
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-wechat-oauth2'
 
 # Frontend and templating
 # Switch to rblade templating

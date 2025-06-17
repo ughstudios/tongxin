@@ -21,6 +21,10 @@
     <%= form.text_field :image_url, class: 'border rounded w-full p-2' %>
   </div>
   <div class="space-y-1">
+    <%= form.label :video_url, 'Video URL', class: 'block text-sm font-medium' %>
+    <%= form.text_field :video_url, class: 'border rounded w-full p-2' %>
+  </div>
+  <div class="space-y-1">
     <%= form.label :tag_list, 'Tags (comma separated)', class: 'block text-sm font-medium' %>
     <%= form.text_field :tag_list, value: @post.tag_list, class: 'border rounded w-full p-2' %>
   </div>
