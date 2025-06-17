@@ -3,10 +3,12 @@ class OrdersController < ApplicationController
 
   def index
     @orders = current_user.orders
+    render json: @orders
   end
 
   def show
     @order = current_user.orders.find(params[:id])
+    render json: @order
   end
 
   def create
@@ -14,6 +16,6 @@ class OrdersController < ApplicationController
     total = cart.cart_items.joins(:product).sum('cart_items.quantity * products.price')
     order = current_user.orders.create(total_price: total)
     cart.cart_items.destroy_all
-    redirect_to order
+    render json: order, status: :created
   end
 end

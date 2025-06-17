@@ -3,23 +3,21 @@ class GroupsController < ApplicationController
 
   def index
     @groups = Group.all
+    render json: @groups
   end
 
   def show
     @group = Group.find(params[:id])
-  end
-
-  def new
-    @group = Group.new
+    render json: @group
   end
 
   def create
     @group = Group.new(group_params)
     if @group.save
       @group.group_memberships.create(user: current_user)
-      redirect_to @group
+      render json: @group, status: :created
     else
-      render :new
+      render json: { errors: @group.errors }, status: :unprocessable_entity
     end
   end
 

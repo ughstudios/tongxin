@@ -6,18 +6,18 @@ class CommentsController < ApplicationController
   def create
     @comment = @post.comments.build(comment_params.merge(user: current_user))
     if @comment.save
-      redirect_to @post, notice: 'Comment added.'
+      render json: @comment, status: :created
     else
-      redirect_to @post, alert: 'Unable to add comment.'
+      render json: { errors: @comment.errors }, status: :unprocessable_entity
     end
   end
 
   def destroy
     if @comment.user == current_user
       @comment.destroy
-      redirect_to @post, notice: 'Comment deleted.'
+      head :no_content
     else
-      redirect_to @post, alert: 'Not authorized.'
+      render json: { error: 'Not authorized' }, status: :forbidden
     end
   end
 

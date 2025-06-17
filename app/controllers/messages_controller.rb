@@ -3,11 +3,12 @@ class MessagesController < ApplicationController
 
   def index
     @messages = Message.where(recipient_id: current_user.id)
+    render json: @messages
   end
 
   def create
     @message = current_user.messages.create(message_params)
-    redirect_back fallback_location: root_path
+    render json: @message, status: :created
   end
 
   private

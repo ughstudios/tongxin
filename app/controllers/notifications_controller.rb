@@ -2,6 +2,6 @@ class NotificationsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @notifications = []
+    render json: []
   end
 end

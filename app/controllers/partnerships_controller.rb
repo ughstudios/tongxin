@@ -3,7 +3,7 @@ class PartnershipsController < ApplicationController
 
   def create
     brand = Brand.find(params[:brand_id])
-    current_user.partnerships.create(brand: brand, status: 'pending')
-    redirect_back fallback_location: brands_path
+    partnership = current_user.partnerships.create(brand: brand, status: 'pending')
+    render json: partnership, status: :created
   end
 end
