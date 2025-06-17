@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  root 'posts#index'
+  root 'spa#index'
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
-  resources :posts do
+  resources :posts, defaults: { format: :json } do
     resources :comments, only: [:create, :destroy]
     resource :like, only: [:create, :destroy]
   end

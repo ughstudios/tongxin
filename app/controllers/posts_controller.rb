@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  respond_to :json
   skip_before_action :authenticate_user!, only: [:index, :show, :trending, :tagged]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
@@ -17,6 +18,7 @@ class PostsController < ApplicationController
       @recommended_posts = recent_posts.select { |post| recommender.interested?(post) }
     end
     @top_tags = Tag.trending.limit(10)
+    render json: @posts
   end
 
   def tagged
@@ -40,6 +42,7 @@ class PostsController < ApplicationController
   end
 
   def show
+    render json: @post
   end
 
   def new
@@ -50,9 +53,9 @@ class PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
     @post.tag_list = params[:post][:tag_list]
     if @post.save
-      redirect_to @post, notice: 'Post was successfully created.'
+      render json: @post, status: :created
     else
-      render :new
+      render json: { errors: @post.errors }, status: :unprocessable_entity
     end
   end
 
@@ -62,15 +65,15 @@ class PostsController < ApplicationController
   def update
     @post.tag_list = params[:post][:tag_list]
     if @post.update(post_params)
-      redirect_to @post, notice: 'Post was successfully updated.'
+      render json: @post
     else
-      render :edit
+      render json: { errors: @post.errors }, status: :unprocessable_entity
     end
   end
 
   def destroy
     @post.destroy
-    redirect_to posts_url, notice: 'Post was successfully destroyed.'
+    head :no_content
   end
 
   private
