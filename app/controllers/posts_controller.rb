@@ -24,21 +24,22 @@ class PostsController < ApplicationController
   def tagged
     @tag = Tag.find_by!(name: params[:name])
     @posts = @tag.posts.order(created_at: :desc)
-    render :index
+    render json: @posts
   end
 
   def feed
     @posts = Post.where(user_id: current_user.following_ids).order(created_at: :desc)
-    render :index
+    render json: @posts
   end
 
   def trending
     @posts = Post.trending.limit(10)
-    render :trending
+    render json: @posts
   end
 
   def videos
     @posts = Post.where.not(video_url: [nil, '']).order(created_at: :desc)
+    render json: @posts
   end
 
   def show
@@ -47,6 +48,7 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
+    render json: @post
   end
 
   def create
@@ -60,6 +62,7 @@ class PostsController < ApplicationController
   end
 
   def edit
+    render json: @post
   end
 
   def update
