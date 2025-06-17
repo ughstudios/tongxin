@@ -1,0 +1,17 @@
+<h1 class="text-3xl font-bold mb-6 text-center">SPA Posts</h1>
+<div id="spa-posts" class="space-y-4"></div>
+<script>
+  document.addEventListener('turbo:load', () => {
+    fetch('/posts.json')
+      .then(resp => resp.json())
+      .then(posts => {
+        const container = document.getElementById('spa-posts');
+        container.innerHTML = posts.map(post => `
+          <div class="border p-4 rounded bg-white">
+            <h2 class="text-xl font-semibold">${post.title}</h2>
+            <p class="mt-2 text-gray-700">${post.body}</p>
+          </div>
+        `).join('');
+      });
+  });
+</script>

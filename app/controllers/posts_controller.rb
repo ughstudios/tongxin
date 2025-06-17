@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  respond_to :html, :json
   skip_before_action :authenticate_user!, only: [:index, :show, :trending, :tagged]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
@@ -17,6 +18,10 @@ class PostsController < ApplicationController
       @recommended_posts = recent_posts.select { |post| recommender.interested?(post) }
     end
     @top_tags = Tag.trending.limit(10)
+    respond_to do |format|
+      format.html
+      format.json { render json: @posts }
+    end
   end
 
   def tagged
@@ -40,6 +45,10 @@ class PostsController < ApplicationController
   end
 
   def show
+    respond_to do |format|
+      format.html
+      format.json { render json: @post }
+    end
   end
 
   def new
