@@ -23,6 +23,11 @@ cd nextjs
 npm install
 npm run dev
 ```
+3. Alternatively run the helper script from the project root:
+
+```bash
+./run.sh
+```
 
 Visit `http://localhost:3000` to use the app. The homepage shows your feed and recommendations. Additional pages:
 
