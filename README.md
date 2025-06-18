@@ -1,6 +1,6 @@
 # TongXin \u540c\u5fc3
 
-TongXin ("One Heart") now runs on [Next.js](https://nextjs.org/) with API routes replacing the old Rails backend. Data is stored in JSON files under `nextjs/data/`.
+TongXin ("One Heart") now runs on [Next.js](https://nextjs.org/) with API routes replacing the old Rails backend. Data is stored in JSON files under `data/`.
 
 ## Features
 
@@ -16,10 +16,9 @@ TongXin ("One Heart") now runs on [Next.js](https://nextjs.org/) with API routes
 ## Setup
 
 1. Install Node.js 18 or newer.
-2. From the `nextjs/` directory install dependencies and start the dev server:
+2. From the project root install dependencies and start the dev server:
 
 ```bash
-cd nextjs
 npm install
 npm run dev
 ```
