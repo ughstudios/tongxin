@@ -3,8 +3,8 @@ import Link from 'next/link'
 
 export default function Home() {
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [profile, setProfile] = useState(null)
+  const [avatarInput, setAvatarInput] = useState('')
   const [content, setContent] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [videoUrl, setVideoUrl] = useState('')
@@ -13,7 +13,17 @@ export default function Home() {
   const [usersMap, setUsersMap] = useState({})
 
   useEffect(() => {
-    fetch('/api/session').then(r => r.json()).then(setUser)
+    fetch('/api/session')
+      .then(r => r.json())
+      .then(u => {
+        setUser(u)
+        if (u) {
+          fetch('/api/profile').then(r => r.json()).then(p => {
+            setProfile(p)
+            setAvatarInput(p.avatarUrl || '')
+          })
+        }
+      })
     fetch('/api/posts?feed=1').then(r => r.json()).then(setFeed)
     fetch('/api/recommendations').then(r => r.json()).then(setRecs)
     fetch('/api/users').then(r => r.json()).then(list => {
@@ -35,37 +45,6 @@ export default function Home() {
     }
   }
 
-  async function login(e) {
-    e.preventDefault()
-    const res = await fetch('/api/session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    })
-    if (res.ok) {
-      const u = await res.json()
-      setUser(u)
-      setUsername('')
-      setPassword('')
-      fetch('/api/posts?feed=1').then(r => r.json()).then(setFeed)
-    }
-  }
-
-  async function logout() {
-    await fetch('/api/session', { method: 'DELETE' })
-    setUser(null)
-    setFeed([])
-  }
-
-  async function register(e) {
-    e.preventDefault()
-    await fetch('/api/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    })
-    await login(e)
-  }
 
   async function createPost(e) {
     e.preventDefault()
@@ -84,30 +63,33 @@ export default function Home() {
     }
   }
 
+  async function saveAvatar(e) {
+    e.preventDefault()
+    const res = await fetch('/api/profile', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ avatarUrl: avatarInput })
+    })
+    if (res.ok) {
+      setProfile({ ...profile, avatarUrl: avatarInput })
+    }
+  }
+
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-4">TongXin</h1>
-      <nav className="space-x-4">
-        <Link href="/feed">Feed</Link>
-        <Link href="/trending">Trending</Link>
-        <Link href="/search">Search</Link>
-      </nav>
-      {user ? (
-        <div className="mt-2 space-x-2">
-          <span>Welcome {user.username}</span>
-          <button onClick={logout} className="bg-gray-300 px-2 rounded">Logout</button>
-        </div>
-      ) : (
-        <div className="space-y-2 mt-4">
-          <form onSubmit={login} className="space-x-2">
-            <input value={username} onChange={e => setUsername(e.target.value)} placeholder="username" className="border p-1" />
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="password" className="border p-1" />
-            <button className="bg-blue-500 text-white px-2" type="submit">Login</button>
-          </form>
-          <form onSubmit={register} className="space-x-2">
-            <input value={username} onChange={e => setUsername(e.target.value)} placeholder="username" className="border p-1" />
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="password" className="border p-1" />
-            <button className="bg-green-500 text-white px-2" type="submit">Register</button>
+      {profile && (
+        <div className="mt-2 flex items-center gap-4">
+          {profile.avatarUrl && (
+            <img src={profile.avatarUrl} className="w-16 h-16 rounded-full object-cover" alt="avatar" />
+          )}
+          <form onSubmit={saveAvatar} className="flex-grow flex gap-2">
+            <input
+              value={avatarInput}
+              onChange={e => setAvatarInput(e.target.value)}
+              placeholder="Avatar URL"
+              className="border p-1 flex-grow rounded"
+            />
+            <button className="bg-blue-500 text-white px-3 rounded" type="submit">Save</button>
           </form>
         </div>
       )}
@@ -120,27 +102,38 @@ export default function Home() {
         </form>
       )}
       <h2 className="text-xl font-bold mt-6 mb-2">Feed</h2>
-      <ul className="space-y-2">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {feed.map(p => (
-          <li key={p.id} className="border p-2 rounded">
-            <Link href={`/posts/${p.id}`}>{p.content}</Link>
-            <div className="text-sm text-gray-500">
-              by <Link href={`/users/${p.userId}`}>{usersMap[p.userId] || 'User'}</Link>
+          <div key={p.id} className="bg-white rounded-lg shadow overflow-hidden">
+            {p.imageUrl && (
+              <img src={p.imageUrl} alt="" className="w-full h-48 object-cover" />
+            )}
+            <div className="p-3">
+              <Link href={`/posts/${p.id}`} className="font-medium block mb-1">
+                {p.content}
+              </Link>
+              <div className="text-sm text-gray-500 mb-2">
+                by <Link href={`/users/${p.userId}`}>{usersMap[p.userId] || 'User'}</Link>
+              </div>
+              {p.videoUrl && <video src={p.videoUrl} controls className="w-full mb-2" />}
+              <button
+                onClick={() => like(p.id)}
+                className="bg-pink-500 text-white px-2 py-1 rounded"
+              >
+                Like ({p.likes || 0})
+              </button>
             </div>
-            {p.imageUrl && <img src={p.imageUrl} alt="" className="mt-2 max-w-xs" />}
-            {p.videoUrl && <video src={p.videoUrl} controls className="mt-2 max-w-xs" />}
-            <button onClick={() => like(p.id)} className="mt-2 bg-pink-500 text-white px-2 rounded">
-              Like ({p.likes || 0})
-            </button>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
       <h2 className="text-xl font-bold mt-6 mb-2">AI Recommendations</h2>
-      <ul className="space-y-2">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {recs.map(p => (
-          <li key={p.id} className="border p-2 rounded">{p.content}</li>
+          <div key={p.id} className="bg-white p-3 rounded-lg shadow">
+            {p.content}
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }

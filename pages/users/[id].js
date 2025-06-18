@@ -40,7 +40,6 @@ export default function UserPage() {
 
   return (
     <div>
-      <Link href="/">Home</Link>
       <h1 className="text-2xl font-bold mt-4">{profile.username}</h1>
       {user && user.id !== Number(id) && (
         isFollowing ? (
@@ -49,13 +48,13 @@ export default function UserPage() {
           <button onClick={follow} className="mt-2 bg-blue-500 text-white px-2 rounded">Follow</button>
         )
       )}
-      <ul className="mt-4 space-y-2">
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {posts.map(p => (
-          <li key={p.id} className="border p-2 rounded">
+          <div key={p.id} className="bg-white p-3 rounded-lg shadow">
             <Link href={`/posts/${p.id}`}>{p.content}</Link>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }
