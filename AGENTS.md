@@ -1,7 +1,7 @@
 # AGENT Instructions
 
 This repository is a Next.js project. The former Rails backend has been
-removed in favor of API routes under `nextjs/pages/api`.
+removed in favor of API routes under `pages/api`.
 
 ## Development Environment
 
@@ -12,10 +12,9 @@ removed in favor of API routes under `nextjs/pages/api`.
 ## Contributing
 
 1. After making changes, install dependencies and start the dev server from the
-   `nextjs/` directory to verify the homepage:
+   project root to verify the homepage:
 
    ```bash
-   cd nextjs
    npm install
    npm run dev &
    curl -I http://localhost:3000

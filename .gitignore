@@ -1,42 +1,13 @@
-# Ignore bundler config
-/.bundle
+node_modules/
+.next/
 
-# Ignore log files and temp files
-/log/*
-!/log/.keep
-/tmp
-!/tmp/.keep
-
-# Ignore Rails storage files (Active Storage)
-/storage/*
-!/storage/.keep
-
-# Ignore public asset files
-/public/assets
-/app/assets/builds
-
-# Ignore database files
-/db/*.sqlite3
-/db/*.sqlite3-journal
-
-# Ignore credentials, master keys, and environment files
-/config/master.key
-/config/credentials.yml.enc
+# Env files
 .env
 .env.*.local
 
-# Ignore node modules and Yarn files
-/node_modules
-desktop/node_modules/
-/yarn-error.log
+# Log files
+npm-debug.log*
+yarn-error.log
 
-# Ignore Byebug command history
-.byebug_history
-
-# Ignore coverage reports and bundler vendor directory
-/coverage/
-/vendor/bundle
-
-# Ignore Ruby-specific project files
-.ruby-gemset
-.ruby-version
+# OS artifacts
+.DS_Store
