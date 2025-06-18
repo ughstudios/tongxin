@@ -6,9 +6,7 @@ RAILS_ENV=test
 
 scripts/setup.sh
 
-bin/rails db:migrate RAILS_ENV=$RAILS_ENV
-bin/rails db:setup RAILS_ENV=$RAILS_ENV
-bin/rails db:seed RAILS_ENV=$RAILS_ENV
+bin/rails db:drop db:create db:schema:load db:seed RAILS_ENV=$RAILS_ENV DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 
 bin/rails s -e $RAILS_ENV -d
 sleep 5
