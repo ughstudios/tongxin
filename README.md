@@ -29,6 +29,13 @@ npm run dev
 ```
 This script runs Sequelize migrations and seeds to create the local `data/test.db` SQLite database.
 
+The seed data includes a demo administrator account:
+
+- **Username:** `admin`
+- **Password:** `admin123`
+
+This user comes with a couple of example posts so you have some content in the feed right away.
+
 Visit `http://localhost:3000` to use the app. The homepage shows your feed and recommendations. Additional pages:
 
 - `/feed` - your personalized feed
