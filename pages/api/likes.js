@@ -1,15 +1,15 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../lib/session'
-import { readData, writeData } from '../../lib/data'
+import db from '../../models'
 
 async function handler(req, res) {
   if (!req.session.user) return res.status(401).end()
-  const posts = await readData('posts.json')
+  const { Post } = db
   const { id } = req.body
-  const post = posts.find(p => p.id === id)
+  const post = await Post.findByPk(id)
   if (!post) return res.status(404).end()
-  post.likes = (post.likes || 0) + 1
-  await writeData('posts.json', posts)
+  post.likes += 1
+  await post.save()
   res.status(200).json(post)
 }
 
