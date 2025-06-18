@@ -1,6 +1,6 @@
 # TongXin \u540c\u5fc3
 
-TongXin ("One Heart") now runs on [Next.js](https://nextjs.org/) with API routes replacing the old Rails backend. Data is stored in JSON files under `data/`.
+TongXin ("One Heart") now runs on [Next.js](https://nextjs.org/) with API routes replacing the old Rails backend. Data is stored in an SQLite database under `data/test.db`.
 
 ## Features
 
@@ -27,6 +27,7 @@ npm run dev
 ```bash
 ./run.sh
 ```
+This script runs Sequelize migrations and seeds to create the local `data/test.db` SQLite database.
 
 Visit `http://localhost:3000` to use the app. The homepage shows your feed and recommendations. Additional pages:
 

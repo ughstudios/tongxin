@@ -12,11 +12,14 @@
     "iron-session": "^8.0.4",
     "next": "14.2.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "sequelize": "^6.37.0",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.32",
-    "tailwindcss": "^3.4.4"
+    "tailwindcss": "^3.4.4",
+    "sequelize-cli": "^6.6.1"
   }
 }

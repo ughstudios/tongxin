@@ -9,5 +9,9 @@ node_modules/
 npm-debug.log*
 yarn-error.log
 
+# SQLite database
+data/test.db
+data/*.json
+
 # OS artifacts
 .DS_Store
