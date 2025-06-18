@@ -29,7 +29,6 @@ This repository is a Rails 8.0 project.
 
    ```bash
    bin/rails db:migrate
-   bin/rails db:setup
    ```
 
 4. Start the server and verify the homepage responds:
