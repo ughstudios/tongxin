@@ -29,20 +29,19 @@ export default function Feed() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Your Feed</h1>
-      <Link href="/">Home</Link>
-      <ul className="mt-4 space-y-2">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {posts.map(p => (
-          <li key={p.id} className="border p-2 rounded">
-            <Link href={`/posts/${p.id}`}>{p.content}</Link>
-            <div className="text-sm text-gray-500">
+          <div key={p.id} className="bg-white p-3 rounded-lg shadow">
+            <Link href={`/posts/${p.id}`} className="font-medium block mb-1">{p.content}</Link>
+            <div className="text-sm text-gray-500 mb-2">
               by <Link href={`/users/${p.userId}`}>{usersMap[p.userId] || 'User'}</Link>
             </div>
-            <button onClick={() => like(p.id)} className="mt-1 bg-pink-500 text-white px-2 rounded">
+            <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
               Like ({p.likes || 0})
             </button>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }

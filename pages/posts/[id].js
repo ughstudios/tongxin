@@ -45,25 +45,28 @@ export default function PostPage() {
 
   return (
     <div>
-      <Link href="/">Home</Link>
-      <div className="border p-4 mt-4 rounded">
-        <p>{post.content}</p>
+      <div className="bg-white rounded-lg shadow p-4 mt-4">
+        <p className="mb-2">{post.content}</p>
         {post.imageUrl && <img src={post.imageUrl} alt="" className="mt-2 max-w-xs" />}
         {post.videoUrl && <video src={post.videoUrl} controls className="mt-2 max-w-xs" />}
-        <button onClick={likePost} className="block mt-2 bg-pink-500 text-white px-2 rounded">
+        <button onClick={likePost} className="block mt-2 bg-pink-500 text-white px-2 py-1 rounded">
           Like ({post.likes || 0})
         </button>
       </div>
       <h2 className="text-xl font-bold mt-6">Comments</h2>
       <ul className="space-y-2">
         {comments.map(c => (
-          <li key={c.id} className="border p-2 rounded">{c.content}</li>
+          <li key={c.id} className="border p-2 rounded bg-white">{c.content}</li>
         ))}
       </ul>
       {user && (
-        <form onSubmit={addComment} className="mt-4 space-x-2">
-          <input value={commentText} onChange={e => setCommentText(e.target.value)} className="border p-1" />
-          <button type="submit" className="bg-blue-500 text-white px-2">Add</button>
+        <form onSubmit={addComment} className="mt-4 flex gap-2">
+          <input
+            value={commentText}
+            onChange={e => setCommentText(e.target.value)}
+            className="border p-1 flex-grow"
+          />
+          <button type="submit" className="bg-blue-500 text-white px-3 rounded">Add</button>
         </form>
       )}
     </div>
