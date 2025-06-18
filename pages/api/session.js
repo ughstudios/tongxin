@@ -1,5 +1,4 @@
-import { withIronSessionApiRoute } from 'iron-session/next'
-import { sessionOptions } from '../../lib/session'
+import { withSessionRoute, sessionOptions } from '../../lib/session'
 import bcrypt from 'bcryptjs'
 import db from '../../models'
 
@@ -24,4 +23,4 @@ async function handler(req, res) {
   }
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions)
+export default withSessionRoute(handler)
