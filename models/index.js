@@ -1,24 +1,19 @@
 'use strict'
-const fs = require('fs')
-const path = require('path')
 const Sequelize = require('sequelize')
-const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
 const config = require('../config/config.js')[env]
 
-const db = {}
 const sequelize = new Sequelize(config)
 
-fs.readdirSync(__dirname)
-  .filter(file => file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js')
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
-    db[model.name] = model
-  })
+const User = require('./user')(sequelize, Sequelize.DataTypes)
+const Post = require('./post')(sequelize, Sequelize.DataTypes)
+const Comment = require('./comment')(sequelize, Sequelize.DataTypes)
+const Follow = require('./follow')(sequelize, Sequelize.DataTypes)
 
-Object.keys(db).forEach(name => {
-  if (db[name].associate) db[name].associate(db)
+const db = { User, Post, Comment, Follow, sequelize }
+
+Object.values(db).forEach(model => {
+  if (model && model.associate) model.associate(db)
 })
 
-db.sequelize = sequelize
 module.exports = db
