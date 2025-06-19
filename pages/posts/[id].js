@@ -12,10 +12,23 @@ export default function PostPage() {
   const [commentText, setCommentText] = useState('')
   const [user, setUser] = useState(null)
   const [usersMap, setUsersMap] = useState({})
+  const [editing, setEditing] = useState(false)
+  const [formContent, setFormContent] = useState('')
+  const [formImage, setFormImage] = useState('')
+  const [formVideo, setFormVideo] = useState('')
+  const [formLocation, setFormLocation] = useState('')
 
   useEffect(() => {
     if (!id) return
-    fetch('/api/posts?id=' + id).then(r => r.json()).then(setPost)
+    fetch('/api/posts?id=' + id)
+      .then(r => r.json())
+      .then(p => {
+        setPost(p)
+        setFormContent(p.content || '')
+        setFormImage(p.imageUrl || '')
+        setFormVideo(p.videoUrl || '')
+        setFormLocation(p.location || '')
+      })
     fetch('/api/comments?postId=' + id + '&parentId=null')
       .then(r => r.json())
       .then(setComments)
@@ -59,13 +72,86 @@ export default function PostPage() {
         <div className="flex items-center gap-2 mb-2 text-sm text-gray-500">
           <Avatar url={usersMap[post.userId]?.avatarUrl} size={24} />
           <Link href={`/users/${post.userId}`}>{usersMap[post.userId]?.username || 'User'}</Link>
+          <span>{new Date(post.createdAt).toLocaleString()}</span>
+          {post.location && <span>{post.location}</span>}
         </div>
-        <p className="mb-2">{post.content}</p>
-        {post.imageUrl && <img src={post.imageUrl} alt="" className="mt-2 max-w-xs" />}
-        <VideoEmbed url={post.videoUrl} />
-        <button onClick={likePost} className="block mt-2 bg-pink-500 text-white px-2 py-1 rounded">
-          Like ({post.likes || 0})
-        </button>
+        {editing ? (
+          <div className="space-y-2">
+            <textarea
+              value={formContent}
+              onChange={e => setFormContent(e.target.value)}
+              className="border p-2 w-full"
+            />
+            <input
+              value={formImage}
+              onChange={e => setFormImage(e.target.value)}
+              placeholder="Image URL"
+              className="border p-1 w-full"
+            />
+            <input
+              value={formVideo}
+              onChange={e => setFormVideo(e.target.value)}
+              placeholder="Video URL"
+              className="border p-1 w-full"
+            />
+            <input
+              value={formLocation}
+              onChange={e => setFormLocation(e.target.value)}
+              placeholder="Location"
+              className="border p-1 w-full"
+            />
+            <button
+              onClick={async () => {
+                const res = await fetch('/api/posts', {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    id,
+                    content: formContent,
+                    imageUrl: formImage,
+                    videoUrl: formVideo,
+                    location: formLocation
+                  })
+                })
+                if (res.ok) {
+                  setPost(await res.json())
+                  setEditing(false)
+                }
+              }}
+              className="bg-blue-500 text-white px-2 py-1 rounded"
+            >
+              Save
+            </button>
+            <button onClick={() => setEditing(false)} className="ml-2 text-sm">Cancel</button>
+          </div>
+        ) : (
+          <>
+            <p className="mb-2">{post.content}</p>
+            {post.imageUrl && <img src={post.imageUrl} alt="" className="mt-2 max-w-xs" />}
+            <VideoEmbed url={post.videoUrl} />
+            <button onClick={likePost} className="block mt-2 bg-pink-500 text-white px-2 py-1 rounded">
+              Like ({post.likes || 0})
+            </button>
+            {user && user.id === post.userId && (
+              <div className="mt-2 space-x-2 text-sm">
+                <button onClick={() => setEditing(true)} className="text-blue-600">Edit</button>
+                <button
+                  onClick={async () => {
+                    const res = await fetch('/api/posts', {
+                      method: 'DELETE',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ id })
+                    })
+                    if (res.ok) router.push('/profile')
+                  }}
+                  className="text-red-600"
+                >
+                  Delete
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </div>
       <h2 className="text-xl font-bold mt-6">Comments</h2>
       <ul className="space-y-2">

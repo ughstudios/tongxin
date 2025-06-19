@@ -62,9 +62,27 @@ export default function Profile() {
               <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
                 <Avatar url={profile.avatarUrl} size={24} />
                 <span>{profile.username}</span>
+                <span>{new Date(p.createdAt).toLocaleString()}</span>
+                {p.location && <span>{p.location}</span>}
               </div>
               {p.imageUrl && <img src={p.imageUrl} alt="" className="mt-2 max-w-full" />}
               <VideoEmbed url={p.videoUrl} />
+              <div className="mt-2 space-x-2 text-sm">
+                <Link href={`/posts/${p.id}`}>View</Link>
+                <button
+                  onClick={async () => {
+                    const res = await fetch('/api/posts', {
+                      method: 'DELETE',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ id: p.id })
+                    })
+                    if (res.ok) setPosts(posts.filter(x => x.id !== p.id))
+                  }}
+                  className="text-red-600"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>

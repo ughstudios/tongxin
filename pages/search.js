@@ -42,6 +42,8 @@ export default function Search() {
             <Link href={`/posts/${p.id}`} className="font-medium block mb-1">{p.content}</Link>
             <div className="text-sm text-gray-500 mb-2">
               by <Link href={`/users/${p.userId}`}>{usersMap[p.userId] || 'User'}</Link>
+              <span className="ml-1">{new Date(p.createdAt).toLocaleString()}</span>
+              {p.location && <span className="ml-1">{p.location}</span>}
             </div>
             <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
               Like ({p.likes || 0})
