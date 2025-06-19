@@ -25,6 +25,7 @@
     "typescript": "^5.8.3",
     "@capacitor/cli": "^7.4.0",
     "@capacitor/ios": "^7.4.0",
-    "@capacitor/electron": "^2.5.0"
+    "@capacitor/electron": "^2.5.0",
+    "@capacitor-community/electron": "^5.0.1"
   }
 }
