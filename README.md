@@ -7,6 +7,7 @@ TongXin ("One Heart") now runs on [Next.js](https://nextjs.org/) with API routes
 - User registration and login with hashed passwords
 - Create, edit and delete posts with optional images and videos
 - Embed YouTube or Bilibili videos directly in posts
+- Upload short videos and watch them in an infinite scrolling feed at `/shorts`
 - Comment on posts
 - Reply to comments in threaded conversations
 - Like posts and view a trending page
@@ -47,6 +48,7 @@ Visit `http://localhost:3000` to use the app. The homepage shows your feed and r
 - `/posts/[id]` - view a single post with comments
 - `/users/[id]` - view a user profile
 - `/compose` - create a new post
+- `/shorts` - scroll through short videos endlessly
 
 ## Compliance
 

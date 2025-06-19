@@ -79,6 +79,21 @@ export default function ComposeForm({ onPost }) {
       {imageUrl && (
         <img src={imageUrl} alt="preview" className="w-24 h-24 object-cover rounded" />
       )}
+      {videoUrl && (
+        <video src={videoUrl} controls className="w-24 h-24 rounded" />
+      )}
+      <input
+        type="file"
+        accept="video/*"
+        onChange={e => {
+          const file = e.target.files[0]
+          if (file) {
+            const reader = new FileReader()
+            reader.onload = () => setVideoUrl(reader.result)
+            reader.readAsDataURL(file)
+          }
+        }}
+      />
       <button className="bg-blue-600 text-white px-4 py-2 rounded" type="submit">
         Post
       </button>
