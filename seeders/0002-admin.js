@@ -5,9 +5,11 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const password = await bcrypt.hash('admin123', 10)
     const now = new Date()
-    await queryInterface.bulkInsert('Users', [
-      { username: 'admin', password, createdAt: now, updatedAt: now }
-    ])
+    await queryInterface.bulkInsert(
+      'Users',
+      [{ username: 'admin', password, createdAt: now, updatedAt: now }],
+      { ignoreDuplicates: true }
+    )
     const [user] = await queryInterface.sequelize.query("SELECT id FROM Users WHERE username='admin' LIMIT 1")
     const userId = user[0].id
     await queryInterface.bulkInsert('Posts', [
