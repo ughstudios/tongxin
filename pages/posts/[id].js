@@ -68,9 +68,15 @@ export default function PostPage() {
       <h2 className="text-xl font-bold mt-6">Comments</h2>
       <ul className="space-y-2">
         {comments.map(c => (
-          <li key={c.id} className="border p-2 rounded bg-white flex items-center gap-2">
-            <Avatar url={usersMap[c.userId]?.avatarUrl} size={24} />
-            <span>{c.content}</span>
+          <li key={c.id} className="border p-2 rounded bg-white flex gap-2">
+            <Avatar url={usersMap[c.userId]?.avatarUrl} size={32} />
+            <div className="flex-1">
+              <div className="flex items-center gap-2 text-sm text-gray-500">
+                <Link href={`/users/${c.userId}`}>{usersMap[c.userId]?.username || 'User'}</Link>
+                <span>{new Date(c.createdAt).toLocaleString()}</span>
+              </div>
+              <p>{c.content}</p>
+            </div>
           </li>
         ))}
       </ul>

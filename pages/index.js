@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Avatar from '../components/Avatar'
 import VideoEmbed from '../components/VideoEmbed'
@@ -6,8 +6,6 @@ import VideoEmbed from '../components/VideoEmbed'
 export default function Home() {
   const [user, setUser] = useState(null)
   const [profile, setProfile] = useState(null)
-  const [avatarInput, setAvatarInput] = useState('')
-  const fileRef = useRef(null)
   const [content, setContent] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [videoUrl, setVideoUrl] = useState('')
@@ -20,10 +18,7 @@ export default function Home() {
       .then(u => {
         setUser(u)
         if (u) {
-          fetch('/api/profile').then(r => r.json()).then(p => {
-            setProfile(p)
-            setAvatarInput(p.avatarUrl || '')
-          })
+          fetch('/api/profile').then(r => r.json()).then(setProfile)
         }
       })
     fetch('/api/recommendations').then(r => r.json()).then(setPosts)
@@ -85,43 +80,10 @@ export default function Home() {
     }
   }
 
-  function handleAvatarFile(e) {
-    const file = e.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = () => setAvatarInput(reader.result)
-      reader.readAsDataURL(file)
-    }
-  }
-
-  async function saveAvatar(e) {
-    e.preventDefault()
-    const res = await fetch('/api/profile', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ avatarUrl: avatarInput })
-    })
-    if (res.ok) {
-      setProfile({ ...profile, avatarUrl: avatarInput })
-    }
-  }
 
   return (
     <div>
-      {profile && (
-        <div className="mt-2 flex items-center gap-4">
-          <Avatar url={profile.avatarUrl} size={64} />
-          <form onSubmit={saveAvatar} className="flex-grow flex gap-2 items-center">
-            <input
-              type="file"
-              ref={fileRef}
-              onChange={handleAvatarFile}
-              className="border p-1 rounded"
-            />
-            <button className="bg-blue-500 text-white px-3 rounded" type="submit">Save</button>
-          </form>
-        </div>
-      )}
+      {profile && <Avatar url={profile.avatarUrl} size={64} />}
       {user && (
         <form onSubmit={createPost} className="mt-4 space-y-2 bg-white p-4 rounded shadow">
           <textarea
@@ -136,6 +98,13 @@ export default function Home() {
             placeholder="What's happening?"
             className="border p-2 w-full rounded"
           />
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt="preview"
+              className="w-24 h-24 object-cover rounded"
+            />
+          )}
           <button className="bg-blue-600 text-white px-4 py-2 rounded" type="submit">Post</button>
         </form>
       )}
