@@ -55,15 +55,15 @@ export default function PostPage() {
 
   return (
     <div>
-      <div className="bg-white rounded-lg shadow p-4 mt-4">
+      <div className="bg-white rounded-lg shadow hover:shadow-lg transition p-4 mt-4">
         <div className="flex items-center gap-2 mb-2 text-sm text-gray-500">
           <Avatar url={usersMap[post.userId]?.avatarUrl} size={24} />
           <Link href={`/users/${post.userId}`}>{usersMap[post.userId]?.username || 'User'}</Link>
         </div>
         <p className="mb-2">{post.content}</p>
-        {post.imageUrl && <img src={post.imageUrl} alt="" className="mt-2 max-w-xs" />}
+        {post.imageUrl && <img src={post.imageUrl} alt="" className="mt-2 max-w-xs rounded-md" />}
         <VideoEmbed url={post.videoUrl} />
-        <button onClick={likePost} className="block mt-2 bg-pink-500 text-white px-2 py-1 rounded">
+        <button onClick={likePost} className="block mt-2 bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded-md">
           Like ({post.likes || 0})
         </button>
       </div>
@@ -90,9 +90,9 @@ export default function PostPage() {
             onChange={e => setCommentText(e.target.value)}
             rows="3"
             placeholder="Write a comment..."
-            className="border p-2 flex-grow rounded resize-none focus:outline-none"
+            className="border border-gray-300 p-2 flex-grow rounded-md resize-none focus:ring focus:ring-blue-200"
           />
-          <button type="submit" className="bg-blue-500 text-white px-3 rounded">Add</button>
+          <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-md">Add</button>
         </form>
       )}
     </div>

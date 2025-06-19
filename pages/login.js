@@ -19,22 +19,22 @@ export default function Login() {
   }
 
   return (
-    <div className="flex justify-center mt-8">
-      <form onSubmit={login} className="space-y-3 bg-white p-6 rounded shadow w-full max-w-sm">
+    <div className="flex justify-center mt-10">
+      <form onSubmit={login} className="space-y-4 bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
         <input
           value={username}
           onChange={e => setUsername(e.target.value)}
           placeholder="username"
-          className="border p-2 w-full rounded"
+          className="border border-gray-300 p-3 w-full rounded-md focus:ring focus:ring-blue-200"
         />
         <input
           type="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
           placeholder="password"
-          className="border p-2 w-full rounded"
+          className="border border-gray-300 p-3 w-full rounded-md focus:ring focus:ring-blue-200"
         />
-        <button className="w-full bg-blue-500 text-white py-2 rounded" type="submit">Login</button>
+        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md" type="submit">Login</button>
       </form>
     </div>
   )

@@ -59,7 +59,7 @@ export default function Compose() {
 
   return (
     <div className="max-w-xl mx-auto mt-6">
-      <form onSubmit={createPost} className="bg-white rounded shadow p-4 flex gap-3">
+      <form onSubmit={createPost} className="bg-white rounded-lg shadow-md p-4 flex gap-3">
         <Avatar url={profile?.avatarUrl} size={48} />
         <div className="flex-1">
           <textarea
@@ -72,12 +72,12 @@ export default function Compose() {
             }}
             onPaste={handlePaste}
             placeholder="What's happening?"
-            className="w-full resize-none focus:outline-none border-b border-gray-300 p-2"
+            className="w-full resize-none border-b border-gray-300 p-3 focus:ring focus:ring-blue-200"
           />
           {imageUrl && (
-            <img src={imageUrl} alt="preview" className="w-32 h-32 object-cover rounded mt-2" />
+            <img src={imageUrl} alt="preview" className="w-32 h-32 object-cover rounded-md mt-2" />
           )}
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mt-3 float-right">
+          <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md mt-3 float-right">
             Post
           </button>
         </div>

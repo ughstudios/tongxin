@@ -35,14 +35,14 @@ export default function HomePage() {
       <ComposeForm onPost={post => setPosts([post, ...posts])} />
       <div className="space-y-4">
         {posts.map(p => (
-          <div key={p.id} className="bg-white p-3 rounded-lg shadow">
+          <div key={p.id} className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
             <Link href={`/posts/${p.id}`} className="font-medium block mb-1">{p.content}</Link>
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
               <Avatar url={usersMap[p.userId]?.avatarUrl} size={24} />
               <Link href={`/users/${p.userId}`}>{usersMap[p.userId]?.username || 'User'}</Link>
             </div>
             <VideoEmbed url={p.videoUrl} />
-            <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
+            <button onClick={() => like(p.id)} className="mt-2 bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded-md">
               Like ({p.likes || 0})
             </button>
           </div>
