@@ -49,7 +49,7 @@ async function handler(req, res) {
       imageUrl,
       videoUrl
     })
-    return res.status(201).json(post)
+    return res.status(201).json({ id: post.id })
   }
 
   if (req.method === 'PUT') {
@@ -77,3 +77,11 @@ async function handler(req, res) {
 }
 
 export default withSessionRoute(handler)
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb'
+    }
+  }
+}
