@@ -31,6 +31,18 @@ npm run dev
 ```
 This script runs Sequelize migrations and seeds to create the local `data/test.db` SQLite database.
 
+If you want to reset your local database, simply delete `data/test.db` and rerun
+the migrations and seeders:
+
+```bash
+rm -f data/test.db
+npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
+```
+
+`db:create` and `db:drop` are unsupported for SQLite, so removing the file is
+the simplest way to recreate the database.
+
 The seed data includes a demo administrator account:
 
 - **Username:** `admin`
