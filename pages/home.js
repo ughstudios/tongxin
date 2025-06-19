@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Avatar from '../components/Avatar'
 import VideoEmbed from '../components/VideoEmbed'
+import ComposeForm from '../components/ComposeForm'
 
 export default function HomePage() {
   const [posts, setPosts] = useState([])
@@ -31,6 +32,7 @@ export default function HomePage() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Home</h1>
+      <ComposeForm onPost={post => setPosts([post, ...posts])} />
       <div className="space-y-4">
         {posts.map(p => (
           <div key={p.id} className="bg-white p-3 rounded-lg shadow">

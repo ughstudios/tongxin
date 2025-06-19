@@ -1,26 +1,14 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Avatar from '../components/Avatar'
 import VideoEmbed from '../components/VideoEmbed'
+import ComposeForm from '../components/ComposeForm'
+import Avatar from '../components/Avatar'
 
 export default function Home() {
-  const [user, setUser] = useState(null)
-  const [profile, setProfile] = useState(null)
-  const [content, setContent] = useState('')
-  const [imageUrl, setImageUrl] = useState('')
-  const [videoUrl, setVideoUrl] = useState('')
   const [posts, setPosts] = useState([])
   const [usersMap, setUsersMap] = useState({})
 
   useEffect(() => {
-    fetch('/api/session')
-      .then(r => r.json())
-      .then(u => {
-        setUser(u)
-        if (u) {
-          fetch('/api/profile').then(r => r.json()).then(setProfile)
-        }
-      })
     fetch('/api/recommendations').then(r => r.json()).then(setPosts)
     fetch('/api/users').then(r => r.json()).then(list => {
       const m = {}
@@ -42,72 +30,11 @@ export default function Home() {
   }
 
 
-  async function createPost(e) {
-    e.preventDefault()
-    if (!user) return
-    const res = await fetch('/api/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content, imageUrl, videoUrl })
-    })
-    if (res.ok) {
-      const post = await res.json()
-      setPosts([post, ...posts])
-      setContent('')
-      setImageUrl('')
-      setVideoUrl('')
-    }
-  }
-
-  function handlePaste(e) {
-    const items = e.clipboardData.items
-    for (const item of items) {
-      if (item.type.startsWith('image/')) {
-        const file = item.getAsFile()
-        if (file) {
-          const reader = new FileReader()
-          reader.onload = () => setImageUrl(reader.result)
-          reader.readAsDataURL(file)
-          e.preventDefault()
-          return
-        }
-      }
-    }
-    const text = e.clipboardData.getData('text')
-    if (text) {
-      const m = text.match(/https?:\/\/(?:www\.)?(?:youtu\.be\/|youtube\.com\/[^\s]+)/)
-      if (m) setVideoUrl(m[0])
-    }
-  }
 
 
   return (
     <div>
-      {profile && <Avatar url={profile.avatarUrl} size={64} />}
-      {user && (
-        <form onSubmit={createPost} className="mt-4 space-y-2 bg-white p-4 rounded shadow">
-          <textarea
-            value={content}
-            onChange={e => {
-              const val = e.target.value
-              setContent(val)
-              const m = val.match(/https?:\/\/(?:www\.)?(?:youtu\.be\/|youtube\.com\/[^\s]+)/)
-              if (m) setVideoUrl(m[0])
-            }}
-            onPaste={handlePaste}
-            placeholder="What's happening?"
-            className="border p-2 w-full rounded"
-          />
-          {imageUrl && (
-            <img
-              src={imageUrl}
-              alt="preview"
-              className="w-24 h-24 object-cover rounded"
-            />
-          )}
-          <button className="bg-blue-600 text-white px-4 py-2 rounded" type="submit">Post</button>
-        </form>
-      )}
+      <ComposeForm onPost={post => setPosts([post, ...posts])} />
       <div className="space-y-4 mt-6">
         {posts.map(p => (
           <div key={p.id} className="bg-white rounded-lg shadow overflow-hidden">
