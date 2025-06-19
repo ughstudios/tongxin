@@ -6,6 +6,7 @@ export default function Compose() {
   const [user, setUser] = useState(null)
   const [profile, setProfile] = useState(null)
   const [content, setContent] = useState('')
+  // Not separate text boxes – these just hold previews for pasted media
   const [imageUrl, setImageUrl] = useState('')
   const [videoUrl, setVideoUrl] = useState('')
   const router = useRouter()
