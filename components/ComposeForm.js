@@ -60,7 +60,7 @@ export default function ComposeForm({ onPost }) {
   if (!user) return null
 
   return (
-    <form onSubmit={createPost} className="mt-6 space-y-3 bg-white p-4 rounded-lg shadow-md">
+    <form onSubmit={createPost} className="mt-4 space-y-2 bg-white p-4 rounded shadow">
       <div className="flex gap-3">
         <Avatar url={profile?.avatarUrl} size={48} />
         <textarea
@@ -73,17 +73,15 @@ export default function ComposeForm({ onPost }) {
           }}
           onPaste={handlePaste}
           placeholder="What's happening?"
-          className="border border-gray-300 p-3 w-full rounded-md resize-none focus:ring focus:ring-blue-200"
+          className="border p-2 w-full rounded resize-none focus:outline-none"
         />
       </div>
       {imageUrl && (
-        <img src={imageUrl} alt="preview" className="w-full max-h-64 object-cover rounded-md" />
+        <img src={imageUrl} alt="preview" className="w-24 h-24 object-cover rounded" />
       )}
-      <div className="text-right">
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md" type="submit">
-          Post
-        </button>
-      </div>
+      <button className="bg-blue-600 text-white px-4 py-2 rounded" type="submit">
+        Post
+      </button>
     </form>
   )
 }

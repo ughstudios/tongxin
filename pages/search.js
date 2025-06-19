@@ -33,21 +33,17 @@ export default function Search() {
     <div>
       <h1 className="text-2xl font-bold mb-4">Search Posts</h1>
       <form onSubmit={doSearch} className="my-4 flex gap-2">
-        <input
-          value={q}
-          onChange={e => setQ(e.target.value)}
-          className="border border-gray-300 p-2 rounded-md flex-grow"
-        />
-        <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md" type="submit">Search</button>
+        <input value={q} onChange={e => setQ(e.target.value)} className="border p-1 flex-grow" />
+        <button className="px-3 py-1 bg-blue-500 text-white rounded" type="submit">Search</button>
       </form>
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {posts.map(p => (
-          <div key={p.id} className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
+          <div key={p.id} className="bg-white p-3 rounded-lg shadow">
             <Link href={`/posts/${p.id}`} className="font-medium block mb-1">{p.content}</Link>
             <div className="text-sm text-gray-500 mb-2">
               by <Link href={`/users/${p.userId}`}>{usersMap[p.userId] || 'User'}</Link>
             </div>
-            <button onClick={() => like(p.id)} className="mt-2 bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded-md">
+            <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
               Like ({p.likes || 0})
             </button>
           </div>

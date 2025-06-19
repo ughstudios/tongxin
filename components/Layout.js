@@ -14,9 +14,9 @@ export default function Layout({ children }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-800">
-      <header className="sticky top-0 bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow">
-        <div className="flex items-center justify-between p-4 max-w-5xl mx-auto">
+    <div className="min-h-screen bg-gray-50">
+      <header className="sticky top-0 bg-white shadow">
+        <div className="flex items-center justify-between p-4">
           <Link href="/" className="text-xl font-bold">TongXin</Link>
           <nav className="space-x-4 flex items-center">
             <Link href="/home">Home</Link>
@@ -26,7 +26,7 @@ export default function Layout({ children }) {
             {user ? (
               <>
                 <Link href="/profile">Profile</Link>
-                <button onClick={logout} className="ml-2 text-sm">Logout</button>
+                <button onClick={logout} className="ml-2 text-sm text-gray-600">Logout</button>
               </>
             ) : (
               <>
@@ -37,7 +37,7 @@ export default function Layout({ children }) {
           </nav>
         </div>
       </header>
-      <main className="w-full p-4 max-w-5xl mx-auto">{children}</main>
+      <main className="w-full p-4">{children}</main>
     </div>
   )
 }

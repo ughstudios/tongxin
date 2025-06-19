@@ -33,14 +33,14 @@ export default function Trending() {
       <h1 className="text-2xl font-bold mb-4">Trending Posts</h1>
       <div className="space-y-4">
         {posts.map(p => (
-          <div key={p.id} className="bg-white rounded-lg shadow hover:shadow-lg transition p-4">
+          <div key={p.id} className="bg-white rounded-lg shadow p-3">
             <Link href={`/posts/${p.id}`} className="font-medium block mb-1">{p.content}</Link>
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
               <Avatar url={usersMap[p.userId]?.avatarUrl} size={24} />
               <Link href={`/users/${p.userId}`}>{usersMap[p.userId]?.username || 'User'}</Link>
             </div>
             <VideoEmbed url={p.videoUrl} />
-            <button onClick={() => like(p.id)} className="mt-2 bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded-md">
+            <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
               Like ({p.likes || 0})
             </button>
           </div>

@@ -37,11 +37,11 @@ export default function Home() {
       <ComposeForm onPost={post => setPosts([post, ...posts])} />
       <div className="space-y-4 mt-6">
         {posts.map(p => (
-          <div key={p.id} className="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden">
+          <div key={p.id} className="bg-white rounded-lg shadow overflow-hidden">
             {p.imageUrl && (
               <img src={p.imageUrl} alt="" className="w-full h-48 object-cover" />
             )}
-            <div className="p-4">
+            <div className="p-3">
               <Link href={`/posts/${p.id}`} className="font-medium block mb-1">
                 {p.content}
               </Link>
@@ -52,7 +52,7 @@ export default function Home() {
               <VideoEmbed url={p.videoUrl} />
               <button
                 onClick={() => like(p.id)}
-                className="mt-2 bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded-md"
+                className="bg-pink-500 text-white px-2 py-1 rounded"
               >
                 Like ({p.likes || 0})
               </button>
