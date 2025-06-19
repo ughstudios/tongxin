@@ -24,13 +24,14 @@ export default async function handler(req, res) {
         .json({
           id: user.id,
           username: user.username,
+          avatarUrl: user.avatarUrl,
           following: follows.map(f => f.followId)
         })
     }
     const users = await User.findAll()
     return res
       .status(200)
-      .json(users.map(u => ({ id: u.id, username: u.username })))
+      .json(users.map(u => ({ id: u.id, username: u.username, avatarUrl: u.avatarUrl })))
   }
 
   res.status(405).end()

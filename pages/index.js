@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Avatar from '../components/Avatar'
+import VideoEmbed from '../components/VideoEmbed'
 
 export default function Home() {
   const [user, setUser] = useState(null)
   const [profile, setProfile] = useState(null)
   const [avatarInput, setAvatarInput] = useState('')
+  const fileRef = useRef(null)
   const [content, setContent] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [videoUrl, setVideoUrl] = useState('')
@@ -28,7 +31,7 @@ export default function Home() {
     fetch('/api/recommendations').then(r => r.json()).then(setRecs)
     fetch('/api/users').then(r => r.json()).then(list => {
       const m = {}
-      list.forEach(u => (m[u.id] = u.username))
+      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl }))
       setUsersMap(m)
     })
   }, [])
@@ -63,6 +66,15 @@ export default function Home() {
     }
   }
 
+  function handleAvatarFile(e) {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = () => setAvatarInput(reader.result)
+      reader.readAsDataURL(file)
+    }
+  }
+
   async function saveAvatar(e) {
     e.preventDefault()
     const res = await fetch('/api/profile', {
@@ -79,30 +91,43 @@ export default function Home() {
     <div>
       {profile && (
         <div className="mt-2 flex items-center gap-4">
-          {profile.avatarUrl && (
-            <img src={profile.avatarUrl} className="w-16 h-16 rounded-full object-cover" alt="avatar" />
-          )}
-          <form onSubmit={saveAvatar} className="flex-grow flex gap-2">
+          <Avatar url={profile.avatarUrl} size={64} />
+          <form onSubmit={saveAvatar} className="flex-grow flex gap-2 items-center">
             <input
-              value={avatarInput}
-              onChange={e => setAvatarInput(e.target.value)}
-              placeholder="Avatar URL"
-              className="border p-1 flex-grow rounded"
+              type="file"
+              ref={fileRef}
+              onChange={handleAvatarFile}
+              className="border p-1 rounded"
             />
             <button className="bg-blue-500 text-white px-3 rounded" type="submit">Save</button>
           </form>
         </div>
       )}
       {user && (
-        <form onSubmit={createPost} className="mt-4 space-y-2">
-          <input value={content} onChange={e => setContent(e.target.value)} placeholder="Say something" className="border p-1 w-full" />
-          <input value={imageUrl} onChange={e => setImageUrl(e.target.value)} placeholder="Image URL (optional)" className="border p-1 w-full" />
-          <input value={videoUrl} onChange={e => setVideoUrl(e.target.value)} placeholder="Video URL (optional)" className="border p-1 w-full" />
-          <button className="bg-blue-600 text-white px-3 py-1 rounded" type="submit">Post</button>
+        <form onSubmit={createPost} className="mt-4 space-y-2 bg-white p-4 rounded shadow">
+          <textarea
+            value={content}
+            onChange={e => setContent(e.target.value)}
+            placeholder="What's happening?"
+            className="border p-2 w-full rounded"
+          />
+          <input
+            value={imageUrl}
+            onChange={e => setImageUrl(e.target.value)}
+            placeholder="Image URL (optional)"
+            className="border p-1 w-full rounded"
+          />
+          <input
+            value={videoUrl}
+            onChange={e => setVideoUrl(e.target.value)}
+            placeholder="Video or YouTube/Bilibili URL"
+            className="border p-1 w-full rounded"
+          />
+          <button className="bg-blue-600 text-white px-4 py-2 rounded" type="submit">Post</button>
         </form>
       )}
-      <h2 className="text-xl font-bold mt-6 mb-2">Feed</h2>
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+      <h2 className="text-xl font-bold mt-6 mb-2">Home</h2>
+      <div className="space-y-4">
         {feed.map(p => (
           <div key={p.id} className="bg-white rounded-lg shadow overflow-hidden">
             {p.imageUrl && (
@@ -112,10 +137,11 @@ export default function Home() {
               <Link href={`/posts/${p.id}`} className="font-medium block mb-1">
                 {p.content}
               </Link>
-              <div className="text-sm text-gray-500 mb-2">
-                by <Link href={`/users/${p.userId}`}>{usersMap[p.userId] || 'User'}</Link>
+              <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                <Avatar url={usersMap[p.userId]?.avatarUrl} size={24} />
+                <Link href={`/users/${p.userId}`}>{usersMap[p.userId]?.username || 'User'}</Link>
               </div>
-              {p.videoUrl && <video src={p.videoUrl} controls className="w-full mb-2" />}
+              <VideoEmbed url={p.videoUrl} />
               <button
                 onClick={() => like(p.id)}
                 className="bg-pink-500 text-white px-2 py-1 rounded"
@@ -126,8 +152,8 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <h2 className="text-xl font-bold mt-6 mb-2">AI Recommendations</h2>
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+      <h2 className="text-xl font-bold mt-6 mb-2">Recommended</h2>
+      <div className="space-y-4">
         {recs.map(p => (
           <div key={p.id} className="bg-white p-3 rounded-lg shadow">
             {p.content}

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Avatar from '../components/Avatar'
+import VideoEmbed from '../components/VideoEmbed'
 
 export default function Trending() {
   const [posts, setPosts] = useState([])
@@ -9,7 +11,7 @@ export default function Trending() {
     fetch('/api/posts?trending=1').then(r => r.json()).then(setPosts)
     fetch('/api/users').then(r => r.json()).then(list => {
       const m = {}
-      list.forEach(u => (m[u.id] = u.username))
+      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl }))
       setUsersMap(m)
     })
   }, [])
@@ -29,13 +31,15 @@ export default function Trending() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Trending Posts</h1>
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+      <div className="space-y-4">
         {posts.map(p => (
           <div key={p.id} className="bg-white rounded-lg shadow p-3">
             <Link href={`/posts/${p.id}`} className="font-medium block mb-1">{p.content}</Link>
-            <div className="text-sm text-gray-500 mb-2">
-              by <Link href={`/users/${p.userId}`}>{usersMap[p.userId] || 'User'}</Link>
+            <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+              <Avatar url={usersMap[p.userId]?.avatarUrl} size={24} />
+              <Link href={`/users/${p.userId}`}>{usersMap[p.userId]?.username || 'User'}</Link>
             </div>
+            <VideoEmbed url={p.videoUrl} />
             <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
               Like ({p.likes || 0})
             </button>
