@@ -51,3 +51,21 @@ Visit `http://localhost:3000` to use the app. The homepage shows your feed and r
 ## Compliance
 
 This project strives to follow applicable regulations and moderation requirements. Content posted by users should comply with local laws and community standards.
+
+## iOS and macOS apps
+
+This project can be packaged as a native application using [Capacitor](https://capacitorjs.com/). After installing the dependencies run:
+
+```bash
+npx cap init TongXin com.example.tongxin
+npm run build
+npx cap add ios
+```
+
+Open the generated `ios` directory in Xcode to run the app on iPhone or build for macOS via Mac Catalyst. The web content is served from the local Next.js server so keep it running during development:
+
+```bash
+npm run dev
+```
+
+See the Capacitor documentation for details on code signing and App Store submission.
