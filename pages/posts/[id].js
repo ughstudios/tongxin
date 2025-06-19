@@ -85,10 +85,12 @@ export default function PostPage() {
       </ul>
       {user && (
         <form onSubmit={addComment} className="mt-4 flex gap-2">
-          <input
+          <textarea
             value={commentText}
             onChange={e => setCommentText(e.target.value)}
-            className="border p-1 flex-grow"
+            rows="3"
+            placeholder="Write a comment..."
+            className="border p-2 flex-grow rounded resize-none focus:outline-none"
           />
           <button type="submit" className="bg-blue-500 text-white px-3 rounded">Add</button>
         </form>
