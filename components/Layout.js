@@ -19,7 +19,7 @@ export default function Layout({ children }) {
         <div className="max-w-4xl mx-auto flex items-center justify-between p-4">
           <Link href="/" className="text-xl font-bold">TongXin</Link>
           <nav className="space-x-4 flex items-center">
-            <Link href="/feed">Feed</Link>
+            <Link href="/home">Home</Link>
             <Link href="/trending">Trending</Link>
             <Link href="/search">Search</Link>
             {user ? (

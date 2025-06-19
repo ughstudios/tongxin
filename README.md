@@ -6,10 +6,12 @@ TongXin ("One Heart") now runs on [Next.js](https://nextjs.org/) with API routes
 
 - User registration and login with hashed passwords
 - Create, edit and delete posts with optional images and videos
+- Embed YouTube or Bilibili videos directly in posts
 - Comment on posts
 - Like posts and view a trending page
 - Follow other users and view profiles
-- Search posts and see simple AI recommendations
+- Search posts and see simple recommendations
+- Upload a profile avatar and view avatars on posts
 - Modern UI styled with Tailwind CSS
 - Homepage mixes your feed and recommendations
 
@@ -38,7 +40,7 @@ This user comes with a couple of example posts so you have some content in the f
 
 Visit `http://localhost:3000` to use the app. The homepage shows your feed and recommendations. Additional pages:
 
-- `/feed` - your personalized feed
+- `/home` - your personalized feed
 - `/trending` - trending posts
 - `/search` - search posts
 - `/posts/[id]` - view a single post with comments
