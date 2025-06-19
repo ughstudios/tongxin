@@ -16,7 +16,9 @@ export default function PostPage() {
   useEffect(() => {
     if (!id) return
     fetch('/api/posts?id=' + id).then(r => r.json()).then(setPost)
-    fetch('/api/comments?postId=' + id).then(r => r.json()).then(setComments)
+    fetch('/api/comments?postId=' + id + '&parentId=null')
+      .then(r => r.json())
+      .then(setComments)
     fetch('/api/session').then(r => r.json()).then(setUser)
     fetch('/api/users').then(r => r.json()).then(list => {
       const m = {}
@@ -76,6 +78,7 @@ export default function PostPage() {
                 <span>{new Date(c.createdAt).toLocaleString()}</span>
               </div>
               <p>{c.content}</p>
+              <Link href={`/thread/${c.id}`} className="text-blue-600 text-sm">Thread</Link>
             </div>
           </li>
         ))}
