@@ -66,3 +66,5 @@ Open the generated `ios` directory in Xcode to run the app on iPhone or build fo
 ```bash
 npm run dev
 ```
+Build the app and sync the Electron web assets:
+npx cap add electron # run once
