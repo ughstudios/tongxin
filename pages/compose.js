@@ -72,14 +72,30 @@ export default function Compose() {
             }}
             onPaste={handlePaste}
             placeholder="What's happening?"
-            className="w-full resize-none focus:outline-none border-b border-gray-300 p-2"
-          />
-          {imageUrl && (
-            <img src={imageUrl} alt="preview" className="w-32 h-32 object-cover rounded mt-2" />
-          )}
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mt-3 float-right">
-            Post
-          </button>
+          className="w-full resize-none focus:outline-none border-b border-gray-300 p-2"
+        />
+        {imageUrl && (
+          <img src={imageUrl} alt="preview" className="w-32 h-32 object-cover rounded mt-2" />
+        )}
+        {videoUrl && (
+          <video src={videoUrl} controls className="w-32 h-32 rounded mt-2" />
+        )}
+        <input
+          type="file"
+          accept="video/*"
+          onChange={e => {
+            const file = e.target.files[0]
+            if (file) {
+              const reader = new FileReader()
+              reader.onload = () => setVideoUrl(reader.result)
+              reader.readAsDataURL(file)
+            }
+          }}
+          className="mt-2"
+        />
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mt-3 float-right">
+          Post
+        </button>
         </div>
       </form>
     </div>

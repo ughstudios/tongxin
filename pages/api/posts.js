@@ -12,7 +12,7 @@ async function handler(req, res) {
 
     let where = {}
     if (req.query.userId) where.userId = req.query.userId
-    let result = await Post.findAll({ where })
+    let result = await Post.findAll({ where, order: [['createdAt', 'DESC']] })
 
     if (req.query.q) {
       const q = req.query.q.toLowerCase()
@@ -25,11 +25,19 @@ async function handler(req, res) {
       result = result.filter(p => ids.includes(p.userId))
     }
 
+    if (req.query.video) {
+      result = result.filter(p => p.videoUrl)
+    }
+
     if (req.query.trending) {
       result = [...result].sort((a, b) => (b.likes || 0) - (a.likes || 0))
     }
 
-    return res.status(200).json(result)
+    const offset = parseInt(req.query.offset || '0', 10)
+    const limit = parseInt(req.query.limit || result.length, 10)
+    const slice = result.slice(offset, offset + limit)
+
+    return res.status(200).json(slice)
   }
 
   if (req.method === 'POST') {
