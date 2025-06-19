@@ -68,3 +68,22 @@ npm run dev
 ```
 
 See the Capacitor documentation for details on code signing and App Store submission.
+
+## Desktop app (Electron)
+
+To package the app as a desktop application, Capacitor's Electron platform is included.
+After building the static files, add the Electron platform:
+
+```bash
+npm run build
+npx cap add electron
+```
+
+This creates an `electron` directory. Start the Next.js server and launch Electron during development:
+
+```bash
+npm run dev &
+npx cap open electron
+```
+
+Keep the server running so the desktop app can load the web content.
