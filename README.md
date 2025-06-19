@@ -54,10 +54,9 @@ This project strives to follow applicable regulations and moderation requirement
 
 ## iOS and macOS apps
 
-This project can be packaged as a native application using [Capacitor](https://capacitorjs.com/). After installing the dependencies run:
+This project can be packaged as a native application using [Capacitor](https://capacitorjs.com/). A ready-made `capacitor.config.ts` is included, so after installing the dependencies (which now include TypeScript) run:
 
 ```bash
-npx cap init TongXin com.example.tongxin
 npm run build
 npx cap add ios
 ```
