@@ -38,7 +38,7 @@ export default function Profile() {
 
   return (
     <div className="max-w-lg mx-auto mt-6 space-y-6">
-      <div className="bg-white p-6 rounded shadow text-center">
+      <div className="bg-white p-6 rounded-lg shadow-md text-center">
         <Avatar url={profile.avatarUrl} size={128} />
         <h1 className="text-2xl font-bold mt-2">{profile.username}</h1>
       </div>
@@ -50,20 +50,20 @@ export default function Profile() {
             reader.onload = () => setAvatar(reader.result)
             reader.readAsDataURL(file)
           }
-        }} className="border p-2 rounded" />
-        <button className="bg-blue-500 text-white px-4 rounded" type="submit">Save</button>
+        }} className="border border-gray-300 p-2 rounded-md" />
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-md" type="submit">Save</button>
       </form>
       <div>
         <h2 className="text-xl font-bold mb-2">Your Posts</h2>
         <div className="space-y-4">
           {posts.map(p => (
-            <div key={p.id} className="bg-white p-4 rounded shadow">
+            <div key={p.id} className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
               <Link href={`/posts/${p.id}`} className="font-medium block mb-1">{p.content}</Link>
               <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
                 <Avatar url={profile.avatarUrl} size={24} />
                 <span>{profile.username}</span>
               </div>
-              {p.imageUrl && <img src={p.imageUrl} alt="" className="mt-2 max-w-full" />}
+              {p.imageUrl && <img src={p.imageUrl} alt="" className="mt-2 max-w-full rounded-md" />}
               <VideoEmbed url={p.videoUrl} />
             </div>
           ))}

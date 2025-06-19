@@ -48,14 +48,14 @@ export default function UserPage() {
       </div>
       {user && user.id !== Number(id) && (
         isFollowing ? (
-          <button onClick={unfollow} className="mt-2 bg-gray-300 px-2 rounded">Unfollow</button>
+          <button onClick={unfollow} className="mt-2 bg-gray-300 px-3 py-1 rounded-md">Unfollow</button>
         ) : (
-          <button onClick={follow} className="mt-2 bg-blue-500 text-white px-2 rounded">Follow</button>
+          <button onClick={follow} className="mt-2 bg-blue-600 text-white px-3 py-1 rounded-md">Follow</button>
         )
       )}
       <div className="mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {posts.map(p => (
-          <div key={p.id} className="bg-white p-3 rounded-lg shadow">
+          <div key={p.id} className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
             <Link href={`/posts/${p.id}`} className="font-medium block mb-1">{p.content}</Link>
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
               <Avatar url={profile.avatarUrl} size={24} />

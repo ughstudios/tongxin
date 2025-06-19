@@ -44,7 +44,7 @@ export default function ThreadPage() {
   return (
     <div>
       <h1 className="text-xl font-bold mb-4">Thread</h1>
-      <div className="border p-3 rounded bg-white flex gap-2 mb-4">
+      <div className="border p-3 rounded-lg bg-white flex gap-2 mb-4 shadow">
         <Avatar url={usersMap[comment.userId]?.avatarUrl} size={32} />
         <div className="flex-1">
           <div className="flex items-center gap-2 text-sm text-gray-500">
@@ -56,7 +56,7 @@ export default function ThreadPage() {
       </div>
       <ul className="space-y-2 border-l-2 border-gray-200 pl-4">
         {replies.map(r => (
-          <li key={r.id} className="border p-2 rounded bg-white flex gap-2">
+          <li key={r.id} className="border p-2 rounded-lg bg-white flex gap-2 shadow">
             <Avatar url={usersMap[r.userId]?.avatarUrl} size={32} />
             <div className="flex-1">
               <div className="flex items-center gap-2 text-sm text-gray-500">
@@ -75,9 +75,9 @@ export default function ThreadPage() {
             onChange={e => setReplyText(e.target.value)}
             rows="3"
             placeholder="Write a reply..."
-            className="border p-2 flex-grow rounded resize-none focus:outline-none"
+            className="border border-gray-300 p-2 flex-grow rounded-md resize-none focus:ring focus:ring-blue-200"
           />
-          <button type="submit" className="bg-blue-500 text-white px-3 rounded">Reply</button>
+          <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-md">Reply</button>
         </form>
       )}
     </div>
