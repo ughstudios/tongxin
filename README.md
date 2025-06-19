@@ -45,6 +45,7 @@ Visit `http://localhost:3000` to use the app. The homepage shows your feed and r
 - `/search` - search posts
 - `/posts/[id]` - view a single post with comments
 - `/users/[id]` - view a user profile
+- `/compose` - create a new post
 
 ## Compliance
 
