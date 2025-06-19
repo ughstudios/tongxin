@@ -54,7 +54,7 @@ export default function ThreadPage() {
           <p>{comment.content}</p>
         </div>
       </div>
-      <ul className="space-y-2">
+      <ul className="space-y-2 border-l-2 border-gray-200 pl-4">
         {replies.map(r => (
           <li key={r.id} className="border p-2 rounded bg-white flex gap-2">
             <Avatar url={usersMap[r.userId]?.avatarUrl} size={32} />
@@ -70,10 +70,12 @@ export default function ThreadPage() {
       </ul>
       {user && (
         <form onSubmit={addReply} className="mt-4 flex gap-2">
-          <input
+          <textarea
             value={replyText}
             onChange={e => setReplyText(e.target.value)}
-            className="border p-1 flex-grow"
+            rows="3"
+            placeholder="Write a reply..."
+            className="border p-2 flex-grow rounded resize-none focus:outline-none"
           />
           <button type="submit" className="bg-blue-500 text-white px-3 rounded">Reply</button>
         </form>
