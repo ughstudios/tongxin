@@ -15,7 +15,8 @@ module.exports = {
           createdAt: now,
           updatedAt: now
         }
-      ]
+      ],
+      { ignoreDuplicates: true }
     )
     const [user] = await queryInterface.sequelize.query("SELECT id FROM Users WHERE username='test' LIMIT 1")
     const userId = user[0].id
