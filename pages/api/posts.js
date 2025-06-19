@@ -77,3 +77,11 @@ async function handler(req, res) {
 }
 
 export default withSessionRoute(handler)
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb'
+    }
+  }
+}
