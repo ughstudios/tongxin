@@ -11,8 +11,7 @@ export default function Home() {
   const [content, setContent] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [videoUrl, setVideoUrl] = useState('')
-  const [feed, setFeed] = useState([])
-  const [recs, setRecs] = useState([])
+  const [posts, setPosts] = useState([])
   const [usersMap, setUsersMap] = useState({})
 
   useEffect(() => {
@@ -27,8 +26,7 @@ export default function Home() {
           })
         }
       })
-    fetch('/api/posts?feed=1').then(r => r.json()).then(setFeed)
-    fetch('/api/recommendations').then(r => r.json()).then(setRecs)
+    fetch('/api/recommendations').then(r => r.json()).then(setPosts)
     fetch('/api/users').then(r => r.json()).then(list => {
       const m = {}
       list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl }))
@@ -44,7 +42,7 @@ export default function Home() {
     })
     if (res.ok) {
       const updated = await res.json()
-      setFeed(feed.map(p => (p.id === id ? updated : p)))
+      setPosts(posts.map(p => (p.id === id ? updated : p)))
     }
   }
 
@@ -59,10 +57,31 @@ export default function Home() {
     })
     if (res.ok) {
       const post = await res.json()
-      setFeed([post, ...feed])
+      setPosts([post, ...posts])
       setContent('')
       setImageUrl('')
       setVideoUrl('')
+    }
+  }
+
+  function handlePaste(e) {
+    const items = e.clipboardData.items
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        const file = item.getAsFile()
+        if (file) {
+          const reader = new FileReader()
+          reader.onload = () => setImageUrl(reader.result)
+          reader.readAsDataURL(file)
+          e.preventDefault()
+          return
+        }
+      }
+    }
+    const text = e.clipboardData.getData('text')
+    if (text) {
+      const m = text.match(/https?:\/\/(?:www\.)?(?:youtu\.be\/|youtube\.com\/[^\s]+)/)
+      if (m) setVideoUrl(m[0])
     }
   }
 
@@ -107,28 +126,21 @@ export default function Home() {
         <form onSubmit={createPost} className="mt-4 space-y-2 bg-white p-4 rounded shadow">
           <textarea
             value={content}
-            onChange={e => setContent(e.target.value)}
+            onChange={e => {
+              const val = e.target.value
+              setContent(val)
+              const m = val.match(/https?:\/\/(?:www\.)?(?:youtu\.be\/|youtube\.com\/[^\s]+)/)
+              if (m) setVideoUrl(m[0])
+            }}
+            onPaste={handlePaste}
             placeholder="What's happening?"
             className="border p-2 w-full rounded"
-          />
-          <input
-            value={imageUrl}
-            onChange={e => setImageUrl(e.target.value)}
-            placeholder="Image URL (optional)"
-            className="border p-1 w-full rounded"
-          />
-          <input
-            value={videoUrl}
-            onChange={e => setVideoUrl(e.target.value)}
-            placeholder="Video or YouTube/Bilibili URL"
-            className="border p-1 w-full rounded"
           />
           <button className="bg-blue-600 text-white px-4 py-2 rounded" type="submit">Post</button>
         </form>
       )}
-      <h2 className="text-xl font-bold mt-6 mb-2">Home</h2>
-      <div className="space-y-4">
-        {feed.map(p => (
+      <div className="space-y-4 mt-6">
+        {posts.map(p => (
           <div key={p.id} className="bg-white rounded-lg shadow overflow-hidden">
             {p.imageUrl && (
               <img src={p.imageUrl} alt="" className="w-full h-48 object-cover" />
@@ -149,14 +161,6 @@ export default function Home() {
                 Like ({p.likes || 0})
               </button>
             </div>
-          </div>
-        ))}
-      </div>
-      <h2 className="text-xl font-bold mt-6 mb-2">Recommended</h2>
-      <div className="space-y-4">
-        {recs.map(p => (
-          <div key={p.id} className="bg-white p-3 rounded-lg shadow">
-            {p.content}
           </div>
         ))}
       </div>
