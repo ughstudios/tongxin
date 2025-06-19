@@ -7,6 +7,7 @@ export default function ComposeForm({ onPost }) {
   const [content, setContent] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [videoUrl, setVideoUrl] = useState('')
+  const [location, setLocation] = useState('')
 
   useEffect(() => {
     fetch('/api/session')
@@ -25,7 +26,7 @@ export default function ComposeForm({ onPost }) {
     const res = await fetch('/api/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content, imageUrl, videoUrl })
+      body: JSON.stringify({ content, imageUrl, videoUrl, location })
     })
     if (res.ok) {
       const data = await res.json()
@@ -35,12 +36,14 @@ export default function ComposeForm({ onPost }) {
         content,
         imageUrl,
         videoUrl,
-        likes: 0
+        likes: 0,
+        location
       }
       if (onPost) onPost(post)
       setContent('')
       setImageUrl('')
       setVideoUrl('')
+      setLocation('')
     }
   }
 
@@ -103,6 +106,12 @@ export default function ComposeForm({ onPost }) {
               }
             }}
             className="text-sm text-gray-600"
+          />
+          <input
+            value={location}
+            onChange={e => setLocation(e.target.value)}
+            placeholder="Location"
+            className="border p-1 text-sm"
           />
           <button className="bg-blue-500 text-white px-4 py-1 rounded-full" type="submit">
             Post
