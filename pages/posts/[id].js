@@ -16,7 +16,9 @@ export default function PostPage() {
   useEffect(() => {
     if (!id) return
     fetch('/api/posts?id=' + id).then(r => r.json()).then(setPost)
-    fetch('/api/comments?postId=' + id).then(r => r.json()).then(setComments)
+    fetch('/api/comments?postId=' + id + '&parentId=null')
+      .then(r => r.json())
+      .then(setComments)
     fetch('/api/session').then(r => r.json()).then(setUser)
     fetch('/api/users').then(r => r.json()).then(list => {
       const m = {}
@@ -76,18 +78,21 @@ export default function PostPage() {
                 <span>{new Date(c.createdAt).toLocaleString()}</span>
               </div>
               <p>{c.content}</p>
+              <Link href={`/thread/${c.id}`} className="text-blue-600 text-sm">Thread</Link>
             </div>
           </li>
         ))}
       </ul>
       {user && (
-        <form onSubmit={addComment} className="mt-4 flex gap-2">
-          <input
+        <form onSubmit={addComment} className="mt-4 space-y-2">
+          <textarea
             value={commentText}
             onChange={e => setCommentText(e.target.value)}
-            className="border p-1 flex-grow"
+            rows="3"
+            placeholder="Write a comment"
+            className="border p-2 w-full rounded resize-none focus:outline-none"
           />
-          <button type="submit" className="bg-blue-500 text-white px-3 rounded">Add</button>
+          <button type="submit" className="bg-blue-500 text-white px-3 py-1 rounded">Add</button>
         </form>
       )}
     </div>

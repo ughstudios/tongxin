@@ -8,6 +8,7 @@ TongXin ("One Heart") now runs on [Next.js](https://nextjs.org/) with API routes
 - Create, edit and delete posts with optional images and videos
 - Embed YouTube or Bilibili videos directly in posts
 - Comment on posts
+- Reply to comments in threaded conversations
 - Like posts and view a trending page
 - Follow other users and view profiles
 - Search posts and see simple recommendations
