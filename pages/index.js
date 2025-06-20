@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import VideoEmbed from '../components/VideoEmbed'
 import ComposeForm from '../components/ComposeForm'
@@ -25,7 +25,7 @@ export default function Home() {
     })
   }, [])
 
-  async function load(lim = limit) {
+  const load = useCallback(async (lim = limit) => {
     if (loading) return
     setLoading(true)
     try {
@@ -38,15 +38,19 @@ export default function Home() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [loading, offset, limit])
 
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) load()
     })
-    if (loader.current) obs.observe(loader.current)
-    return () => obs.disconnect()
-  }, [loader.current])
+    const el = loader.current
+    if (el) obs.observe(el)
+    return () => {
+      if (el) obs.unobserve(el)
+      obs.disconnect()
+    }
+  }, [load])
 
   async function like(id) {
     const res = await fetch('/api/likes', {
