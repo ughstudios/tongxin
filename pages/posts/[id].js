@@ -3,6 +3,11 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Avatar from '../../components/Avatar'
 import VideoEmbed from '../../components/VideoEmbed'
+import {
+  HeartIcon,
+  ArrowsRightLeftIcon,
+  ChatBubbleBottomCenterTextIcon
+} from '@heroicons/react/24/outline'
 
 export default function PostPage() {
   const router = useRouter()
@@ -133,11 +138,13 @@ export default function PostPage() {
             {post.imageUrl && <img src={post.imageUrl} alt="" className="mt-2 max-w-xs" />}
             <VideoEmbed url={post.videoUrl} />
             <div className="flex gap-2 mt-2">
-              <button onClick={likePost} className="bg-pink-500 text-white px-2 py-1 rounded">
-                {post.liked ? 'Unlike' : 'Like'} ({post.likes || 0})
+              <button onClick={likePost} className="bg-pink-500 text-white px-2 py-1 rounded flex items-center gap-1">
+                <HeartIcon className="w-5 h-5" />
+                <span>({post.likes || 0})</span>
               </button>
-              <button onClick={repostPost} className="bg-green-500 text-white px-2 py-1 rounded">
-                Repost ({post.repostCount || 0})
+              <button onClick={repostPost} className="bg-green-500 text-white px-2 py-1 rounded flex items-center gap-1">
+                <ArrowsRightLeftIcon className="w-5 h-5" />
+                <span>({post.repostCount || 0})</span>
               </button>
             </div>
             {user && user.id === post.userId && (
@@ -172,7 +179,9 @@ export default function PostPage() {
                 <span>{new Date(c.createdAt).toLocaleString()}</span>
               </div>
               <p>{c.content}</p>
-              <Link href={`/thread/${c.id}`} className="text-blue-600 text-sm">Thread</Link>
+              <Link href={`/thread/${c.id}`} className="text-blue-600 text-sm inline-flex items-center">
+                <ChatBubbleBottomCenterTextIcon className="w-5 h-5" />
+              </Link>
             </div>
           </li>
         ))}

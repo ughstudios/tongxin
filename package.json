@@ -16,7 +16,8 @@
     "sequelize": "^6.37.0",
     "sqlite3": "^5.1.6",
     "@capacitor/core": "^7.4.0",
-    "city-reverse-geocoder": "^0.0.1"
+    "city-reverse-geocoder": "^0.0.1",
+    "@heroicons/react": "^2.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.17",
