@@ -4,6 +4,7 @@ import Link from 'next/link'
 export default function Layout({ children }) {
   const [user, setUser] = useState(null)
   const [theme, setTheme] = useState('light')
+  const [unread, setUnread] = useState(0)
 
   useEffect(() => {
     fetch('/api/session')
@@ -22,6 +23,22 @@ export default function Layout({ children }) {
     }
   }, [theme])
 
+  useEffect(() => {
+    let timer
+    async function check() {
+      const r = await fetch('/api/unreadMessages')
+      if (r.ok) {
+        const data = await r.json()
+        setUnread(data.count)
+      }
+    }
+    if (user) {
+      check()
+      timer = setInterval(check, 10000)
+    }
+    return () => clearInterval(timer)
+  }, [user])
+
   async function logout() {
     await fetch('/api/session', { method: 'DELETE' })
     setUser(null)
@@ -36,7 +53,14 @@ export default function Layout({ children }) {
             <Link href="/home">Home</Link>
             <Link href="/trending">Trending</Link>
             <Link href="/search">Search</Link>
-            {user && <Link href="/messages">Messages</Link>}
+            {user && (
+              <Link href="/messages">
+                Messages
+                {unread > 0 && (
+                  <span className="ml-1 text-sm text-red-500">({unread})</span>
+                )}
+              </Link>
+            )}
             {user && <Link href="/compose">New Post</Link>}
             {user ? (
               <>
