@@ -19,7 +19,7 @@ export default function ThreadPage() {
     fetch('/api/session').then(r => r.json()).then(setUser)
     fetch('/api/users').then(r => r.json()).then(list => {
       const m = {}
-      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl }))
+      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
       setUsersMap(m)
     })
   }, [id])
@@ -49,6 +49,7 @@ export default function ThreadPage() {
         <div className="flex-1">
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <Link href={`/users/${comment.userId}`}>{usersMap[comment.userId]?.username || 'User'}</Link>
+            {usersMap[comment.userId]?.verified && <span className="text-blue-500">\u2713</span>}
             <span>{new Date(comment.createdAt).toLocaleString()}</span>
           </div>
           <p>{comment.content}</p>
@@ -61,6 +62,7 @@ export default function ThreadPage() {
             <div className="flex-1">
               <div className="flex items-center gap-2 text-sm text-gray-500">
                 <Link href={`/users/${r.userId}`}>{usersMap[r.userId]?.username || 'User'}</Link>
+                {usersMap[r.userId]?.verified && <span className="text-blue-500">\u2713</span>}
                 <span>{new Date(r.createdAt).toLocaleString()}</span>
               </div>
               <p>{r.content}</p>

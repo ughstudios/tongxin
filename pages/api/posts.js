@@ -1,9 +1,13 @@
 import { withSessionRoute } from '../../lib/session'
 import db from '../../models'
 
+function extractTags(text) {
+  return (text.match(/#[A-Za-z0-9_]+/g) || []).map(t => t.slice(1).toLowerCase())
+}
+
 async function handler(req, res) {
   await db.sync()
-  const { Post, Follow } = db
+  const { Post, Follow, Hashtag, Sequelize } = db
 
   if (req.method === 'GET') {
     if (req.query.id) {
@@ -18,6 +22,13 @@ async function handler(req, res) {
     if (req.query.q) {
       const q = req.query.q.toLowerCase()
       result = result.filter(p => (p.content || '').toLowerCase().includes(q))
+    }
+
+    if (req.query.tag) {
+      const tag = req.query.tag.toLowerCase()
+      const rows = await Hashtag.findAll({ where: { tag } })
+      const ids = rows.map(r => r.postId)
+      result = result.filter(p => ids.includes(p.id))
     }
 
     if (req.query.feed && req.session.user) {
@@ -55,6 +66,10 @@ async function handler(req, res) {
         location: orig.location,
         repostId
       })
+      const tags = extractTags(orig.content || '')
+      for (const tag of tags) {
+        await Hashtag.create({ tag, postId: post.id })
+      }
       return res.status(201).json(post)
     }
     if (!content || !content.trim()) {
@@ -67,6 +82,10 @@ async function handler(req, res) {
       videoUrl,
       location
     })
+    const tags = extractTags(content)
+    for (const tag of tags) {
+      await Hashtag.create({ tag, postId: post.id })
+    }
     return res.status(201).json(post)
   }
 
@@ -83,6 +102,11 @@ async function handler(req, res) {
     post.videoUrl = videoUrl
     post.location = location
     await post.save()
+    await Hashtag.destroy({ where: { postId: id } })
+    const tags = extractTags(content)
+    for (const tag of tags) {
+      await Hashtag.create({ tag, postId: id })
+    }
     return res.status(200).json(post)
   }
 
@@ -91,6 +115,7 @@ async function handler(req, res) {
     const { id } = req.body
     const post = await Post.findByPk(id)
     if (!post || post.userId !== req.session.user.id) return res.status(404).end()
+    await Hashtag.destroy({ where: { postId: id } })
     await post.destroy()
     return res.status(204).end()
   }

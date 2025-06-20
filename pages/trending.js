@@ -6,14 +6,16 @@ import VideoEmbed from '../components/VideoEmbed'
 export default function Trending() {
   const [posts, setPosts] = useState([])
   const [usersMap, setUsersMap] = useState({})
+  const [tags, setTags] = useState([])
 
   useEffect(() => {
     fetch('/api/posts?trending=1').then(r => r.json()).then(setPosts)
     fetch('/api/users').then(r => r.json()).then(list => {
       const m = {}
-      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl }))
+      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
       setUsersMap(m)
     })
+    fetch('/api/hashtags').then(r => r.json()).then(setTags)
   }, [])
 
   async function like(id) {
@@ -43,6 +45,14 @@ export default function Trending() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Trending Posts</h1>
+      <h2 className="text-xl font-bold mt-2">Trending Hashtags</h2>
+      <ul className="mb-4 space-y-1">
+        {tags.map(t => (
+          <li key={t.tag}>
+            <Link href={`/search?q=%23${t.tag}`}>#{t.tag}</Link> ({t.count})
+          </li>
+        ))}
+      </ul>
       <div className="space-y-4">
         {posts.map(p => (
           <div key={p.id} className="bg-white rounded-lg shadow p-3">
@@ -50,6 +60,7 @@ export default function Trending() {
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
               <Avatar url={usersMap[p.userId]?.avatarUrl} size={24} />
               <Link href={`/users/${p.userId}`}>{usersMap[p.userId]?.username || 'User'}</Link>
+              {usersMap[p.userId]?.verified && <span className="text-blue-500">\u2713</span>}
               <span>{new Date(p.createdAt).toLocaleString()}</span>
               {p.location && <span>{p.location}</span>}
             </div>
