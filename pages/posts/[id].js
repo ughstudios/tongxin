@@ -130,7 +130,7 @@ export default function PostPage() {
             {post.imageUrl && <img src={post.imageUrl} alt="" className="mt-2 max-w-xs" />}
             <VideoEmbed url={post.videoUrl} />
             <button onClick={likePost} className="block mt-2 bg-pink-500 text-white px-2 py-1 rounded">
-              Like ({post.likes || 0})
+              {post.liked ? 'Unlike' : 'Like'} ({post.likes || 0})
             </button>
             {user && user.id === post.userId && (
               <div className="mt-2 space-x-2 text-sm">

@@ -64,7 +64,7 @@ export default function Shorts() {
             <VideoEmbed url={p.videoUrl} />
             <p className="mt-2 mb-2">{p.content}</p>
             <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
-              Like ({p.likes || 0})
+              {p.liked ? 'Unlike' : 'Like'} ({p.likes || 0})
             </button>
           </div>
         ))}
