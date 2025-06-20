@@ -92,22 +92,24 @@ export default function UserPage() {
           </button>
         </form>
       ) : (
-        user && (
-          isFollowing ? (
-            <button onClick={unfollow} className="mt-2 bg-gray-300 px-2 rounded">
-              Unfollow
-            </button>
-          ) : (
-            <button onClick={follow} className="mt-2 bg-blue-500 text-white px-2 rounded">
-              Follow
-            </button>
-          )
-        )
-        {user && !isOwner && (
-          <Link href={`/messages/${id}`} className="ml-2 mt-2 inline-block bg-green-500 text-white px-2 rounded">
-            Message
-          </Link>
-        )}
+        <>
+          {user && (
+            isFollowing ? (
+              <button onClick={unfollow} className="mt-2 bg-gray-300 px-2 rounded">
+                Unfollow
+              </button>
+            ) : (
+              <button onClick={follow} className="mt-2 bg-blue-500 text-white px-2 rounded">
+                Follow
+              </button>
+            )
+          )}
+          {user && !isOwner && (
+            <Link href={`/messages/${id}`} className="ml-2 mt-2 inline-block bg-green-500 text-white px-2 rounded">
+              Message
+            </Link>
+          )}
+        </>
       )}
       <div className={isOwner ? 'mt-4 space-y-4' : 'mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3'}>
         {posts.map(p => (
