@@ -19,6 +19,16 @@ export default withSessionRoute(async function handler(req, res) {
       },
       order: [['createdAt', 'ASC']]
     })
+    await Message.update(
+      { read: true },
+      {
+        where: {
+          senderId: userId,
+          receiverId: user.id,
+          read: false
+        }
+      }
+    )
     return res.status(200).json(messages)
   }
 
@@ -28,7 +38,8 @@ export default withSessionRoute(async function handler(req, res) {
     const message = await Message.create({
       senderId: user.id,
       receiverId: to,
-      content
+      content,
+      read: false
     })
     return res.status(201).json(message)
   }
