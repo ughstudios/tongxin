@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     Post.belongsTo(models.Post, { foreignKey: 'repostId', as: 'repost' })
     Post.hasMany(models.Comment, { foreignKey: 'postId' })
     Post.hasMany(models.Like, { foreignKey: 'postId' })
+    Post.hasMany(models.Hashtag, { foreignKey: 'postId' })
   }
   return Post
 }

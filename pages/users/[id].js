@@ -71,6 +71,7 @@ export default function UserPage() {
       <div className="flex items-center gap-3 mt-4">
         <Avatar url={profile.avatarUrl} size={48} />
         <h1 className="text-2xl font-bold">{profile.username}</h1>
+        {profile.verified && <span className="text-blue-500">\u2713</span>}
       </div>
       {isOwner ? (
         <form onSubmit={saveAvatar} className="mt-2 flex gap-2 items-center">
@@ -91,8 +92,8 @@ export default function UserPage() {
           </button>
         </form>
       ) : (
-        user &&
-          (isFollowing ? (
+        user && (
+          isFollowing ? (
             <button onClick={unfollow} className="mt-2 bg-gray-300 px-2 rounded">
               Unfollow
             </button>
@@ -100,7 +101,13 @@ export default function UserPage() {
             <button onClick={follow} className="mt-2 bg-blue-500 text-white px-2 rounded">
               Follow
             </button>
-          ))
+          )
+        )
+        {user && !isOwner && (
+          <Link href={`/messages/${id}`} className="ml-2 mt-2 inline-block bg-green-500 text-white px-2 rounded">
+            Message
+          </Link>
+        )}
       )}
       <div className={isOwner ? 'mt-4 space-y-4' : 'mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3'}>
         {posts.map(p => (
@@ -109,6 +116,7 @@ export default function UserPage() {
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
               <Avatar url={profile.avatarUrl} size={24} />
               <span>{profile.username}</span>
+              {profile.verified && <span className="text-blue-500">\u2713</span>}
               {isOwner && <span>{new Date(p.createdAt).toLocaleString()}</span>}
             </div>
             <VideoEmbed url={p.videoUrl} />

@@ -9,13 +9,13 @@ export default withSessionRoute(async function handler(req, res) {
 
   if (req.method === 'GET') {
     const user = await User.findByPk(sessionUser.id)
-    return res.status(200).json({ id: user.id, username: user.username, avatarUrl: user.avatarUrl })
+    return res.status(200).json({ id: user.id, username: user.username, avatarUrl: user.avatarUrl, verified: user.verified })
   }
 
   if (req.method === 'PUT') {
-    const { avatarUrl } = req.body
-    await User.update({ avatarUrl }, { where: { id: sessionUser.id } })
-    return res.status(200).json({ avatarUrl })
+    const { avatarUrl, verified } = req.body
+    await User.update({ avatarUrl, verified }, { where: { id: sessionUser.id } })
+    return res.status(200).json({ avatarUrl, verified })
   }
 
   res.status(405).end()

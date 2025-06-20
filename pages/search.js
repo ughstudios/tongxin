@@ -12,7 +12,7 @@ export default function Search() {
     setPosts(await res.json())
     fetch('/api/users').then(r => r.json()).then(list => {
       const m = {}
-      list.forEach(u => (m[u.id] = u.username))
+      list.forEach(u => (m[u.id] = { username: u.username, verified: u.verified }))
       setUsersMap(m)
     })
   }
@@ -53,7 +53,8 @@ export default function Search() {
           <div key={p.id} className="bg-white p-3 rounded-lg shadow">
             <Link href={`/posts/${p.id}`} className="font-medium block mb-1">{p.content}</Link>
             <div className="text-sm text-gray-500 mb-2">
-              by <Link href={`/users/${p.userId}`}>{usersMap[p.userId] || 'User'}</Link>
+              by <Link href={`/users/${p.userId}`}>{usersMap[p.userId]?.username || 'User'}</Link>
+              {usersMap[p.userId]?.verified && <span className="text-blue-500 ml-1">\u2713</span>}
               <span className="ml-1">{new Date(p.createdAt).toLocaleString()}</span>
               {p.location && <span className="ml-1">{p.location}</span>}
             </div>

@@ -12,7 +12,7 @@ export default function HomePage() {
     fetch('/api/posts?feed=1').then(r => r.json()).then(setPosts)
     fetch('/api/users').then(r => r.json()).then(list => {
       const m = {}
-      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl }))
+      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
       setUsersMap(m)
     })
   }, [])
@@ -52,6 +52,7 @@ export default function HomePage() {
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
               <Avatar url={usersMap[p.userId]?.avatarUrl} size={24} />
               <Link href={`/users/${p.userId}`}>{usersMap[p.userId]?.username || 'User'}</Link>
+              {usersMap[p.userId]?.verified && <span className="text-blue-500">\u2713</span>}
               <span>{new Date(p.createdAt).toLocaleString()}</span>
               {p.location && <span>{p.location}</span>}
             </div>
