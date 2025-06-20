@@ -4,13 +4,16 @@ import Avatar from '../components/Avatar'
 import VideoEmbed from '../components/VideoEmbed'
 import ComposeForm from '../components/ComposeForm'
 import { HeartIcon, ArrowsRightLeftIcon } from '@heroicons/react/24/outline'
+import Spinner from '../components/Spinner'
 
 export default function Shorts() {
   const [posts, setPosts] = useState([])
   const [usersMap, setUsersMap] = useState({})
-  const [offset, setOffset] = useState(0)
+  const [loading, setLoading] = useState(false)
   const loader = useRef(null)
+  const offsetRef = useRef(0)
   const limit = 5
+  const loadingRef = useRef(false)
 
   useEffect(() => {
     fetch('/api/users').then(r => r.json()).then(list => {
@@ -22,11 +25,21 @@ export default function Shorts() {
   }, [])
 
   async function load() {
-    const res = await fetch(`/api/posts?video=1&offset=${offset}&limit=${limit}`)
-    if (res.ok) {
-      const data = await res.json()
-      setPosts(p => [...p, ...data])
-      setOffset(o => o + limit)
+    if (loadingRef.current) return
+    loadingRef.current = true
+    setLoading(true)
+    try {
+      const res = await fetch(
+        `/api/posts?video=1&offset=${offsetRef.current}&limit=${limit}`
+      )
+      if (res.ok) {
+        const data = await res.json()
+        setPosts(p => [...p, ...data])
+        offsetRef.current += limit
+      }
+    } finally {
+      loadingRef.current = false
+      setLoading(false)
     }
   }
 
@@ -102,6 +115,7 @@ export default function Shorts() {
             </div>
           </div>
         ))}
+        {loading && <Spinner />}
         <div ref={loader} className="h-6" />
       </div>
     </div>
