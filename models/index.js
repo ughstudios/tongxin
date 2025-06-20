@@ -1,9 +1,12 @@
 'use strict'
 const Sequelize = require('sequelize')
-const env = process.env.NODE_ENV || 'development'
-const config = require('../config/config.js')[env]
+const path = require('path')
 
-const sequelize = new Sequelize(config)
+const dbFile = process.env.NODE_ENV === 'production'
+  ? path.join(process.cwd(), 'data', 'prod.db')
+  : path.join(process.cwd(), 'data', 'test.db')
+
+const sequelize = new Sequelize({ dialect: 'sqlite', storage: dbFile })
 
 const User = require('./user')(sequelize, Sequelize.DataTypes)
 const Post = require('./post')(sequelize, Sequelize.DataTypes)
