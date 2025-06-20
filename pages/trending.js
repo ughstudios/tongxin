@@ -38,6 +38,8 @@ export default function Trending() {
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
               <Avatar url={usersMap[p.userId]?.avatarUrl} size={24} />
               <Link href={`/users/${p.userId}`}>{usersMap[p.userId]?.username || 'User'}</Link>
+              <span>{new Date(p.createdAt).toLocaleString()}</span>
+              {p.location && <span>{p.location}</span>}
             </div>
             <VideoEmbed url={p.videoUrl} />
             <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">

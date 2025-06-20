@@ -7,6 +7,7 @@ export default function ComposeForm({ onPost }) {
   const [content, setContent] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [videoUrl, setVideoUrl] = useState('')
+  const [location, setLocation] = useState('')
 
   useEffect(() => {
     fetch('/api/session')
@@ -17,6 +18,12 @@ export default function ComposeForm({ onPost }) {
           fetch('/api/profile').then(r => r.json()).then(setProfile)
         }
       })
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        const { latitude, longitude } = pos.coords
+        setLocation(`${latitude.toFixed(6)},${longitude.toFixed(6)}`)
+      })
+    }
   }, [])
 
   async function createPost(e) {
@@ -25,7 +32,7 @@ export default function ComposeForm({ onPost }) {
     const res = await fetch('/api/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content, imageUrl, videoUrl })
+      body: JSON.stringify({ content, imageUrl, videoUrl, location })
     })
     if (res.ok) {
       const data = await res.json()
@@ -35,12 +42,20 @@ export default function ComposeForm({ onPost }) {
         content,
         imageUrl,
         videoUrl,
-        likes: 0
+        likes: 0,
+        location
       }
       if (onPost) onPost(post)
       setContent('')
       setImageUrl('')
       setVideoUrl('')
+      setLocation('')
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          const { latitude, longitude } = pos.coords
+          setLocation(`${latitude.toFixed(6)},${longitude.toFixed(6)}`)
+        })
+      }
     }
   }
 

@@ -42,24 +42,26 @@ async function handler(req, res) {
 
   if (req.method === 'POST') {
     if (!req.session.user) return res.status(401).end()
-    const { content, imageUrl, videoUrl } = req.body
+    const { content, imageUrl, videoUrl, location } = req.body
     const post = await Post.create({
       userId: req.session.user.id,
       content,
       imageUrl,
-      videoUrl
+      videoUrl,
+      location
     })
     return res.status(201).json({ id: post.id })
   }
 
   if (req.method === 'PUT') {
     if (!req.session.user) return res.status(401).end()
-    const { id, content, imageUrl, videoUrl } = req.body
+    const { id, content, imageUrl, videoUrl, location } = req.body
     const post = await Post.findByPk(id)
     if (!post || post.userId !== req.session.user.id) return res.status(404).end()
     post.content = content
     post.imageUrl = imageUrl
     post.videoUrl = videoUrl
+    post.location = location
     await post.save()
     return res.status(200).json(post)
   }
