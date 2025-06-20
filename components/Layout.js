@@ -22,6 +22,7 @@ export default function Layout({ children }) {
             <Link href="/home">Home</Link>
             <Link href="/trending">Trending</Link>
             <Link href="/search">Search</Link>
+            {user && <Link href="/messages">Messages</Link>}
             {user && <Link href="/compose">New Post</Link>}
             {user ? (
               <>
