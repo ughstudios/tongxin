@@ -57,7 +57,14 @@ export default function Shorts() {
     })
     if (res.ok) {
       const post = await res.json()
-      setPosts(p => [post, ...p])
+      setPosts(p => [
+        post,
+        ...p.map(x =>
+          x.id === id
+            ? { ...x, repostCount: (x.repostCount || 0) + 1 }
+            : x
+        )
+      ])
     }
   }
 

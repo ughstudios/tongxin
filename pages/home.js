@@ -37,7 +37,14 @@ export default function HomePage() {
     })
     if (res.ok) {
       const post = await res.json()
-      setPosts([post, ...posts])
+      setPosts([
+        post,
+        ...posts.map(p =>
+          p.id === id
+            ? { ...p, repostCount: (p.repostCount || 0) + 1 }
+            : p
+        )
+      ])
     }
   }
 
