@@ -72,6 +72,10 @@ export default function PostPage() {
     })
     if (res.ok) {
       await res.json()
+      setPost(p => ({
+        ...p,
+        repostCount: (p.repostCount || 0) + 1
+      }))
     }
   }
 
