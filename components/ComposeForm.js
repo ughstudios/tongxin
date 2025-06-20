@@ -83,7 +83,7 @@ export default function ComposeForm({ onPost }) {
   if (!user) return null
 
   return (
-    <form onSubmit={createPost} className="mt-4 bg-white p-4 rounded-xl border flex gap-3 shadow">
+    <form onSubmit={createPost} className="mt-4 mb-6 bg-white p-4 rounded-xl border flex gap-3 shadow">
       <Avatar url={profile?.avatarUrl} size={48} />
       <div className="flex-1">
         <textarea

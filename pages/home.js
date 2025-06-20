@@ -29,6 +29,18 @@ export default function HomePage() {
     }
   }
 
+  async function repost(id) {
+    const res = await fetch('/api/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ repostId: id })
+    })
+    if (res.ok) {
+      const post = await res.json()
+      setPosts([post, ...posts])
+    }
+  }
+
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Home</h1>
@@ -44,9 +56,14 @@ export default function HomePage() {
               {p.location && <span>{p.location}</span>}
             </div>
             <VideoEmbed url={p.videoUrl} />
-            <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
-              {p.liked ? 'Unlike' : 'Like'} ({p.likes || 0})
-            </button>
+            <div className="flex gap-2 mt-2">
+              <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
+                {p.liked ? 'Unlike' : 'Like'} ({p.likes || 0})
+              </button>
+              <button onClick={() => repost(p.id)} className="bg-green-500 text-white px-2 py-1 rounded">
+                Repost
+              </button>
+            </div>
           </div>
         ))}
       </div>

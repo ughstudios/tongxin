@@ -42,7 +42,20 @@ async function handler(req, res) {
 
   if (req.method === 'POST') {
     if (!req.session.user) return res.status(401).end()
-    const { content, imageUrl, videoUrl, location } = req.body
+    const { content, imageUrl, videoUrl, location, repostId } = req.body
+    if (repostId) {
+      const orig = await Post.findByPk(repostId)
+      if (!orig) return res.status(404).end()
+      const post = await Post.create({
+        userId: req.session.user.id,
+        content: orig.content,
+        imageUrl: orig.imageUrl,
+        videoUrl: orig.videoUrl,
+        location: orig.location,
+        repostId
+      })
+      return res.status(201).json(post)
+    }
     const post = await Post.create({
       userId: req.session.user.id,
       content,
