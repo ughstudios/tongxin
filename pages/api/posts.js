@@ -8,7 +8,7 @@ function extractTags(text) {
 
 async function handler(req, res) {
   await db.sync()
-  const { Post, Follow, Hashtag, Sequelize } = db
+  const { Post, Follow, Hashtag, Comment, Like, Sequelize } = db
 
   if (req.method === 'GET') {
     if (req.query.id) {
@@ -120,7 +120,11 @@ async function handler(req, res) {
     const { id } = req.body
     const post = await Post.findByPk(id)
     if (!post || post.userId !== req.session.user.id) return res.status(404).end()
+    await Comment.destroy({ where: { postId: id, parentId: { [Sequelize.Op.not]: null } } })
+    await Comment.destroy({ where: { postId: id } })
+    await Like.destroy({ where: { postId: id } })
     await Hashtag.destroy({ where: { postId: id } })
+    await Post.update({ repostId: null }, { where: { repostId: id } })
     await post.destroy()
     return res.status(204).end()
   }
