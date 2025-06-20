@@ -1,10 +1,12 @@
 import { withSessionRoute } from '../../lib/session'
 import db from '../../models'
+import { addRepostInfo } from '../../lib/postHelpers'
 
 async function handler(req, res) {
   await db.sync()
   const { Post, Follow } = db
   const posts = await Post.findAll()
+  await addRepostInfo(posts, Post)
 
   if (req.session.user) {
     const follows = await Follow.findAll({ where: { userId: req.session.user.id } })
