@@ -93,24 +93,6 @@ export default function PostPage() {
               onChange={e => setFormContent(e.target.value)}
               className="border p-2 w-full"
             />
-            <input
-              value={formImage}
-              onChange={e => setFormImage(e.target.value)}
-              placeholder="Image URL"
-              className="border p-1 w-full"
-            />
-            <input
-              value={formVideo}
-              onChange={e => setFormVideo(e.target.value)}
-              placeholder="Video URL"
-              className="border p-1 w-full"
-            />
-            <input
-              value={formLocation}
-              onChange={e => setFormLocation(e.target.value)}
-              placeholder="Location"
-              className="border p-1 w-full"
-            />
             <button
               onClick={async () => {
                 const res = await fetch('/api/posts', {
