@@ -27,13 +27,13 @@ const db = {
 
 const globalForSync = globalThis
 let syncPromise = globalForSync._syncPromise
-db.sync = () => {
-  if (!syncPromise) {
-    syncPromise = sequelize.sync({ alter: true })
-    globalForSync._syncPromise = syncPromise
+  db.sync = () => {
+    if (!syncPromise) {
+      syncPromise = sequelize.sync()
+      globalForSync._syncPromise = syncPromise
+    }
+    return syncPromise
   }
-  return syncPromise
-}
 
 Object.values(db).forEach(model => {
   if (model && model.associate) model.associate(db)
