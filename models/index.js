@@ -29,7 +29,7 @@ const globalForSync = globalThis
 let syncPromise = globalForSync._syncPromise
 db.sync = () => {
   if (!syncPromise) {
-    syncPromise = sequelize.sync()
+    syncPromise = sequelize.sync({ alter: true })
     globalForSync._syncPromise = syncPromise
   }
   return syncPromise
