@@ -23,6 +23,7 @@ export default function Compose() {
   async function createPost(e) {
     e.preventDefault()
     if (!user) return
+    if (!content.trim()) return
     const res = await fetch('/api/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
