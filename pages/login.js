@@ -20,7 +20,7 @@ export default function Login() {
 
   return (
     <div className="flex justify-center mt-8">
-      <form onSubmit={login} className="space-y-3 bg-white p-6 rounded shadow w-full max-w-sm">
+      <form onSubmit={login} className="space-y-3 bg-white dark:bg-gray-800 p-6 rounded shadow w-full max-w-sm">
         <input
           value={username}
           onChange={e => setUsername(e.target.value)}

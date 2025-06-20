@@ -12,7 +12,9 @@ export default async function handler(req, res) {
     if (existing) return res.status(409).end()
     const passwordHash = await bcrypt.hash(password, 10)
     const user = await User.create({ username, password: passwordHash })
-    return res.status(201).json({ id: user.id, username: user.username })
+    return res
+      .status(201)
+      .json({ id: user.id, username: user.username, theme: user.theme })
   }
 
   if (req.method === 'GET') {
@@ -27,7 +29,8 @@ export default async function handler(req, res) {
           username: user.username,
           avatarUrl: user.avatarUrl,
           verified: user.verified,
-          following: follows.map(f => f.followId)
+          following: follows.map(f => f.followId),
+          theme: user.theme
         })
     }
     const users = await User.findAll()

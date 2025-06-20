@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     username: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     avatarUrl: DataTypes.STRING,
-    verified: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }
+    verified: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+    theme: { type: DataTypes.STRING, allowNull: false, defaultValue: 'light' }
   })
   User.associate = models => {
     User.hasMany(models.Post, { foreignKey: 'userId' })
