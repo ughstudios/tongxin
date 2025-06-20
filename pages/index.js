@@ -57,7 +57,7 @@ export default function Home() {
       <ComposeForm onPost={post => setPosts([post, ...posts])} />
       <div className="space-y-4 mt-6">
         {posts.map(p => (
-          <div key={p.id} className="bg-white rounded-lg shadow overflow-hidden">
+          <div key={p.id} className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
             {p.imageUrl && (
               <img src={p.imageUrl} alt="" className="w-full h-48 object-cover" />
             )}

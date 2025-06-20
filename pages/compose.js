@@ -60,7 +60,7 @@ export default function Compose() {
 
   return (
     <div className="max-w-xl mx-auto mt-6">
-      <form onSubmit={createPost} className="bg-white p-4 rounded-xl border flex gap-3 shadow">
+      <form onSubmit={createPost} className="bg-white dark:bg-gray-800 p-4 rounded-xl border flex gap-3 shadow">
         <Avatar url={profile?.avatarUrl} size={48} />
         <div className="flex-1">
           <textarea

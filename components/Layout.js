@@ -3,10 +3,24 @@ import Link from 'next/link'
 
 export default function Layout({ children }) {
   const [user, setUser] = useState(null)
+  const [theme, setTheme] = useState('light')
 
   useEffect(() => {
-    fetch('/api/session').then(r => r.json()).then(setUser)
+    fetch('/api/session')
+      .then(r => r.json())
+      .then(u => {
+        setUser(u)
+        if (u && u.theme) setTheme(u.theme)
+      })
   }, [])
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [theme])
 
   async function logout() {
     await fetch('/api/session', { method: 'DELETE' })
@@ -14,8 +28,8 @@ export default function Layout({ children }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 bg-white shadow z-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-gray-100">
+      <header className="sticky top-0 bg-white dark:bg-gray-800 shadow z-50">
         <div className="flex items-center justify-between p-4">
           <Link href="/" className="text-xl font-bold">TongXin</Link>
           <nav className="space-x-4 flex items-center">
