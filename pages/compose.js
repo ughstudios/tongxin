@@ -56,6 +56,16 @@ export default function Compose() {
     }
   }
 
+  function handleDrop(e) {
+    e.preventDefault()
+    const file = e.dataTransfer.files[0]
+    if (file && file.type.startsWith('video/')) {
+      const reader = new FileReader()
+      reader.onload = () => setVideoUrl(reader.result)
+      reader.readAsDataURL(file)
+    }
+  }
+
   if (!user) return <p className="mt-4">Please login first.</p>
 
   return (
@@ -83,19 +93,13 @@ export default function Compose() {
             <video src={videoUrl} controls className="mt-3 w-full rounded-xl" />
           )}
           <div className="flex items-center justify-between mt-3">
-            <input
-              type="file"
-              accept="video/*"
-              onChange={e => {
-                const file = e.target.files[0]
-                if (file) {
-                  const reader = new FileReader()
-                  reader.onload = () => setVideoUrl(reader.result)
-                  reader.readAsDataURL(file)
-                }
-              }}
-              className="text-sm text-gray-600"
-            />
+            <div
+              onDrop={handleDrop}
+              onDragOver={e => e.preventDefault()}
+              className="flex-1 text-sm text-gray-600 border border-dashed rounded p-2 text-center mr-2"
+            >
+              Drag video here
+            </div>
             {content.trim() && (
               <button
                 type="submit"
