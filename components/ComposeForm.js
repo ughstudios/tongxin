@@ -119,9 +119,14 @@ export default function ComposeForm({ onPost }) {
             }}
             className="text-sm text-gray-600"
           />
-          <button className="bg-blue-500 text-white px-4 py-1 rounded-full" type="submit">
-            Post
-          </button>
+          {content.trim() && (
+            <button
+              className="bg-blue-500 text-white px-4 py-1 rounded-full"
+              type="submit"
+            >
+              Post
+            </button>
+          )}
         </div>
       </div>
     </form>
