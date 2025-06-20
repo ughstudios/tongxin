@@ -3,6 +3,10 @@ import Link from 'next/link'
 import Avatar from '../components/Avatar'
 import VideoEmbed from '../components/VideoEmbed'
 import ComposeForm from '../components/ComposeForm'
+import {
+  HeartIcon,
+  ArrowsRightLeftIcon
+} from '@heroicons/react/24/outline'
 
 export default function HomePage() {
   const [posts, setPosts] = useState([])
@@ -71,11 +75,13 @@ export default function HomePage() {
             )}
             <VideoEmbed url={p.videoUrl} />
             <div className="flex gap-2 mt-2">
-              <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
-                {p.liked ? 'Unlike' : 'Like'} ({p.likes || 0})
+              <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded flex items-center gap-1">
+                <HeartIcon className="w-5 h-5" />
+                <span>({p.likes || 0})</span>
               </button>
-              <button onClick={() => repost(p.id)} className="bg-green-500 text-white px-2 py-1 rounded">
-                Repost ({p.repostCount || 0})
+              <button onClick={() => repost(p.id)} className="bg-green-500 text-white px-2 py-1 rounded flex items-center gap-1">
+                <ArrowsRightLeftIcon className="w-5 h-5" />
+                <span>({p.repostCount || 0})</span>
               </button>
             </div>
           </div>
