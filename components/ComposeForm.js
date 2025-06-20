@@ -28,7 +28,15 @@ export default function ComposeForm({ onPost }) {
       body: JSON.stringify({ content, imageUrl, videoUrl })
     })
     if (res.ok) {
-      const post = await res.json()
+      const data = await res.json()
+      const post = {
+        id: data.id,
+        userId: user.id,
+        content,
+        imageUrl,
+        videoUrl,
+        likes: 0
+      }
       if (onPost) onPost(post)
       setContent('')
       setImageUrl('')
@@ -60,9 +68,9 @@ export default function ComposeForm({ onPost }) {
   if (!user) return null
 
   return (
-    <form onSubmit={createPost} className="mt-4 space-y-2 bg-white p-4 rounded shadow">
-      <div className="flex gap-3">
-        <Avatar url={profile?.avatarUrl} size={48} />
+    <form onSubmit={createPost} className="mt-4 bg-white p-4 rounded-xl border flex gap-3 shadow">
+      <Avatar url={profile?.avatarUrl} size={48} />
+      <div className="flex-1">
         <textarea
           value={content}
           onChange={e => {
@@ -73,30 +81,34 @@ export default function ComposeForm({ onPost }) {
           }}
           onPaste={handlePaste}
           placeholder="What's happening?"
-          className="border p-2 w-full rounded resize-none focus:outline-none"
+          rows={3}
+          className="w-full resize-none border-none focus:ring-0 text-lg"
         />
+        {imageUrl && (
+          <img src={imageUrl} alt="preview" className="mt-3 w-full rounded-xl" />
+        )}
+        {videoUrl && (
+          <video src={videoUrl} controls className="mt-3 w-full rounded-xl" />
+        )}
+        <div className="flex items-center justify-between mt-3">
+          <input
+            type="file"
+            accept="video/*"
+            onChange={e => {
+              const file = e.target.files[0]
+              if (file) {
+                const reader = new FileReader()
+                reader.onload = () => setVideoUrl(reader.result)
+                reader.readAsDataURL(file)
+              }
+            }}
+            className="text-sm text-gray-600"
+          />
+          <button className="bg-blue-500 text-white px-4 py-1 rounded-full" type="submit">
+            Post
+          </button>
+        </div>
       </div>
-      {imageUrl && (
-        <img src={imageUrl} alt="preview" className="w-24 h-24 object-cover rounded" />
-      )}
-      {videoUrl && (
-        <video src={videoUrl} controls className="w-24 h-24 rounded" />
-      )}
-      <input
-        type="file"
-        accept="video/*"
-        onChange={e => {
-          const file = e.target.files[0]
-          if (file) {
-            const reader = new FileReader()
-            reader.onload = () => setVideoUrl(reader.result)
-            reader.readAsDataURL(file)
-          }
-        }}
-      />
-      <button className="bg-blue-600 text-white px-4 py-2 rounded" type="submit">
-        Post
-      </button>
     </form>
   )
 }
