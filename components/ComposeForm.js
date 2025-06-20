@@ -20,6 +20,18 @@ export default function ComposeForm({ onPost }) {
       })
   }, [])
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const { latitude, longitude } = pos.coords
+          setLocation(latitude.toFixed(5) + ',' + longitude.toFixed(5))
+        },
+        () => setLocation('')
+      )
+    }
+  }, [])
+
   async function createPost(e) {
     e.preventDefault()
     if (!user) return
@@ -43,7 +55,6 @@ export default function ComposeForm({ onPost }) {
       setContent('')
       setImageUrl('')
       setVideoUrl('')
-      setLocation('')
     }
   }
 
@@ -106,12 +117,6 @@ export default function ComposeForm({ onPost }) {
               }
             }}
             className="text-sm text-gray-600"
-          />
-          <input
-            value={location}
-            onChange={e => setLocation(e.target.value)}
-            placeholder="Location"
-            className="border p-1 text-sm"
           />
           <button className="bg-blue-500 text-white px-4 py-1 rounded-full" type="submit">
             Post
