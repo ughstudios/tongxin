@@ -49,6 +49,18 @@ export default function Shorts() {
     }
   }
 
+  async function repost(id) {
+    const res = await fetch('/api/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ repostId: id })
+    })
+    if (res.ok) {
+      const post = await res.json()
+      setPosts(p => [post, ...p])
+    }
+  }
+
   return (
     <div>
       <ComposeForm onPost={post => setPosts([post, ...posts])} />
@@ -63,9 +75,14 @@ export default function Shorts() {
             </div>
             <VideoEmbed url={p.videoUrl} />
             <p className="mt-2 mb-2">{p.content}</p>
-            <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
-              {p.liked ? 'Unlike' : 'Like'} ({p.likes || 0})
-            </button>
+            <div className="flex gap-2">
+              <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
+                {p.liked ? 'Unlike' : 'Like'} ({p.likes || 0})
+              </button>
+              <button onClick={() => repost(p.id)} className="bg-green-500 text-white px-2 py-1 rounded">
+                Repost
+              </button>
+            </div>
           </div>
         ))}
         <div ref={loader} className="h-6" />

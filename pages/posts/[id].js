@@ -64,6 +64,17 @@ export default function PostPage() {
     if (res.ok) setPost(await res.json())
   }
 
+  async function repostPost() {
+    const res = await fetch('/api/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ repostId: id })
+    })
+    if (res.ok) {
+      await res.json()
+    }
+  }
+
   if (!post) return <p>Loading...</p>
 
   return (
@@ -129,9 +140,14 @@ export default function PostPage() {
             <p className="mb-2">{post.content}</p>
             {post.imageUrl && <img src={post.imageUrl} alt="" className="mt-2 max-w-xs" />}
             <VideoEmbed url={post.videoUrl} />
-            <button onClick={likePost} className="block mt-2 bg-pink-500 text-white px-2 py-1 rounded">
-              {post.liked ? 'Unlike' : 'Like'} ({post.likes || 0})
-            </button>
+            <div className="flex gap-2 mt-2">
+              <button onClick={likePost} className="bg-pink-500 text-white px-2 py-1 rounded">
+                {post.liked ? 'Unlike' : 'Like'} ({post.likes || 0})
+              </button>
+              <button onClick={repostPost} className="bg-green-500 text-white px-2 py-1 rounded">
+                Repost
+              </button>
+            </div>
             {user && user.id === post.userId && (
               <div className="mt-2 space-x-2 text-sm">
                 <button onClick={() => setEditing(true)} className="text-blue-600">Edit</button>
