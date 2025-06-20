@@ -137,6 +137,12 @@ export default function PostPage() {
           </div>
         ) : (
           <>
+            {post.repostId && (
+              <p className="text-sm text-gray-500 mb-1">
+                Reposted from{' '}
+                <Link href={`/users/${post.repostUserId}`}>{usersMap[post.repostUserId]?.username || 'User'}</Link>
+              </p>
+            )}
             <p className="mb-2">{post.content}</p>
             {post.imageUrl && <img src={post.imageUrl} alt="" className="mt-2 max-w-xs" />}
             <VideoEmbed url={post.videoUrl} />
@@ -145,7 +151,7 @@ export default function PostPage() {
                 {post.liked ? 'Unlike' : 'Like'} ({post.likes || 0})
               </button>
               <button onClick={repostPost} className="bg-green-500 text-white px-2 py-1 rounded">
-                Repost
+                Repost ({post.repostCount || 0})
               </button>
             </div>
             {user && user.id === post.userId && (
