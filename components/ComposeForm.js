@@ -81,9 +81,9 @@ export default function ComposeForm({ onPost }) {
   }
 
   function handleDrop(e) {
-    e.preventDefault()
     const file = e.dataTransfer.files[0]
     if (file && file.type.startsWith('video/')) {
+      e.preventDefault()
       const reader = new FileReader()
       reader.onload = () => setVideoUrl(reader.result)
       reader.readAsDataURL(file)
@@ -105,6 +105,8 @@ export default function ComposeForm({ onPost }) {
             if (m) setVideoUrl(m[0])
           }}
           onPaste={handlePaste}
+          onDrop={handleDrop}
+          onDragOver={e => e.preventDefault()}
           placeholder="What's happening?"
           rows={3}
           className="w-full resize-none border-none focus:ring-0 text-lg"
@@ -115,14 +117,7 @@ export default function ComposeForm({ onPost }) {
         {videoUrl && (
           <video src={videoUrl} controls className="mt-3 w-full rounded-xl" />
         )}
-        <div className="flex items-center justify-between mt-3">
-          <div
-            onDrop={handleDrop}
-            onDragOver={e => e.preventDefault()}
-            className="flex-1 text-sm text-gray-600 border border-dashed rounded p-2 text-center mr-2"
-          >
-            Drag video here
-          </div>
+        <div className="flex items-center justify-end mt-3">
           {content.trim() && (
             <button
               className="bg-blue-500 text-white px-4 py-1 rounded-full"
