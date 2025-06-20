@@ -15,7 +15,7 @@ export default function Layout({ children }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 bg-white shadow">
+      <header className="sticky top-0 bg-white shadow z-50">
         <div className="flex items-center justify-between p-4">
           <Link href="/" className="text-xl font-bold">TongXin</Link>
           <nav className="space-x-4 flex items-center">
