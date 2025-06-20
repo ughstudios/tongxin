@@ -5,6 +5,13 @@ async function handler(req, res) {
   await db.sync()
   const { Post, Follow } = db
   const posts = await Post.findAll()
+  for (const p of posts) {
+    p.dataValues.repostCount = await Post.count({ where: { repostId: p.id } })
+    if (p.repostId) {
+      const orig = await Post.findByPk(p.repostId)
+      p.dataValues.repostUserId = orig ? orig.userId : null
+    }
+  }
 
   if (req.session.user) {
     const follows = await Follow.findAll({ where: { userId: req.session.user.id } })
