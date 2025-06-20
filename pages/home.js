@@ -56,13 +56,19 @@ export default function HomePage() {
               <span>{new Date(p.createdAt).toLocaleString()}</span>
               {p.location && <span>{p.location}</span>}
             </div>
+            {p.repostId && (
+              <p className="text-sm text-gray-500 mb-1">
+                Reposted from{' '}
+                <Link href={`/users/${p.repostUserId}`}>{usersMap[p.repostUserId]?.username || 'User'}</Link>
+              </p>
+            )}
             <VideoEmbed url={p.videoUrl} />
             <div className="flex gap-2 mt-2">
               <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
                 {p.liked ? 'Unlike' : 'Like'} ({p.likes || 0})
               </button>
               <button onClick={() => repost(p.id)} className="bg-green-500 text-white px-2 py-1 rounded">
-                Repost
+                Repost ({p.repostCount || 0})
               </button>
             </div>
           </div>

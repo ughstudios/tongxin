@@ -12,6 +12,13 @@ async function handler(req, res) {
   if (req.method === 'GET') {
     if (req.query.id) {
       const post = await Post.findByPk(req.query.id)
+      if (post) {
+        post.dataValues.repostCount = await Post.count({ where: { repostId: post.id } })
+        if (post.repostId) {
+          const orig = await Post.findByPk(post.repostId)
+          post.dataValues.repostUserId = orig ? orig.userId : null
+        }
+      }
       return res.status(post ? 200 : 404).json(post || null)
     }
 
@@ -48,7 +55,13 @@ async function handler(req, res) {
     const offset = parseInt(req.query.offset || '0', 10)
     const limit = parseInt(req.query.limit || result.length, 10)
     const slice = result.slice(offset, offset + limit)
-
+    for (const p of slice) {
+      p.dataValues.repostCount = await Post.count({ where: { repostId: p.id } })
+      if (p.repostId) {
+        const orig = await Post.findByPk(p.repostId)
+        p.dataValues.repostUserId = orig ? orig.userId : null
+      }
+    }
     return res.status(200).json(slice)
   }
 
@@ -70,6 +83,8 @@ async function handler(req, res) {
       for (const tag of tags) {
         await Hashtag.create({ tag, postId: post.id })
       }
+      post.dataValues.repostUserId = orig.userId
+      post.dataValues.repostCount = 0
       return res.status(201).json(post)
     }
     if (!content || !content.trim()) {
@@ -86,6 +101,7 @@ async function handler(req, res) {
     for (const tag of tags) {
       await Hashtag.create({ tag, postId: post.id })
     }
+    post.dataValues.repostCount = 0
     return res.status(201).json(post)
   }
 

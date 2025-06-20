@@ -64,6 +64,12 @@ export default function Home() {
                 <span>{new Date(p.createdAt).toLocaleString()}</span>
                 {p.location && <span>{p.location}</span>}
               </div>
+              {p.repostId && (
+                <p className="text-sm text-gray-500 mb-1">
+                  Reposted from{' '}
+                  <Link href={`/users/${p.repostUserId}`}>{usersMap[p.repostUserId]?.username || 'User'}</Link>
+                </p>
+              )}
               <VideoEmbed url={p.videoUrl} />
               <div className="flex gap-2 mt-2">
                 <button
@@ -76,7 +82,7 @@ export default function Home() {
                   onClick={() => repost(p.id)}
                   className="bg-green-500 text-white px-2 py-1 rounded"
                 >
-                  Repost
+                  Repost ({p.repostCount || 0})
                 </button>
               </div>
             </div>
