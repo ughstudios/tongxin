@@ -3,6 +3,7 @@ import Link from 'next/link'
 import VideoEmbed from '../components/VideoEmbed'
 import ComposeForm from '../components/ComposeForm'
 import Avatar from '../components/Avatar'
+import Spinner from '../components/Spinner'
 import { HeartIcon, ArrowsRightLeftIcon } from '@heroicons/react/24/outline'
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
   const [usersMap, setUsersMap] = useState({})
   const [offset, setOffset] = useState(0)
   const [limit, setLimit] = useState(20)
+  const [loading, setLoading] = useState(false)
   const loader = useRef(null)
 
   useEffect(() => {
@@ -24,11 +26,17 @@ export default function Home() {
   }, [])
 
   async function load(lim = limit) {
-    const res = await fetch(`/api/recommendations?offset=${offset}&limit=${lim}`)
-    if (res.ok) {
-      const data = await res.json()
-      setPosts(p => [...p, ...data])
-      setOffset(o => o + lim)
+    if (loading) return
+    setLoading(true)
+    try {
+      const res = await fetch(`/api/recommendations?offset=${offset}&limit=${lim}`)
+      if (res.ok) {
+        const data = await res.json()
+        setPosts(p => [...p, ...data])
+        setOffset(o => o + lim)
+      }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -120,6 +128,7 @@ export default function Home() {
             </div>
           </div>
         ))}
+        {loading && <Spinner />}
         <div ref={loader} className="h-6" />
       </div>
     </div>
