@@ -50,7 +50,7 @@ async function handler(req, res) {
       videoUrl,
       location
     })
-    return res.status(201).json({ id: post.id })
+    return res.status(201).json(post)
   }
 
   if (req.method === 'PUT') {
