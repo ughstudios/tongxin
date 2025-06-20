@@ -9,11 +9,13 @@ export default function Home() {
   const [posts, setPosts] = useState([])
   const [usersMap, setUsersMap] = useState({})
   const [offset, setOffset] = useState(0)
+  const [limit, setLimit] = useState(20)
   const loader = useRef(null)
-  const limit = 20
 
   useEffect(() => {
-    load()
+    const initial = window.innerHeight < 800 ? 10 : 20
+    setLimit(initial)
+    load(initial)
     fetch('/api/users').then(r => r.json()).then(list => {
       const m = {}
       list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
@@ -21,12 +23,12 @@ export default function Home() {
     })
   }, [])
 
-  async function load() {
-    const res = await fetch(`/api/recommendations?offset=${offset}&limit=${limit}`)
+  async function load(lim = limit) {
+    const res = await fetch(`/api/recommendations?offset=${offset}&limit=${lim}`)
     if (res.ok) {
       const data = await res.json()
       setPosts(p => [...p, ...data])
-      setOffset(o => o + limit)
+      setOffset(o => o + lim)
     }
   }
 
