@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs'
 import db from '../../models'
 
 export default async function handler(req, res) {
+  await db.sync()
   const { User, Follow } = db
 
   if (req.method === 'POST') {

@@ -2,6 +2,7 @@ import { withSessionRoute } from '../../lib/session'
 import db from '../../models'
 
 export default withSessionRoute(async function handler(req, res) {
+  await db.sync()
   const { User } = db
   const sessionUser = req.session.user
   if (!sessionUser) return res.status(401).end()

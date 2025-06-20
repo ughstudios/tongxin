@@ -2,6 +2,7 @@ import { withSessionRoute } from '../../lib/session'
 import db from '../../models'
 
 async function handler(req, res) {
+  await db.sync()
   if (!req.session.user) return res.status(401).end()
   const { User, Follow } = db
   const me = await User.findByPk(req.session.user.id)

@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import db from '../../models'
 
 async function handler(req, res) {
+  await db.sync()
   const { User } = db
   if (req.method === 'POST') {
     const { username, password } = req.body
