@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import Avatar from '../components/Avatar'
 import VideoEmbed from '../components/VideoEmbed'
@@ -23,7 +23,7 @@ export default function Shorts() {
     load()
   }, [])
 
-  async function load() {
+  const load = useCallback(async () => {
     if (loading) return
     setLoading(true)
     try {
@@ -36,15 +36,19 @@ export default function Shorts() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [loading, offset, limit])
 
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) load()
     })
-    if (loader.current) obs.observe(loader.current)
-    return () => obs.disconnect()
-  }, [loader.current])
+    const el = loader.current
+    if (el) obs.observe(el)
+    return () => {
+      if (el) obs.unobserve(el)
+      obs.disconnect()
+    }
+  }, [load])
 
   async function like(id) {
     const res = await fetch('/api/likes', {
