@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import VideoEmbed from '../components/VideoEmbed'
 import ComposeForm from '../components/ComposeForm'
@@ -8,15 +8,35 @@ import { HeartIcon, ArrowsRightLeftIcon } from '@heroicons/react/24/outline'
 export default function Home() {
   const [posts, setPosts] = useState([])
   const [usersMap, setUsersMap] = useState({})
+  const [offset, setOffset] = useState(0)
+  const loader = useRef(null)
+  const limit = 20
 
   useEffect(() => {
-    fetch('/api/recommendations').then(r => r.json()).then(setPosts)
+    load()
     fetch('/api/users').then(r => r.json()).then(list => {
       const m = {}
       list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
       setUsersMap(m)
     })
   }, [])
+
+  async function load() {
+    const res = await fetch(`/api/recommendations?offset=${offset}&limit=${limit}`)
+    if (res.ok) {
+      const data = await res.json()
+      setPosts(p => [...p, ...data])
+      setOffset(o => o + limit)
+    }
+  }
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) load()
+    })
+    if (loader.current) obs.observe(loader.current)
+    return () => obs.disconnect()
+  }, [loader.current])
 
   async function like(id) {
     const res = await fetch('/api/likes', {
@@ -98,6 +118,7 @@ export default function Home() {
             </div>
           </div>
         ))}
+        <div ref={loader} className="h-6" />
       </div>
     </div>
   )
