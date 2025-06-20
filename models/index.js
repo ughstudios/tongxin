@@ -13,6 +13,12 @@ const Like = require('./like')(sequelize, Sequelize.DataTypes)
 
 const db = { User, Post, Comment, Follow, Like, sequelize }
 
+let syncPromise
+db.sync = () => {
+  if (!syncPromise) syncPromise = sequelize.sync({ alter: true })
+  return syncPromise
+}
+
 Object.values(db).forEach(model => {
   if (model && model.associate) model.associate(db)
 })

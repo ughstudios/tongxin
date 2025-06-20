@@ -2,6 +2,7 @@ import { withSessionRoute } from '../../lib/session'
 import db from '../../models'
 
 async function handler(req, res) {
+  await db.sync()
   const { Post, Follow } = db
   const posts = await Post.findAll()
 
