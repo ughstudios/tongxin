@@ -13,7 +13,17 @@ const Like = require('./like')(sequelize, Sequelize.DataTypes)
 const Message = require('./message')(sequelize, Sequelize.DataTypes)
 const Hashtag = require('./hashtag')(sequelize, Sequelize.DataTypes)
 
-const db = { User, Post, Comment, Follow, Like, Message, Hashtag, sequelize }
+const db = {
+  Sequelize,
+  User,
+  Post,
+  Comment,
+  Follow,
+  Like,
+  Message,
+  Hashtag,
+  sequelize
+}
 
 const globalForSync = globalThis
 let syncPromise = globalForSync._syncPromise
