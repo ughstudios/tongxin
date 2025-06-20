@@ -43,7 +43,7 @@ export default function Trending() {
             </div>
             <VideoEmbed url={p.videoUrl} />
             <button onClick={() => like(p.id)} className="bg-pink-500 text-white px-2 py-1 rounded">
-              Like ({p.likes || 0})
+              {p.liked ? 'Unlike' : 'Like'} ({p.likes || 0})
             </button>
           </div>
         ))}
