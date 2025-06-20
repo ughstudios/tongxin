@@ -23,9 +23,19 @@ export default function ComposeForm({ onPost }) {
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        pos => {
+        async pos => {
           const { latitude, longitude } = pos.coords
-          setLocation(latitude.toFixed(5) + ',' + longitude.toFixed(5))
+          try {
+            const res = await fetch(
+              `/api/geocode?lat=${latitude}&lon=${longitude}`
+            )
+            if (res.ok) {
+              const data = await res.json()
+              if (data.location) setLocation(data.location)
+            }
+          } catch (e) {
+            /* ignore */
+          }
         },
         () => setLocation('')
       )
@@ -41,16 +51,7 @@ export default function ComposeForm({ onPost }) {
       body: JSON.stringify({ content, imageUrl, videoUrl, location })
     })
     if (res.ok) {
-      const data = await res.json()
-      const post = {
-        id: data.id,
-        userId: user.id,
-        content,
-        imageUrl,
-        videoUrl,
-        likes: 0,
-        location
-      }
+      const post = await res.json()
       if (onPost) onPost(post)
       setContent('')
       setImageUrl('')
