@@ -33,5 +33,24 @@ export default withSessionRoute(async function handler(req, res) {
     return res.status(201).json(message)
   }
 
+  if (req.method === 'PUT') {
+    const { id } = req.query
+    const { content } = req.body
+    if (!id || !content || !content.trim()) return res.status(400).end()
+    const message = await Message.findByPk(id)
+    if (!message || message.senderId !== user.id) return res.status(403).end()
+    await message.update({ content })
+    return res.status(200).json(message)
+  }
+
+  if (req.method === 'DELETE') {
+    const { id } = req.query
+    if (!id) return res.status(400).end()
+    const message = await Message.findByPk(id)
+    if (!message || message.senderId !== user.id) return res.status(403).end()
+    await message.destroy()
+    return res.status(204).end()
+  }
+
   res.status(405).end()
 })
