@@ -57,6 +57,9 @@ async function handler(req, res) {
       })
       return res.status(201).json(post)
     }
+    if (!content || !content.trim()) {
+      return res.status(400).json({ error: 'Content required' })
+    }
     const post = await Post.create({
       userId: req.session.user.id,
       content,
@@ -72,6 +75,9 @@ async function handler(req, res) {
     const { id, content, imageUrl, videoUrl, location } = req.body
     const post = await Post.findByPk(id)
     if (!post || post.userId !== req.session.user.id) return res.status(404).end()
+    if (!content || !content.trim()) {
+      return res.status(400).json({ error: 'Content required' })
+    }
     post.content = content
     post.imageUrl = imageUrl
     post.videoUrl = videoUrl
