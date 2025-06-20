@@ -10,6 +10,7 @@ export default function Home() {
   const [posts, setPosts] = useState([])
   const [usersMap, setUsersMap] = useState({})
   const [offset, setOffset] = useState(0)
+  const offsetRef = useRef(0)
   const [limit, setLimit] = useState(20)
   const [loading, setLoading] = useState(false)
   const loader = useRef(null)
@@ -28,17 +29,19 @@ export default function Home() {
   const load = useCallback(async (lim = limit) => {
     if (loading) return
     setLoading(true)
+    const current = offsetRef.current
+    offsetRef.current += lim
+    setOffset(offsetRef.current)
     try {
-      const res = await fetch(`/api/recommendations?offset=${offset}&limit=${lim}`)
+      const res = await fetch(`/api/recommendations?offset=${current}&limit=${lim}`)
       if (res.ok) {
         const data = await res.json()
         setPosts(p => [...p, ...data])
-        setOffset(o => o + lim)
       }
     } finally {
       setLoading(false)
     }
-  }, [loading, offset, limit])
+  }, [loading, limit])
 
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {

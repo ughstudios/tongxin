@@ -10,6 +10,7 @@ export default function Shorts() {
   const [posts, setPosts] = useState([])
   const [usersMap, setUsersMap] = useState({})
   const [offset, setOffset] = useState(0)
+  const offsetRef = useRef(0)
   const loader = useRef(null)
   const limit = 5
   const [loading, setLoading] = useState(false)
@@ -26,17 +27,19 @@ export default function Shorts() {
   const load = useCallback(async () => {
     if (loading) return
     setLoading(true)
+    const current = offsetRef.current
+    offsetRef.current += limit
+    setOffset(offsetRef.current)
     try {
-      const res = await fetch(`/api/posts?video=1&offset=${offset}&limit=${limit}`)
+      const res = await fetch(`/api/posts?video=1&offset=${current}&limit=${limit}`)
       if (res.ok) {
         const data = await res.json()
         setPosts(p => [...p, ...data])
-        setOffset(o => o + limit)
       }
     } finally {
       setLoading(false)
     }
-  }, [loading, offset, limit])
+  }, [loading, limit])
 
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
