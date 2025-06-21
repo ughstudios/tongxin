@@ -36,9 +36,9 @@ export default function Home() {
     try {
       const res = await fetch(`/api/recommendations?offset=${current}&limit=${lim}`)
       if (res.ok) {
-        const data = await res.json()
+        const { posts: data, more } = await res.json()
         setPosts(p => [...p, ...data])
-        if (data.length < lim) setHasMore(false)
+        if (!more) setHasMore(false)
       }
     } finally {
       setLoading(false)
