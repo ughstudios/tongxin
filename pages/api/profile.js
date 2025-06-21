@@ -9,15 +9,14 @@ export default withSessionRoute(async function handler(req, res) {
 
   if (req.method === 'GET') {
     const user = await User.findByPk(sessionUser.id)
-    return res
-      .status(200)
-      .json({
-        id: user.id,
-        username: user.username,
-        avatarUrl: user.avatarUrl,
-        verified: user.verified,
-        theme: user.theme
-      })
+    if (!user) return res.status(404).end()
+    return res.status(200).json({
+      id: user.id,
+      username: user.username,
+      avatarUrl: user.avatarUrl,
+      verified: user.verified,
+      theme: user.theme
+    })
   }
 
   if (req.method === 'PUT') {
