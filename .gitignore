@@ -11,6 +11,7 @@ yarn-error.log
 
 # SQLite database
 data/test.db
+data/prod.db
 data/*.json
 
 # OS artifacts
