@@ -56,6 +56,11 @@ async function handler(req, res) {
 
   if (req.method === 'POST') {
     if (!req.session.user) return res.status(401).end()
+    const user = await db.User.findByPk(req.session.user.id)
+    if (!user) {
+      req.session.destroy()
+      return res.status(401).end()
+    }
     const { content, imageUrl, videoUrl, location, repostId } = req.body
     if (repostId) {
       const orig = await Post.findByPk(repostId)
@@ -96,6 +101,11 @@ async function handler(req, res) {
 
   if (req.method === 'PUT') {
     if (!req.session.user) return res.status(401).end()
+    const user = await db.User.findByPk(req.session.user.id)
+    if (!user) {
+      req.session.destroy()
+      return res.status(401).end()
+    }
     const { id, content, imageUrl, videoUrl, location } = req.body
     const post = await Post.findByPk(id)
     if (!post || post.userId !== req.session.user.id) return res.status(404).end()
@@ -117,6 +127,11 @@ async function handler(req, res) {
 
   if (req.method === 'DELETE') {
     if (!req.session.user) return res.status(401).end()
+    const user = await db.User.findByPk(req.session.user.id)
+    if (!user) {
+      req.session.destroy()
+      return res.status(401).end()
+    }
     const { id } = req.body
     const post = await Post.findByPk(id)
     if (!post || post.userId !== req.session.user.id) return res.status(404).end()
