@@ -13,6 +13,7 @@ export default function Home() {
   const offsetRef = useRef(0)
   const [limit, setLimit] = useState(20)
   const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
   const loader = useRef(null)
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function Home() {
   }, [])
 
   const load = useCallback(async (lim = limit) => {
-    if (loading) return
+    if (loading || !hasMore) return
     setLoading(true)
     const current = offsetRef.current
     offsetRef.current += lim
@@ -37,13 +38,15 @@ export default function Home() {
       if (res.ok) {
         const data = await res.json()
         setPosts(p => [...p, ...data])
+        if (data.length < lim) setHasMore(false)
       }
     } finally {
       setLoading(false)
     }
-  }, [loading, limit])
+  }, [loading, limit, hasMore])
 
   useEffect(() => {
+    if (!hasMore) return
     const obs = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) load()
     })
@@ -53,7 +56,7 @@ export default function Home() {
       if (el) obs.unobserve(el)
       obs.disconnect()
     }
-  }, [load])
+  }, [load, hasMore])
 
   async function like(id) {
     const res = await fetch('/api/likes', {
