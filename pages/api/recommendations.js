@@ -16,6 +16,7 @@ async function handler(req, res) {
   if (req.session.user) {
     const follows = await Follow.findAll({ where: { userId: req.session.user.id } })
     const ids = [req.session.user.id, ...follows.map(f => f.followId)]
+    const totalPosts = await Post.count({ where: { userId: ids } })
     const feedLimit = limit - trending.length
     const feed = feedLimit > 0
       ? await Post.findAll({
@@ -28,7 +29,9 @@ async function handler(req, res) {
     await addRepostInfo(feed, Post)
     const map = new Map()
     ;[...feed, ...trending].forEach(p => map.set(p.id, p))
-    return res.status(200).json(Array.from(map.values()))
+    const posts = Array.from(map.values())
+    const more = offset + feed.length < totalPosts
+    return res.status(200).json({ posts, more })
   }
 
   res.status(200).json(trending)
