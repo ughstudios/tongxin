@@ -38,6 +38,18 @@ The seed data includes a demo administrator account:
 - **Username:** `admin`
 - **Password:** `admin123`
 
+When running a production build without HTTPS you may need to disable the
+Secure cookie flag. Set the environment variable `COOKIE_SECURE=false` (the
+default) so logins work over plain HTTP. Set it to `true` only when deploying
+behind HTTPS.
+
+Before building for production run the migrations with `NODE_ENV=production` to
+create the `data/prod.db` database:
+
+```bash
+NODE_ENV=production npx sequelize-cli db:migrate
+```
+
 This user comes with a couple of example posts so you have some content in the feed right away.
 
 Visit `http://localhost:3000` to use the app. The homepage shows your feed and recommendations. Additional pages:
