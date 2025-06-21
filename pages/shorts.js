@@ -14,6 +14,7 @@ export default function Shorts() {
   const loader = useRef(null)
   const limit = 5
   const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
 
   useEffect(() => {
     fetch('/api/users').then(r => r.json()).then(list => {
@@ -25,7 +26,7 @@ export default function Shorts() {
   }, [])
 
   const load = useCallback(async () => {
-    if (loading) return
+    if (loading || !hasMore) return
     setLoading(true)
     const current = offsetRef.current
     offsetRef.current += limit
@@ -35,13 +36,15 @@ export default function Shorts() {
       if (res.ok) {
         const data = await res.json()
         setPosts(p => [...p, ...data])
+        if (data.length < limit) setHasMore(false)
       }
     } finally {
       setLoading(false)
     }
-  }, [loading, limit])
+  }, [loading, limit, hasMore])
 
   useEffect(() => {
+    if (!hasMore) return
     const obs = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) load()
     })
@@ -51,7 +54,7 @@ export default function Shorts() {
       if (el) obs.unobserve(el)
       obs.disconnect()
     }
-  }, [load])
+  }, [load, hasMore])
 
   async function like(id) {
     const res = await fetch('/api/likes', {
