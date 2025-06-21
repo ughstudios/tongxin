@@ -10,7 +10,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "iron-session": "^8.0.4",
-    "next": "14.2.3",
+    "next": "^14.2.30",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sequelize": "^6.37.0",
