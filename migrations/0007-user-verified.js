@@ -1,13 +1,19 @@
 'use strict'
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn('Users', 'verified', {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
-    })
+    const table = await queryInterface.describeTable('Users')
+    if (!table.verified) {
+      await queryInterface.addColumn('Users', 'verified', {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      })
+    }
   },
   async down(queryInterface) {
-    await queryInterface.removeColumn('Users', 'verified')
+    const table = await queryInterface.describeTable('Users')
+    if (table.verified) {
+      await queryInterface.removeColumn('Users', 'verified')
+    }
   }
 }
