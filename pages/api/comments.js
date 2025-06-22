@@ -1,5 +1,6 @@
 import { withSessionRoute } from '../../lib/session'
 import db from '../../models'
+import { hasProhibitedKeywords } from "../../lib/moderation"
 
 async function handler(req, res) {
   await db.sync()
@@ -24,6 +25,12 @@ async function handler(req, res) {
   if (req.method === 'POST') {
     if (!req.session.user) return res.status(401).end()
     const { postId, content, parentId } = req.body
+    if (!content || !content.trim()) {
+      return res.status(400).json({ error: "Content required" })
+    }
+    if (hasProhibitedKeywords(content)) {
+      return res.status(400).json({ error: "Prohibited content" })
+    }
     const comment = await Comment.create({
       postId,
       userId: req.session.user.id,

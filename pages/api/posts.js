@@ -1,6 +1,7 @@
 import { withSessionRoute } from '../../lib/session'
 import db from '../../models'
 import { addRepostInfo } from '../../lib/postHelpers'
+import { hasProhibitedKeywords } from "../../lib/moderation"
 
 function extractTags(text) {
   return (text.match(/#[A-Za-z0-9_]+/g) || []).map(t => t.slice(1).toLowerCase())
@@ -84,6 +85,9 @@ async function handler(req, res) {
     if (!content || !content.trim()) {
       return res.status(400).json({ error: 'Content required' })
     }
+    if (hasProhibitedKeywords(content)) {
+      return res.status(400).json({ error: "Prohibited content" })
+    }
     const post = await Post.create({
       userId: req.session.user.id,
       content,
@@ -111,6 +115,9 @@ async function handler(req, res) {
     if (!post || post.userId !== req.session.user.id) return res.status(404).end()
     if (!content || !content.trim()) {
       return res.status(400).json({ error: 'Content required' })
+    }
+    if (hasProhibitedKeywords(content)) {
+      return res.status(400).json({ error: "Prohibited content" })
     }
     post.content = content
     post.imageUrl = imageUrl

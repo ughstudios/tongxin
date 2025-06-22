@@ -64,7 +64,7 @@ Visit `http://localhost:3000` to use the app. The homepage shows your feed and r
 
 ## Compliance
 
-This project strives to follow applicable regulations and moderation requirements. Content posted by users should comply with local laws and community standards.
+This project strives to follow applicable regulations. Submissions are checked against a small list of banned keywords in `lib/moderation.js`. Operators deploying in China should implement real-name verification and comply with content governance rules.
 
 ## iOS and macOS apps
 

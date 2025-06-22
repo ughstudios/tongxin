@@ -1,5 +1,6 @@
 import { withSessionRoute } from '../../lib/session'
 import db from '../../models'
+import { hasProhibitedKeywords } from "../../lib/moderation"
 
 export default withSessionRoute(async function handler(req, res) {
   await db.sync()
@@ -34,7 +35,12 @@ export default withSessionRoute(async function handler(req, res) {
 
   if (req.method === 'POST') {
     const { to, content } = req.body
-    if (!to || !content || !content.trim()) return res.status(400).end()
+    if (!to || !content || !content.trim()) {
+      return res.status(400).json({ error: "Content required" })
+    }
+    if (hasProhibitedKeywords(content)) {
+      return res.status(400).json({ error: "Prohibited content" })
+    }
     const message = await Message.create({
       senderId: user.id,
       receiverId: to,
@@ -46,8 +52,12 @@ export default withSessionRoute(async function handler(req, res) {
 
   if (req.method === 'PUT') {
     const { id } = req.query
-    const { content } = req.body
-    if (!id || !content || !content.trim()) return res.status(400).end()
+    if (!id || !content || !content.trim()) {
+      return res.status(400).json({ error: "Content required" })
+    }
+    if (hasProhibitedKeywords(content)) {
+      return res.status(400).json({ error: "Prohibited content" })
+    }
     const message = await Message.findByPk(id)
     if (!message || message.senderId !== user.id) return res.status(403).end()
     await message.update({ content })
