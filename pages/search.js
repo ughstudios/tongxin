@@ -53,7 +53,11 @@ export default function Search() {
     <div>
       <h1 className="text-2xl font-bold mb-4">Search Posts</h1>
       <form onSubmit={doSearch} className="my-4 flex gap-2">
-        <input value={q} onChange={e => setQ(e.target.value)} className="border p-1 flex-grow" />
+        <input
+          value={q}
+          onChange={e => setQ(e.target.value)}
+          className="border p-1 flex-grow rounded bg-white dark:bg-gray-700 dark:text-gray-100"
+        />
         <button className="px-3 py-1 bg-blue-500 text-white rounded" type="submit">Search</button>
       </form>
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">

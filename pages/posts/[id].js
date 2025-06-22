@@ -100,7 +100,7 @@ export default function PostPage() {
             <textarea
               value={formContent}
               onChange={e => setFormContent(e.target.value)}
-              className="border p-2 w-full"
+              className="border p-2 w-full bg-white dark:bg-gray-700 dark:text-gray-100"
             />
             <button
               onClick={async () => {
@@ -193,7 +193,7 @@ export default function PostPage() {
             onChange={e => setCommentText(e.target.value)}
             rows="3"
             placeholder="Write a comment..."
-            className="border p-2 flex-grow rounded resize-none focus:outline-none"
+            className="border p-2 flex-grow rounded resize-none focus:outline-none bg-white dark:bg-gray-700 dark:text-gray-100"
           />
           <button type="submit" className="bg-blue-500 text-white px-3 rounded">Add</button>
         </form>

@@ -77,7 +77,7 @@ export default function ThreadPage() {
             onChange={e => setReplyText(e.target.value)}
             rows="3"
             placeholder="Write a reply..."
-            className="border p-2 flex-grow rounded resize-none focus:outline-none"
+            className="border p-2 flex-grow rounded resize-none focus:outline-none bg-white dark:bg-gray-700 dark:text-gray-100"
           />
           <button type="submit" className="bg-blue-500 text-white px-3 rounded">Reply</button>
         </form>
