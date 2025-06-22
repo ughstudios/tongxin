@@ -101,7 +101,7 @@ export default function UserPage() {
                 reader.readAsDataURL(file)
               }
             }}
-            className="border p-2 rounded"
+            className="border p-2 rounded bg-white dark:bg-gray-700 dark:text-gray-100"
           />
           <button className="bg-blue-500 text-white px-2 rounded" type="submit">
             Save
@@ -113,7 +113,7 @@ export default function UserPage() {
             id="theme"
             value={theme}
             onChange={e => setTheme(e.target.value)}
-            className="border p-2 rounded"
+            className="border p-2 rounded bg-white dark:bg-gray-700 dark:text-gray-100"
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>

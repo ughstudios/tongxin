@@ -25,14 +25,14 @@ export default function Login() {
           value={username}
           onChange={e => setUsername(e.target.value)}
           placeholder="username"
-          className="border p-2 w-full rounded"
+          className="border p-2 w-full rounded bg-white dark:bg-gray-700 dark:text-gray-100"
         />
         <input
           type="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
           placeholder="password"
-          className="border p-2 w-full rounded"
+          className="border p-2 w-full rounded bg-white dark:bg-gray-700 dark:text-gray-100"
         />
         <button className="w-full bg-blue-500 text-white py-2 rounded" type="submit">Login</button>
       </form>
