@@ -26,26 +26,25 @@ export default function ComposeForm({ onPost }) {
   }, [])
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async pos => {
-          const { latitude, longitude } = pos.coords
-          try {
-            const res = await fetch(
-              `/api/geocode?lat=${latitude}&lon=${longitude}`
-            )
-            if (res.ok) {
-              const data = await res.json()
-              if (data.location) setLocation(data.location)
-            }
-          } catch (e) {
-            /* ignore */
+    if (!user || !navigator.geolocation) return
+    navigator.geolocation.getCurrentPosition(
+      async pos => {
+        const { latitude, longitude } = pos.coords
+        try {
+          const res = await fetch(
+            `/api/geocode?lat=${latitude}&lon=${longitude}`
+          )
+          if (res.ok) {
+            const data = await res.json()
+            if (data.location) setLocation(data.location)
           }
-        },
-        () => setLocation('')
-      )
-    }
-  }, [])
+        } catch (e) {
+          /* ignore */
+        }
+      },
+      () => setLocation('')
+    )
+  }, [user])
 
   async function createPost(e) {
     e.preventDefault()
