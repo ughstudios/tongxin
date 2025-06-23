@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     const user = await User.create({ username, password: passwordHash })
     return res
       .status(201)
-      .json({ id: user.id, username: user.username, theme: user.theme })
+      .json({ id: user.id, username: user.username })
   }
 
   if (req.method === 'GET') {
@@ -29,8 +29,7 @@ export default async function handler(req, res) {
           username: user.username,
           avatarUrl: user.avatarUrl,
           verified: user.verified,
-          following: follows.map(f => f.followId),
-          theme: user.theme
+          following: follows.map(f => f.followId)
         })
     }
     const users = await User.findAll()

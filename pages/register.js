@@ -25,19 +25,19 @@ export default function Register() {
 
   return (
     <div className="flex justify-center mt-8">
-      <form onSubmit={register} className="space-y-3 bg-white dark:bg-gray-800 p-6 rounded shadow w-full max-w-sm">
+      <form onSubmit={register} className="space-y-3 bg-white p-6 rounded shadow w-full max-w-sm">
         <input
           value={username}
           onChange={e => setUsername(e.target.value)}
           placeholder="username"
-          className="border p-2 w-full rounded bg-white dark:bg-gray-700 dark:text-gray-100"
+          className="border p-2 w-full rounded bg-white"
         />
         <input
           type="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
           placeholder="password"
-          className="border p-2 w-full rounded bg-white dark:bg-gray-700 dark:text-gray-100"
+          className="border p-2 w-full rounded bg-white"
         />
         <button className="w-full bg-green-500 text-white py-2 rounded" type="submit">Register</button>
       </form>

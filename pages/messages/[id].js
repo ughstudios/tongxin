@@ -74,7 +74,7 @@ export default function Conversation() {
       <h1 className="text-2xl font-bold mb-4">Direct Messages</h1>
       <div className="space-y-2 mb-4">
         {messages.map(m => (
-          <div key={m.id} className="border p-2 rounded bg-white dark:bg-gray-800">
+          <div key={m.id} className="border p-2 rounded bg-white">
             <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
               <Avatar
                 url={m.senderId === me?.id ? me?.avatarUrl : other?.avatarUrl}
@@ -88,7 +88,7 @@ export default function Conversation() {
                 <input
                   value={editContent}
                   onChange={e => setEditContent(e.target.value)}
-                  className="border p-1 rounded flex-grow bg-white dark:bg-gray-700 dark:text-gray-100"
+                  className="border p-1 rounded flex-grow bg-white"
                 />
                 <button onClick={saveEdit} className="bg-blue-500 text-white px-2 rounded">
                   Save
@@ -117,7 +117,7 @@ export default function Conversation() {
         <input
           value={content}
           onChange={e => setContent(e.target.value)}
-          className="border p-2 rounded flex-grow bg-white dark:bg-gray-700 dark:text-gray-100"
+          className="border p-2 rounded flex-grow bg-white"
         />
         <button onClick={send} className="bg-blue-500 text-white px-4 rounded">
           Send

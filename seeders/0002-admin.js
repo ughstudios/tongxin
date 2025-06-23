@@ -7,7 +7,7 @@ module.exports = {
     const now = new Date()
     await queryInterface.bulkInsert(
       'Users',
-      [{ username: 'admin', password, theme: 'light', createdAt: now, updatedAt: now }],
+      [{ username: 'admin', password, createdAt: now, updatedAt: now }],
       { ignoreDuplicates: true }
     )
     const [user] = await queryInterface.sequelize.query("SELECT id FROM Users WHERE username='admin' LIMIT 1")
