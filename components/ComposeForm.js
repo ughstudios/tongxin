@@ -110,7 +110,7 @@ export default function ComposeForm({ onPost }) {
   if (!user) return null
 
   return (
-    <form onSubmit={createPost} className="mt-4 mb-6 bg-white dark:bg-gray-800 p-4 rounded-xl border flex gap-3 shadow">
+    <form onSubmit={createPost} className="mt-4 mb-6 bg-white p-4 rounded-xl border flex gap-3 shadow">
       <Avatar url={profile?.avatarUrl} size={48} />
       <div className="flex-1">
         <textarea
@@ -128,7 +128,7 @@ export default function ComposeForm({ onPost }) {
           onDragLeave={handleDragLeave}
           placeholder="What's happening?"
           rows={3}
-          className={`w-full resize-none border-none focus:ring-0 text-lg bg-white dark:bg-gray-700 dark:text-gray-100 ${dragging ? 'ring-2 ring-blue-400' : ''}`}
+          className={`w-full resize-none border-none focus:ring-0 text-lg bg-white ${dragging ? 'ring-2 ring-blue-400' : ''}`}
         />
         {imageUrl && (
           <img src={imageUrl} alt="preview" className="mt-3 w-full rounded-xl" />

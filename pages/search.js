@@ -56,13 +56,13 @@ export default function Search() {
         <input
           value={q}
           onChange={e => setQ(e.target.value)}
-          className="border p-1 flex-grow rounded bg-white dark:bg-gray-700 dark:text-gray-100"
+          className="border p-1 flex-grow rounded bg-white"
         />
         <button className="px-3 py-1 bg-blue-500 text-white rounded" type="submit">Search</button>
       </form>
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {posts.map(p => (
-          <div key={p.id} className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow">
+          <div key={p.id} className="bg-white p-3 rounded-lg shadow">
             <Link href={`/posts/${p.id}`} className="font-medium block mb-1">{p.content}</Link>
             <div className="text-sm text-gray-500 mb-2">
               by <Link href={`/users/${p.userId}`}>{usersMap[p.userId]?.username || 'User'}</Link>

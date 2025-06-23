@@ -12,7 +12,6 @@ module.exports = {
           username: 'test',
           password,
           avatarUrl: 'https://placekitten.com/200/200',
-          theme: 'light',
           createdAt: now,
           updatedAt: now
         }

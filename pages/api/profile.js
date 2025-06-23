@@ -14,19 +14,14 @@ export default withSessionRoute(async function handler(req, res) {
       id: user.id,
       username: user.username,
       avatarUrl: user.avatarUrl,
-      verified: user.verified,
-      theme: user.theme
+      verified: user.verified
     })
   }
 
   if (req.method === 'PUT') {
-    const { avatarUrl, verified, theme } = req.body
-    await User.update({ avatarUrl, verified, theme }, { where: { id: sessionUser.id } })
-    if (theme) {
-      req.session.user.theme = theme
-      await req.session.save()
-    }
-    return res.status(200).json({ avatarUrl, verified, theme })
+    const { avatarUrl, verified } = req.body
+    await User.update({ avatarUrl, verified }, { where: { id: sessionUser.id } })
+    return res.status(200).json({ avatarUrl, verified })
   }
 
   res.status(405).end()

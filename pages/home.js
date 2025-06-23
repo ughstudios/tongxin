@@ -58,7 +58,7 @@ export default function HomePage() {
       <ComposeForm onPost={post => setPosts([post, ...posts])} />
       <div className="space-y-4">
         {posts.map(p => (
-          <div key={p.id} className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow">
+          <div key={p.id} className="bg-white p-3 rounded-lg shadow">
             <Link href={`/posts/${p.id}`} className="font-medium block mb-1">{p.content}</Link>
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
               <Avatar url={usersMap[p.userId]?.avatarUrl} size={24} />

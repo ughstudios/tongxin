@@ -88,7 +88,7 @@ export default function PostPage() {
 
   return (
     <div>
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mt-4">
+      <div className="bg-white rounded-lg shadow p-4 mt-4">
         <div className="flex items-center gap-2 mb-2 text-sm text-gray-500">
           <Avatar url={usersMap[post.userId]?.avatarUrl} size={24} />
           <Link href={`/users/${post.userId}`}>{usersMap[post.userId]?.username || 'User'}</Link>
@@ -100,7 +100,7 @@ export default function PostPage() {
             <textarea
               value={formContent}
               onChange={e => setFormContent(e.target.value)}
-              className="border p-2 w-full bg-white dark:bg-gray-700 dark:text-gray-100"
+              className="border p-2 w-full bg-white"
             />
             <button
               onClick={async () => {
@@ -171,7 +171,7 @@ export default function PostPage() {
       <h2 className="text-xl font-bold mt-6">Comments</h2>
       <ul className="space-y-2">
         {comments.map(c => (
-          <li key={c.id} className="border p-2 rounded bg-white dark:bg-gray-800 flex gap-2">
+          <li key={c.id} className="border p-2 rounded bg-white flex gap-2">
             <Avatar url={usersMap[c.userId]?.avatarUrl} size={32} />
             <div className="flex-1">
               <div className="flex items-center gap-2 text-sm text-gray-500">
@@ -193,7 +193,7 @@ export default function PostPage() {
             onChange={e => setCommentText(e.target.value)}
             rows="3"
             placeholder="Write a comment..."
-            className="border p-2 flex-grow rounded resize-none focus:outline-none bg-white dark:bg-gray-700 dark:text-gray-100"
+            className="border p-2 flex-grow rounded resize-none focus:outline-none bg-white"
           />
           <button type="submit" className="bg-blue-500 text-white px-3 rounded">Add</button>
         </form>

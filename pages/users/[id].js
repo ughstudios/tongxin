@@ -11,7 +11,6 @@ export default function UserPage() {
   const [profile, setProfile] = useState(null)
   const [posts, setPosts] = useState([])
   const [avatar, setAvatar] = useState('')
-  const [theme, setTheme] = useState('light')
 
   useEffect(() => {
     if (!id) return
@@ -21,7 +20,6 @@ export default function UserPage() {
       .then(data => {
         setProfile(data)
         setAvatar(data.avatarUrl || '')
-        setTheme(data.theme || 'light')
       })
     fetch('/api/posts?userId=' + id).then(r => r.json()).then(setPosts)
   }, [id])
@@ -54,18 +52,6 @@ export default function UserPage() {
     if (res.ok) setProfile({ ...profile, avatarUrl: avatar })
   }
 
-  async function saveThemePreference(e) {
-    e.preventDefault()
-    const res = await fetch('/api/profile', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ theme })
-    })
-    if (res.ok) {
-      setProfile({ ...profile, theme })
-      document.documentElement.classList.toggle('dark', theme === 'dark')
-    }
-  }
 
   async function deletePost(postId) {
     const res = await fetch('/api/posts', {
@@ -101,23 +87,8 @@ export default function UserPage() {
                 reader.readAsDataURL(file)
               }
             }}
-            className="border p-2 rounded bg-white dark:bg-gray-700 dark:text-gray-100"
+            className="border p-2 rounded bg-white"
           />
-          <button className="bg-blue-500 text-white px-2 rounded" type="submit">
-            Save
-          </button>
-        </form>
-        <form onSubmit={saveThemePreference} className="mt-2 flex gap-2 items-center">
-          <label htmlFor="theme" className="text-sm">Theme:</label>
-          <select
-            id="theme"
-            value={theme}
-            onChange={e => setTheme(e.target.value)}
-            className="border p-2 rounded bg-white dark:bg-gray-700 dark:text-gray-100"
-          >
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
           <button className="bg-blue-500 text-white px-2 rounded" type="submit">
             Save
           </button>
@@ -145,7 +116,7 @@ export default function UserPage() {
       )}
       <div className={isOwner ? 'mt-4 space-y-4' : 'mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3'}>
         {posts.map(p => (
-          <div key={p.id} className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow">
+          <div key={p.id} className="bg-white p-3 rounded-lg shadow">
             <Link href={`/posts/${p.id}`} className="font-medium block mb-1">{p.content}</Link>
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
               <Avatar url={profile.avatarUrl} size={24} />

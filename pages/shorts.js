@@ -92,7 +92,7 @@ export default function Shorts() {
       <ComposeForm onPost={post => setPosts([post, ...posts])} />
       <div className="space-y-6 mt-4">
         {posts.map(p => (
-          <div key={p.id} className="bg-white dark:bg-gray-800 rounded shadow p-3">
+          <div key={p.id} className="bg-white rounded shadow p-3">
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
               <Avatar url={usersMap[p.userId]?.avatarUrl} size={24} />
               <Link href={`/users/${p.userId}`}>{usersMap[p.userId]?.username || 'User'}</Link>
