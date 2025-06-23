@@ -10,14 +10,14 @@ export default function MessagesHome() {
 
   useEffect(() => {
     fetch('/api/session')
-      .then(r => r.json())
+      .then(r => (r.ok ? r.json() : null))
       .then(u => {
         if (!u) {
           router.replace('/login')
         } else {
           setMe(u)
           fetch('/api/users')
-            .then(r => r.json())
+            .then(r => (r.ok ? r.json() : []))
             .then(list => setUsers(list.filter(us => us.id !== u.id)))
         }
       })

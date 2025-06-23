@@ -20,11 +20,13 @@ export default function Home() {
     const initial = window.innerHeight < 800 ? 10 : 20
     setLimit(initial)
     load(initial)
-    fetch('/api/users').then(r => r.json()).then(list => {
-      const m = {}
-      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
-      setUsersMap(m)
-    })
+    fetch('/api/users')
+      .then(r => (r.ok ? r.json() : []))
+      .then(list => {
+        const m = {}
+        list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
+        setUsersMap(m)
+      })
   }, [])
 
   const load = useCallback(async (lim = limit) => {

@@ -10,13 +10,19 @@ export default function Trending() {
   const [tags, setTags] = useState([])
 
   useEffect(() => {
-    fetch('/api/posts?trending=1').then(r => r.json()).then(setPosts)
-    fetch('/api/users').then(r => r.json()).then(list => {
-      const m = {}
-      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
-      setUsersMap(m)
-    })
-    fetch('/api/hashtags').then(r => r.json()).then(setTags)
+    fetch('/api/posts?trending=1')
+      .then(r => (r.ok ? r.json() : []))
+      .then(setPosts)
+    fetch('/api/users')
+      .then(r => (r.ok ? r.json() : []))
+      .then(list => {
+        const m = {}
+        list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
+        setUsersMap(m)
+      })
+    fetch('/api/hashtags')
+      .then(r => (r.ok ? r.json() : []))
+      .then(setTags)
   }, [])
 
   async function like(id) {

@@ -6,6 +6,7 @@ const dbFile = process.env.NODE_ENV === 'production'
   ? path.join(process.cwd(), 'data', 'prod.db')
   : path.join(process.cwd(), 'data', 'test.db')
 
+console.log('Using SQLite file', dbFile)
 const sequelize = new Sequelize({ dialect: 'sqlite', storage: dbFile })
 
 const User = require('./user')(sequelize, Sequelize.DataTypes)

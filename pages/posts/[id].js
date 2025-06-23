@@ -26,7 +26,7 @@ export default function PostPage() {
   useEffect(() => {
     if (!id) return
     fetch('/api/posts?id=' + id)
-      .then(r => r.json())
+      .then(r => (r.ok ? r.json() : null))
       .then(p => {
         setPost(p)
         setFormContent(p.content || '')
@@ -35,14 +35,18 @@ export default function PostPage() {
         setFormLocation(p.location || '')
       })
     fetch('/api/comments?postId=' + id + '&parentId=null')
-      .then(r => r.json())
+      .then(r => (r.ok ? r.json() : []))
       .then(setComments)
-    fetch('/api/session').then(r => r.json()).then(setUser)
-    fetch('/api/users').then(r => r.json()).then(list => {
-      const m = {}
-      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl }))
-      setUsersMap(m)
-    })
+    fetch('/api/session')
+      .then(r => (r.ok ? r.json() : null))
+      .then(setUser)
+    fetch('/api/users')
+      .then(r => (r.ok ? r.json() : []))
+      .then(list => {
+        const m = {}
+        list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl }))
+        setUsersMap(m)
+      })
   }, [id])
 
   async function addComment(e) {

@@ -7,7 +7,7 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     fetch('/api/session')
-      .then(r => r.json())
+      .then(r => (r.ok ? r.json() : null))
       .then(u => setUser(u))
   }, [])
 
