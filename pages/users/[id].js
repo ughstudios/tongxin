@@ -14,14 +14,18 @@ export default function UserPage() {
 
   useEffect(() => {
     if (!id) return
-    fetch('/api/session').then(r => r.json()).then(setUser)
+    fetch('/api/session')
+      .then(r => (r.ok ? r.json() : null))
+      .then(setUser)
     fetch('/api/users?id=' + id)
-      .then(r => r.json())
+      .then(r => (r.ok ? r.json() : null))
       .then(data => {
         setProfile(data)
         setAvatar(data.avatarUrl || '')
       })
-    fetch('/api/posts?userId=' + id).then(r => r.json()).then(setPosts)
+    fetch('/api/posts?userId=' + id)
+      .then(r => (r.ok ? r.json() : []))
+      .then(setPosts)
   }, [id])
 
   async function follow() {

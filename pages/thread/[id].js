@@ -14,14 +14,22 @@ export default function ThreadPage() {
 
   useEffect(() => {
     if (!id) return
-    fetch('/api/comments?id=' + id).then(r => r.json()).then(setComment)
-    fetch('/api/comments?parentId=' + id).then(r => r.json()).then(setReplies)
-    fetch('/api/session').then(r => r.json()).then(setUser)
-    fetch('/api/users').then(r => r.json()).then(list => {
-      const m = {}
-      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
-      setUsersMap(m)
-    })
+    fetch('/api/comments?id=' + id)
+      .then(r => (r.ok ? r.json() : null))
+      .then(setComment)
+    fetch('/api/comments?parentId=' + id)
+      .then(r => (r.ok ? r.json() : []))
+      .then(setReplies)
+    fetch('/api/session')
+      .then(r => (r.ok ? r.json() : null))
+      .then(setUser)
+    fetch('/api/users')
+      .then(r => (r.ok ? r.json() : []))
+      .then(list => {
+        const m = {}
+        list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
+        setUsersMap(m)
+      })
   }, [id])
 
   async function addReply(e) {

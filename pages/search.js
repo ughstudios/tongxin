@@ -10,12 +10,14 @@ export default function Search() {
   async function doSearch(e) {
     e.preventDefault()
     const res = await fetch('/api/posts?q=' + encodeURIComponent(q))
-    setPosts(await res.json())
-    fetch('/api/users').then(r => r.json()).then(list => {
-      const m = {}
-      list.forEach(u => (m[u.id] = { username: u.username, verified: u.verified }))
-      setUsersMap(m)
-    })
+    if (res.ok) setPosts(await res.json())
+    fetch('/api/users')
+      .then(r => (r.ok ? r.json() : []))
+      .then(list => {
+        const m = {}
+        list.forEach(u => (m[u.id] = { username: u.username, verified: u.verified }))
+        setUsersMap(m)
+      })
   }
 
   async function like(id) {

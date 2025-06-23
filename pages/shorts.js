@@ -17,11 +17,13 @@ export default function Shorts() {
   const [hasMore, setHasMore] = useState(true)
 
   useEffect(() => {
-    fetch('/api/users').then(r => r.json()).then(list => {
-      const m = {}
-      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
-      setUsersMap(m)
-    })
+    fetch('/api/users')
+      .then(r => (r.ok ? r.json() : []))
+      .then(list => {
+        const m = {}
+        list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
+        setUsersMap(m)
+      })
     load()
   }, [])
 

@@ -13,12 +13,16 @@ export default function HomePage() {
   const [usersMap, setUsersMap] = useState({})
 
   useEffect(() => {
-    fetch('/api/posts?feed=1').then(r => r.json()).then(setPosts)
-    fetch('/api/users').then(r => r.json()).then(list => {
-      const m = {}
-      list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
-      setUsersMap(m)
-    })
+    fetch('/api/posts?feed=1')
+      .then(r => (r.ok ? r.json() : []))
+      .then(setPosts)
+    fetch('/api/users')
+      .then(r => (r.ok ? r.json() : []))
+      .then(list => {
+        const m = {}
+        list.forEach(u => (m[u.id] = { username: u.username, avatarUrl: u.avatarUrl, verified: u.verified }))
+        setUsersMap(m)
+      })
   }, [])
 
   async function like(id) {

@@ -14,11 +14,13 @@ export default function ComposeForm({ onPost }) {
 
   useEffect(() => {
     fetch('/api/session')
-      .then(r => r.json())
+      .then(r => (r.ok ? r.json() : null))
       .then(u => {
         setUser(u)
         if (u) {
-          fetch('/api/profile').then(r => r.json()).then(setProfile)
+          fetch('/api/profile')
+            .then(r => (r.ok ? r.json() : null))
+            .then(setProfile)
         }
       })
   }, [])

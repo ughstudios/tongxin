@@ -15,7 +15,7 @@ export default function Conversation() {
   useEffect(() => {
     if (!id) return
     fetch('/api/messages?userId=' + id)
-      .then(r => r.json())
+      .then(r => (r.ok ? r.json() : []))
       .then(setMessages)
     fetch('/api/profile')
       .then(r => (r.ok ? r.json() : null))
@@ -27,7 +27,7 @@ export default function Conversation() {
         }
       })
     fetch('/api/users?id=' + id)
-      .then(r => r.json())
+      .then(r => (r.ok ? r.json() : null))
       .then(setOther)
   }, [id])
 
