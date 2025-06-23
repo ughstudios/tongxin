@@ -34,7 +34,7 @@ async function handler(req, res) {
     return res.status(200).json({ posts, more })
   }
 
-  res.status(200).json(trending)
+  res.status(200).json({ posts: trending, more: false })
 }
 
 export default withSessionRoute(handler)
